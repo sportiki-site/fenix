@@ -1,0 +1,1204 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090909">
+<meta name="description" content="SHADOW — форум цифровых возможностей. Обсуждения, гайды, цифровые товары, услуги и сообщество.">
+<title>SHADOW — Форум цифровых возможностей</title>
+
+<style>
+:root {
+  --bg: #090909;
+  --panel: #101010;
+  --panel2: #151515;
+  --red: #f0202b;
+  --red-dark: #9d0710;
+  --text: #f0f0f0;
+  --muted: #85858d;
+  --border: #292929;
+  --green: #20d889;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a { color: inherit; text-decoration: none; }
+button, input, textarea, select { font: inherit; }
+
+button { cursor: pointer; }
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(8,8,8,.97);
+  border-bottom: 1px solid #4a171b;
+  backdrop-filter: blur(12px);
+}
+
+.nav {
+  max-width: 1500px;
+  margin: auto;
+  min-height: 76px;
+  padding: 12px 22px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.logo {
+  min-width: 220px;
+  font-size: 36px;
+  line-height: 1;
+  font-weight: 1000;
+  font-style: italic;
+  letter-spacing: -2px;
+  color: var(--red);
+  text-shadow: 0 0 20px #f0202b35;
+}
+
+.logo small {
+  display: block;
+  margin-top: 6px;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #aaa;
+  font-style: normal;
+}
+
+.nav-links {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.nav-links a {
+  padding: 13px 12px;
+  color: #c6c6cb;
+  font-size: 12px;
+  font-weight: 800;
+  border-radius: 5px;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: white;
+  background: #851019;
+}
+
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search {
+  width: 170px;
+  padding: 12px;
+  background: #111;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: white;
+  outline: none;
+}
+
+.search:focus { border-color: var(--red); }
+
+.user-button {
+  border: 1px solid var(--border);
+  background: #141414;
+  color: white;
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+
+main {
+  max-width: 1500px;
+  padding: 15px 17px 30px;
+  margin: auto;
+}
+
+/* Бесконечная лента рекламы */
+
+.ads-marquee {
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.ads-track {
+  display: flex;
+  width: max-content;
+  gap: 12px;
+  animation: ads-scroll 35s linear infinite;
+  will-change: transform;
+}
+
+.ads-marquee:hover .ads-track {
+  animation-play-state: paused;
+}
+
+.ads-group {
+  display: flex;
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.ad-card {
+  position: relative;
+  display: block;
+  flex: 0 0 clamp(290px, 33vw, 430px);
+  height: 190px;
+  overflow: hidden;
+  border: 1px solid #522025;
+  border-radius: 8px;
+  background: #171010;
+  isolation: isolate;
+}
+
+.ad-art {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  transition: transform .5s;
+  background:
+    radial-gradient(ellipse at 80% 35%, #f3222b9c, transparent 35%),
+    linear-gradient(120deg, #111 10%, #2a080b 65%, #070707);
+}
+
+.ad-art::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      125deg,
+      transparent 0 18px,
+      #ffffff08 19px 20px
+    );
+}
+
+.ad-art::after {
+  content: attr(data-symbol);
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 100px;
+  font-weight: 1000;
+  color: #ffffff18;
+  transform: rotate(-12deg);
+}
+
+.ad-card:hover .ad-art { transform: scale(1.07); }
+
+.ad-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,#080808f5,#08080865 75%,#08080830);
+}
+
+.ad-content {
+  position: absolute;
+  inset: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.ad-label {
+  color: #ff646a;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin-bottom: 9px;
+}
+
+.ad-content h2 {
+  max-width: 280px;
+  margin: 0;
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1;
+  font-weight: 1000;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.ad-content p {
+  margin: 9px 0 13px;
+  font-size: 12px;
+  color: #b7b7bc;
+}
+
+.ad-cta {
+  display: inline-block;
+  padding: 9px 13px;
+  border: 1px solid var(--red);
+  background: #b70a14;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .6px;
+}
+
+@keyframes ads-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.ticker {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  padding: 10px 13px;
+  border: 1px solid var(--border);
+  background: #101010;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ticker-title {
+  flex-shrink: 0;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.ticker-items {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.ticker-items::-webkit-scrollbar { display: none; }
+
+.ticker-item {
+  flex: 1 0 180px;
+  padding: 8px 10px;
+  background: #171717;
+  border: 1px solid #282828;
+  border-radius: 5px;
+  font-size: 11px;
+  color: #c4c4ca;
+}
+
+.ticker-item b {
+  display: block;
+  margin-bottom: 4px;
+  color: white;
+}
+
+/* Статистика */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  margin-bottom: 15px;
+  background: #101010;
+}
+
+.stat {
+  padding: 15px 18px;
+  border-right: 1px solid var(--border);
+}
+
+.stat:last-child { border: 0; }
+
+.stat strong {
+  display: block;
+  color: var(--red);
+  font-size: 22px;
+}
+
+.stat span {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .7px;
+}
+
+.stat.online strong { color: var(--green); }
+
+/* Основная сетка форума */
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 16px;
+  align-items: start;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.panel-title {
+  padding: 16px 18px;
+  font-size: 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(90deg,#171717,#101010);
+}
+
+.forum-row {
+  display: grid;
+  grid-template-columns: 130px minmax(160px, 1fr) 90px 90px minmax(140px, .8fr);
+  gap: 13px;
+  align-items: center;
+  padding: 13px;
+  border-bottom: 1px solid #242424;
+  min-height: 108px;
+  transition: background .2s;
+}
+
+.forum-row:last-child { border-bottom: 0; }
+.forum-row:hover { background: #171313; }
+
+.forum-cover {
+  height: 80px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 43px;
+  border: 1px solid #442024;
+  background:
+    radial-gradient(circle at 80% 20%, #f0202b55, transparent 40%),
+    linear-gradient(135deg,#252020,#100808);
+}
+
+.forum-cover.red { background: linear-gradient(135deg,#510d12,#171010); }
+.forum-cover.gray { background: linear-gradient(135deg,#383838,#111); }
+.forum-cover.green { background: linear-gradient(135deg,#123c2c,#111); }
+
+.forum-info h3 {
+  margin: 0 0 7px;
+  font-size: 14px;
+}
+
+.forum-info p {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tag {
+  padding: 5px 7px;
+  background: #1a1a1a;
+  border: 1px solid #292929;
+  color: #bdbdc2;
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.tag:hover { border-color: var(--red); color: white; }
+
+.forum-count {
+  text-align: center;
+  color: #d9d9df;
+  font-size: 15px;
+}
+
+.forum-count small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.last-post {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.last-icon {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: #181818;
+  border: 1px solid #333;
+  font-size: 19px;
+}
+
+.last-post strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+
+.last-post small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* Правая колонка */
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(90deg,#d50816,#a9000b);
+  border: 1px solid #ff2530;
+  border-radius: 6px;
+  color: white;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  box-shadow: 0 0 18px #f0202b16;
+}
+
+.btn:hover { filter: brightness(1.2); }
+
+.btn.secondary {
+  background: #151515;
+  border-color: #343434;
+  margin-top: 8px;
+  box-shadow: none;
+}
+
+.side-list { padding: 7px 13px; }
+
+.side-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 2px;
+  border-bottom: 1px solid #252525;
+  font-size: 12px;
+  color: #d4d4d9;
+}
+
+.side-item:last-child { border-bottom: 0; }
+.side-item:hover { color: #ff5b62; }
+
+.side-item span:first-child { font-size: 17px; }
+
+.popular-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 12px;
+  border-bottom: 1px solid #242424;
+}
+
+.popular-row:last-child { border-bottom: 0; }
+
+.popular-icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: #1c1112;
+  border: 1px solid #402025;
+}
+
+.popular-row strong {
+  display: block;
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+
+.popular-row small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.rank {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #252525;
+}
+
+.rank:last-child { border-bottom: 0; }
+
+.rank-number {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  background: #242424;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.rank:first-child .rank-number {
+  background: #b50914;
+  box-shadow: 0 0 10px #f0202b35;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #251617;
+  border: 1px solid #563035;
+}
+
+.rank strong { display: block; font-size: 11px; }
+.rank small { color: var(--muted); font-size: 10px; }
+
+/* Нижняя часть */
+
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 5px;
+}
+
+.online-users {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 14px;
+}
+
+.online-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg,#5b1219,#191919);
+  border: 1px solid #522025;
+  font-size: 12px;
+}
+
+.footer {
+  border-top: 1px solid #351518;
+  margin-top: 25px;
+  padding: 25px 0;
+  color: var(--muted);
+  font-size: 11px;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.footer a:hover { color: white; }
+
+/* Окно создания темы */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  padding: 20px;
+  background: #000c;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.open { display: flex; }
+
+.modal-box {
+  width: min(500px,100%);
+  padding: 23px;
+  background: #111;
+  border: 1px solid #612027;
+  border-radius: 9px;
+  box-shadow: 0 20px 80px #000;
+}
+
+.modal-box h2 { margin-top: 0; }
+
+.modal-box label {
+  display: block;
+  font-size: 12px;
+  color: #aaa;
+  margin: 15px 0 7px;
+}
+
+.modal-box input,
+.modal-box textarea,
+.modal-box select {
+  width: 100%;
+  background: #080808;
+  color: white;
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 12px;
+}
+
+.modal-box textarea { min-height: 120px; resize: vertical; }
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.modal-actions button { flex: 1; }
+
+.empty-message {
+  display: none;
+  padding: 25px;
+  text-align: center;
+  color: var(--muted);
+}
+
+@media (max-width: 1100px) {
+  .nav { gap: 12px; }
+  .logo { min-width: auto; }
+  .nav-links a { padding: 11px 8px; }
+  .forum-row {
+    grid-template-columns: 100px minmax(150px,1fr) 65px 65px;
+  }
+  .last-post { display: none; }
+  .forum-cover { height: 75px; }
+}
+
+@media (max-width: 760px) {
+  .nav {
+    flex-wrap: wrap;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .logo { font-size: 29px; }
+
+  .nav-links {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .nav-links a { white-space: nowrap; }
+
+  .nav-right { margin-left: auto; }
+  .search { width: 120px; }
+  .user-button { display: none; }
+
+  main { padding: 10px; }
+
+  .ad-card {
+    flex-basis: 82vw;
+    height: 155px;
+  }
+
+  .ads-track { animation-duration: 28s; }
+
+  .ticker { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .ticker-items { width: 100%; }
+
+  .stats { grid-template-columns: repeat(2,1fr); }
+  .stat:nth-child(2) { border-right: 0; }
+  .stat:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+  .stat { padding: 12px; }
+  .stat strong { font-size: 18px; }
+
+  .layout { grid-template-columns: 1fr; }
+
+  .forum-row {
+    grid-template-columns: 75px minmax(0,1fr) 48px;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .forum-cover { height: 75px; font-size: 32px; }
+  .forum-info h3 { font-size: 12px; }
+  .forum-info p { font-size: 10px; }
+  .forum-count { font-size: 12px; }
+  .forum-count:nth-of-type(2) { display: none; }
+  .forum-row .forum-count:nth-of-type(4) { display: none; }
+  .tag { font-size: 9px; padding: 4px 5px; }
+
+  .bottom-grid { grid-template-columns: 1fr; }
+  .footer { flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ads-track { animation: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="nav">
+    <a href="#" class="logo">
+      SHADOW
+      <small>ФОРУМ ЦИФРОВЫХ ВОЗМОЖНОСТЕЙ</small>
+    </a>
+
+    <nav class="nav-links">
+      <a class="active" href="#">⌂ ГЛАВНАЯ</a>
+      <a href="#sections">▤ ФОРУМ</a>
+      <a href="#users">♟ ПОЛЬЗОВАТЕЛИ</a>
+      <a href="#rules">▣ ПРАВИЛА</a>
+      <a href="#support">◉ ПОДДЕРЖКА</a>
+    </nav>
+
+    <div class="nav-right">
+      <input id="search" class="search" type="search" placeholder="⌕ Поиск...">
+      <button class="user-button" onclick="alert('Демонстрационный интерфейс уведомлений')">♧</button>
+      <button class="user-button" onclick="alert('Это демонстрационный профиль')">◉ Alexey⌄</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- РЕКЛАМНЫЕ БАННЕРЫ -->
+  <section class="ads-marquee" aria-label="Рекламные объявления">
+    <div class="ads-track">
+
+      <div class="ads-group">
+        <a class="ad-card" href="#accounts">
+          <div class="ad-art" data-symbol="◈"></div>
+          <div class="ad-overlay"></div>
+          <div class="ad-content">
+            <span class="ad-label">SHADOW COMMUNITY</span>
+            <h2>ЦИФРОВОЙ<br>МИР БЕЗ ГРАНИЦ</h2>
+            <p>Обсуждения, обзоры и полезные гайды</p>
+            <span class="ad-cta">ПЕРЕЙТИ →</span>
+          </div>
+        </a>
+
+        <a class="ad-card" href="#services">
+          <div class="ad-art" data-symbol="⚡"
+               style="background:radial-gradient(ellipse at 80% 35%,#b00013,transparent 40%),linear-gradient(120deg,#090909,#321014)"></div>
+          <div class="ad-overlay"></div>
+          <div class="ad-content">
+            <span class="ad-label">НОВОЕ НА ФОРУМЕ</span>
+            <h2>БЫСТРЫЕ<br>РЕШЕНИЯ</h2>
+            <p>Опыт участников и проверенные инструкции</p>
+            <span class="ad-cta">ЧИТАТЬ ТЕМЫ →</span>
+          </div>
+        </a>
+
+        <a class="ad-card" href="#reviews">
+          <div class="ad-art" data-symbol="⬡"
+               style="background:radial-gradient(ellipse at 75% 25%,#8b2028,transparent 40%),linear-gradient(120deg,#0b0b0b,#252020)"></div>
+          <div class="ad-overlay"></div>
+          <div class="ad-content">
+            <span class="ad-label">SHADOW COMMUNITY</span>
+            <h2>РЕПУТАЦИЯ<br>И ДОВЕРИЕ</h2>
+            <p>Отзывы, рейтинги и опыт сообщества</p>
+            <span class="ad-cta">УЗНАТЬ БОЛЬШЕ →</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Повтор той же группы нужен для бесшовной анимации -->
+      <div class="ads-group" aria-hidden="true">
+        <a class="ad-card" href="#accounts" tabindex="-1">
+          <div class="ad-art" data-symbol="◈"></div>
+          <div class="ad-overlay"></div>
+          <div class="ad-content">
+            <span class="ad-label">SHADOW COMMUNITY</span>
+            <h2>ЦИФРОВОЙ<br>МИР БЕЗ ГРАНИЦ</h2>
+            <p>Обсуждения, обзоры и полезные гайды</p>
+            <span class="ad-cta">ПЕРЕЙТИ →</span>
+          </div>
+        </a>
+
+        <a class="ad-card" href="#services" tabindex="-1">
+          <div class="ad-art" data-symbol="⚡"
+               style="background:radial-gradient(ellipse at 80% 35%,#b00013,transparent 40%),linear-gradient(120deg,#090909,#321014)"></div>
+          <div class="ad-overlay"></div>
+          <div class="ad-content">
+            <span class="ad-label">НОВОЕ НА ФОРУМЕ</span>
+            <h2>БЫСТРЫЕ<br>РЕШЕНИЯ</h2>
+            <p>Опыт участников и проверенные гайды</p>
+            <span class="ad-cta">ЧИТАТЬ ТЕМЫ →</span>
+          </div>
+        </a>
+
+        <a class="ad-card" href="#reviews" tabindex="-1">
+          <div class="ad-art" data-symbol="⬡"
+               style="background:radial-gradient(ellipse at 75% 25%,#8b2028,transparent 40%),linear-gradient(120deg,#0b0b0b,#252020)"></div>
+          <div class="ad-overlay"></div>
+          <div class="ad-content">
+            <span class="ad-label">SHADOW COMMUNITY</span>
+            <h2>РЕПУТАЦИЯ<br>И ДОВЕРИЕ</h2>
+            <p>Отзывы, рейтинги и опыт сообщества</p>
+            <span class="ad-cta">УЗНАТЬ БОЛЬШЕ →</span>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- АКТУАЛЬНЫЕ ТЕМЫ -->
+  <section class="ticker">
+    <div class="ticker-title">🔥 АКТУАЛЬНЫЕ ТЕМЫ</div>
+    <div class="ticker-items">
+      <a class="ticker-item" href="#accounts"><b>Как защитить аккаунт?</b>coderhub · 2 часа назад</a>
+      <a class="ticker-item" href="#services"><b>Полезные инструменты 2026</b>realuser · 3 часа назад</a>
+      <a class="ticker-item" href="#reviews"><b>Как читать отзывы?</b>DarkSeller · 5 часов назад</a>
+      <a class="ticker-item" href="#support"><b>Новости сообщества</b>tradueser · 6 часов назад</a>
+    </div>
+  </section>
+
+  <!-- СТАТИСТИКА -->
+  <section class="stats">
+    <div class="stat"><strong>12 487</strong><span>Пользователей</span></div>
+    <div class="stat"><strong>3 421</strong><span>Тем форума</span></div>
+    <div class="stat"><strong>28 913</strong><span>Сообщений</span></div>
+    <div class="stat online"><strong>1 203</strong><span>Сейчас онлайн</span></div>
+  </section>
+
+  <div class="layout">
+
+    <section class="panel" id="sections">
+      <div class="panel-title">Разделы форума</div>
+
+      <div class="forum-row" id="accounts" data-search="аккаунты цифровые товары игры подписки софт">
+        <div class="forum-cover">◈</div>
+        <div class="forum-info">
+          <h3>Аккаунты и цифровые товары</h3>
+          <p>Обсуждение аккаунтов, ключей, подписок, цифровых товаров и сервисов.</p>
+          <div class="tags">
+            <a class="tag" href="#accounts">Соцсети</a>
+            <a class="tag" href="#accounts">Игры</a>
+            <a class="tag" href="#accounts">Подписки</a>
+            <a class="tag" href="#accounts">Софт</a>
+          </div>
+        </div>
+        <div class="forum-count">1.2K<small>Темы</small></div>
+        <div class="forum-count">8.7K<small>Сообщения</small></div>
+        <div class="last-post"><div class="last-icon">◉</div><div><strong>Где выгоднее подписка?</strong><small>realuser<br>Сегодня, 14:23</small></div></div>
+      </div>
+
+      <div class="forum-row" id="market" data-search="маркетплейс товары обзоры покупки продажи">
+        <div class="forum-cover red">▦</div>
+        <div class="forum-info">
+          <h3>Маркетплейс</h3>
+          <p>Обсуждение цифровых товаров, обзоры сервисов и рекомендации участников.</p>
+          <div class="tags">
+            <a class="tag" href="#market">Обзоры</a>
+            <a class="tag" href="#market">Сравнения</a>
+            <a class="tag" href="#market">Скидки</a>
+            <a class="tag" href="#market">Рекомендации</a>
+          </div>
+        </div>
+        <div class="forum-count">742<small>Темы</small></div>
+        <div class="forum-count">5.9K<small>Сообщения</small></div>
+        <div class="last-post"><div class="last-icon">▣</div><div><strong>Подборка сервисов недели</strong><small>seller1337<br>Сегодня, 12:11</small></div></div>
+      </div>
+
+      <div class="forum-row" id="services" data-search="услуги разработка дизайн обучение инструменты">
+        <div class="forum-cover gray">⚙</div>
+        <div class="forum-info">
+          <h3>Услуги и инструменты</h3>
+          <p>Разработка, дизайн, настройка, обучение и помощь участников.</p>
+          <div class="tags">
+            <a class="tag" href="#services">Разработка</a>
+            <a class="tag" href="#services">Дизайн</a>
+            <a class="tag" href="#services">Обучение</a>
+            <a class="tag" href="#services">Другое</a>
+          </div>
+        </div>
+        <div class="forum-count">631<small>Темы</small></div>
+        <div class="forum-count">4.2K<small>Сообщения</small></div>
+        <div class="last-post"><div class="last-icon">⌘</div><div><strong>Полезные инструменты</strong><small>coderhub<br>Сегодня, 10:37</small></div></div>
+      </div>
+
+      <div class="forum-row" id="exchange" data-search="обмен обмены подписки игры цифровые товары">
+        <div class="forum-cover">⇄</div>
+        <div class="forum-info">
+          <h3>Обмен и сотрудничество</h3>
+          <p>Поиск партнёров, обмен опытом и совместные проекты сообщества.</p>
+          <div class="tags">
+            <a class="tag" href="#exchange">Игры</a>
+            <a class="tag" href="#exchange">Подписки</a>
+            <a class="tag" href="#exchange">Коллаборации</a>
+          </div>
+        </div>
+        <div class="forum-count">284<small>Темы</small></div>
+        <div class="forum-count">1.9K<small>Сообщения</small></div>
+        <div class="last-post"><div class="last-icon">↔</div><div><strong>Ищу партнёра для проекта</strong><small>tradueser<br>Сегодня, 09:18</small></div></div>
+      </div>
+
+      <div class="forum-row" id="reviews" data-search="отзывы репутация гарант безопасность рейтинг">
+        <div class="forum-cover green">✚</div>
+        <div class="forum-info">
+          <h3>Отзывы и репутация</h3>
+          <p>Отзывы участников, репутация пользователей и рекомендации по безопасности.</p>
+          <div class="tags">
+            <a class="tag" href="#reviews">Отзывы</a>
+            <a class="tag" href="#reviews">Репутация</a>
+            <a class="tag" href="#reviews">Безопасность</a>
+          </div>
+        </div>
+        <div class="forum-count">412<small>Темы</small></div>
+        <div class="forum-count">3.1K<small>Сообщения</small></div>
+        <div class="last-post"><div class="last-icon">✓</div><div><strong>Отзыв о сервисе</strong><small>realuser<br>Сегодня, 08:55</small></div></div>
+      </div>
+
+      <div class="forum-row" id="rules" data-search="правила поддержка новости помощь вопросы">
+        <div class="forum-cover red">▤</div>
+        <div class="forum-info">
+          <h3>Правила и поддержка</h3>
+          <p>Правила форума, новости, помощь пользователям и решение вопросов.</p>
+          <div class="tags">
+            <a class="tag" href="#rules">Правила</a>
+            <a class="tag" href="#support">Новости</a>
+            <a class="tag" href="#support">Помощь</a>
+          </div>
+        </div>
+        <div class="forum-count">98<small>Темы</small></div>
+        <div class="forum-count">962<small>Сообщения</small></div>
+        <div class="last-post"><div class="last-icon">!</div><div><strong>Обновления форума</strong><small>Support<br>Сегодня, 07:12</small></div></div>
+      </div>
+
+      <div class="empty-message" id="empty">Ничего не найдено. Попробуй другой запрос.</div>
+    </section>
+
+    <aside>
+
+      <button class="btn" onclick="openModal()">＋ Создать тему</button>
+      <button class="btn secondary" onclick="alert('Демонстрация: новые сообщения появятся после подключения серверной части.')">▣ Новые сообщения</button>
+
+      <section class="panel" style="margin-top:15px">
+        <div class="panel-title">Навигация</div>
+        <div class="side-list">
+          <a class="side-item" href="#sections"><span>♟</span> Разделы форума</a>
+          <a class="side-item" href="#popular"><span>★</span> Популярные темы</a>
+          <a class="side-item" href="#users"><span>◉</span> Пользователи онлайн</a>
+          <a class="side-item" href="#rules"><span>▤</span> Правила сообщества</a>
+          <a class="side-item" href="#support"><span>✉</span> Поддержка</a>
+        </div>
+      </section>
+
+      <section class="panel" id="popular">
+        <div class="panel-title">Популярные темы</div>
+        <a class="popular-row" href="#accounts"><div class="popular-icon">◉</div><div><strong>Как защитить аккаунт?</strong><small>52 ответа · coderhub</small></div></a>
+        <a class="popular-row" href="#services"><div class="popular-icon">⌘</div><div><strong>Полезные инструменты</strong><small>37 ответов · realuser</small></div></a>
+        <a class="popular-row" href="#reviews"><div class="popular-icon">✚</div><div><strong>Как оценивать репутацию?</strong><small>28 ответов · DarkSeller</small></div></a>
+        <a class="popular-row" href="#market"><div class="popular-icon">▦</div><div><strong>Подборка сервисов</strong><small>21 ответ · tradueser</small></div></a>
+        <a class="popular-row" href="#support"><div class="popular-icon">?</div><div><strong>Вопросы новичков</strong><small>19 ответов · Support</small></div></a>
+      </section>
+
+      <section class="panel" id="users">
+        <div class="panel-title">Топ пользователей</div>
+        <div class="rank"><span class="rank-number">1</span><span class="avatar">◉</span><div><strong>DarkSeller</strong><small>322 сообщения</small></div></div>
+        <div class="rank"><span class="rank-number">2</span><span class="avatar">◈</span><div><strong>coderhub</strong><small>281 сообщение</small></div></div>
+        <div class="rank"><span class="rank-number">3</span><span class="avatar">◉</span><div><strong>realuser</strong><small>245 сообщений</small></div></div>
+        <div class="rank"><span class="rank-number">4</span><span class="avatar">⬡</span><div><strong>tradueser</strong><small>198 сообщений</small></div></div>
+        <div class="rank"><span class="rank-number">5</span><span class="avatar">◉</span><div><strong>Alexey</strong><small>176 сообщений</small></div></div>
+      </section>
+
+      <section class="panel" id="support">
+        <div class="panel-title">Поддержка</div>
+        <div class="side-list">
+          <p style="font-size:12px;line-height:1.7;color:#999">
+            Нужна помощь с форумом? Ознакомься с правилами или подготовь вопрос для администрации.
+          </p>
+          <a class="btn" style="display:block;text-align:center" href="#rules">Правила форума →</a>
+        </div>
+      </section>
+
+    </aside>
+  </div>
+
+  <div class="bottom-grid">
+    <section class="panel">
+      <div class="panel-title">Сейчас онлайн · 1 203</div>
+      <div class="online-users">
+        <span class="online-avatar">◉</span><span class="online-avatar">◈</span>
+        <span class="online-avatar">⬡</span><span class="online-avatar">◉</span>
+        <span class="online-avatar">⚡</span><span class="online-avatar">◈</span>
+        <span class="online-avatar">◉</span><span class="online-avatar">⬡</span>
+        <span class="online-avatar">◈</span><span class="online-avatar">◉</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">Статистика форума</div>
+      <div class="online-users" style="justify-content:space-around">
+        <div><strong style="color:var(--red)">12 487</strong><small style="display:block;color:var(--muted);margin-top:5px">ПОЛЬЗОВАТЕЛЕЙ</small></div>
+        <div><strong style="color:var(--red)">3 421</strong><small style="display:block;color:var(--muted);margin-top:5px">ТЕМ</small></div>
+        <div><strong style="color:var(--red)">28 913</strong><small style="display:block;color:var(--muted);margin-top:5px">СООБЩЕНИЙ</small></div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <span>© 2026 SHADOW COMMUNITY · Демонстрационный макет форума</span>
+    <span><a href="#rules">Правила</a>　·　<a href="#support">Поддержка</a>　·　<a href="#sections">Разделы</a></span>
+  </footer>
+
+</main>
+
+<!-- Форма создания темы: демонстрационный интерфейс -->
+<div class="modal" id="topicModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <h2 id="modalTitle">Создать тему</h2>
+    <p style="font-size:12px;color:#888">Демонстрационная форма. Для публикации тем потребуется серверная часть.</p>
+
+    <form id="topicForm">
+      <label for="topicTitle">Название темы</label>
+      <input id="topicTitle" required maxlength="100" placeholder="Введите заголовок">
+
+      <label for="topicSection">Раздел</label>
+      <select id="topicSection">
+        <option>Аккаунты и цифровые товары</option>
+        <option>Маркетплейс</option>
+        <option>Услуги и инструменты</option>
+        <option>Обмен и сотрудничество</option>
+        <option>Отзывы и репутация</option>
+        <option>Правила и поддержка</option>
+      </select>
+
+      <label for="topicBody">Сообщение</label>
+      <textarea id="topicBody" required maxlength="3000" placeholder="Напишите первое сообщение..."></textarea>
+
+      <div class="modal-actions">
+        <button type="submit" class="btn">Предпросмотр</button>
+        <button type="button" class="btn secondary" onclick="closeModal()">Отмена</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+const modal = document.getElementById("topicModal");
+
+function openModal() {
+  modal.classList.add("open");
+  document.getElementById("topicTitle").focus();
+}
+
+function closeModal() {
+  modal.classList.remove("open");
+}
+
+modal.addEventListener("click", function(event) {
+  if (event.target === modal) closeModal();
+});
+
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Escape") closeModal();
+});
+
+// Поиск по разделам
+const searchInput = document.getElementById("search");
+const forumRows = [...document.querySelectorAll(".forum-row")];
+const emptyMessage = document.getElementById("empty");
+
+searchInput.addEventListener("input", function() {
+  const query = this.value.trim().toLowerCase();
+  let visible = 0;
+
+  forumRows.forEach(function(row) {
+    const text = (row.innerText + " " + row.dataset.search).toLowerCase();
+    const matches = text.includes(query);
+    row.style.display = matches ? "" : "none";
+    if (matches) visible++;
+  });
+
+  emptyMessage.style.display = visible ? "none" : "block";
+});
+
+// Демонстрация формы: ничего не отправляется на сервер
+document.getElementById("topicForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const title = document.getElementById("topicTitle").value.trim();
+  const section = document.getElementById("topicSection").value;
+  const body = document.getElementById("topicBody").value.trim();
+
+  if (!title || !body) return;
+
+  closeModal();
+
+  const preview = document.createElement("div");
+  preview.style.cssText =
+    "position:fixed;inset:0;z-index:200;background:#000d;display:grid;" +
+    "place-items:center;padding:20px;";
+
+  const box = document.createElement("div");
+  box.style.cssText =
+    "max-width:520px;width:100%;background:#111;border:1px solid #f0202b;" +
+    "border-radius:8px;padding:24px;";
+
+  const heading = document.createElement("h2");
+  heading.textContent = "Предпросмотр темы";
+
+  const category = document.createElement("p");
+  category.style.color = "#f0202b";
+  category.textContent = section;
+
+  const topicHeading = document.createElement("h3");
+  topicHeading.textContent = title;
+
+  const topicText = document.createElement("p");
+  topicText.style.cssText = "color:#bbb;white-space:pre-wrap;line-height:1.6;";
+  topicText.textContent = body;
+
+  const note = document.createElement("p");
+  note.style.cssText = "font-size:12px;color:#888;";
+  note.textContent =
+    "Это только предпросмотр. Чтобы темы сохранялись и были видны другим пользователям, нужно подключить сервер или базу данных.";
+
+  const closeButton = document.createElement("button");
+  closeButton.className = "btn";
+  closeButton.textContent = "Закрыть";
+  closeButton.onclick = function() { preview.remove(); };
+
+  box.append(heading, category, topicHeading, topicText, note, closeButton);
+  preview.appendChild(box);
+  document.body.appendChild(preview);
+
+  this.reset();
+});
+</script>
+
+</body>
+</html>
