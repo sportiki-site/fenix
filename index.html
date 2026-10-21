@@ -128,7 +128,16 @@ footer nav{display:flex;gap:24px}
 @media(max-width:860px){.shell{padding:0 16px}.topbar{position:relative}.nav{flex-wrap:wrap;padding:12px 0}.menu-btn{display:block;margin-left:auto}.navlinks{display:none;order:5;flex-basis:100%;flex-direction:column;align-items:stretch}.navlinks.open{display:flex}.navtools{flex:1}.ad-carousel{padding-left:16px;padding-right:16px}.hero-head{flex-direction:column;align-items:flex-start}.hero-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}.hero-card.featured{grid-column:1/-1;grid-row:auto;min-height:340px}.stats{grid-template-columns:1fr 1fr;row-gap:24px}.columns{grid-template-columns:1fr}.forum-row{grid-template-columns:100px minmax(0,1fr) 48px}.forum-row .count:nth-of-type(4){display:none}}
 @media(max-width:520px){.navtools{flex-basis:100%;order:3}.search{width:100%}.hero-grid{grid-template-columns:1fr}.hero-card.featured{min-height:320px}.hero-card{min-height:200px}.stats{gap:16px}.stat{padding:8px 12px}.forum-row{grid-template-columns:76px minmax(0,1fr);gap:12px;padding:16px}.forum-row .count{display:none}.form{padding:24px}footer{flex-direction:column}}
 @media(prefers-reduced-motion:reduce){.ad-track{animation-play-state:paused}}
-</style>
+/* Увеличение GIF-баннеров FENIX */
+.ad-slide {
+  flex: 0 0 clamp(260px, 28vw, 360px);
+  width: clamp(260px, 28vw, 360px);
+  aspect-ratio: 3 / 1;
+}
+
+.ad-slide img {
+  object-fit: contain;
+}</style>
 </head>
 <body>
 <header class="topbar" id="topbar">
