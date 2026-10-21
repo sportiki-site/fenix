@@ -3,8 +3,10 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080909">
 <title>FENIX — Digital Community</title>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
@@ -17,6 +19,7 @@
   --muted: #858b91;
   --text: #eeeeee;
 }
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
@@ -26,13 +29,13 @@ body {
   font-family: Inter, Arial, sans-serif;
 }
 a { color: inherit; text-decoration: none; }
-button, input, textarea { font: inherit; }
+button, input { font: inherit; }
 button { cursor: pointer; }
-.container { width: min(1400px,100%); margin: auto; padding: 0 18px; }
+.container { width: min(1400px, 100%); margin: auto; padding: 0 18px; }
 
 header {
   border-bottom: 1px solid var(--line);
-  background: rgba(8,9,9,.94);
+  background: rgba(8,9,9,.96);
 }
 .nav {
   min-height: 82px;
@@ -46,8 +49,9 @@ header {
 .nav-links { display: flex; gap: 24px; flex-wrap: wrap; color: #bbb; font-size: 13px; }
 .nav-links a:hover { color: white; }
 
+/* HERO */
 .hero {
-  padding: 55px 0 40px;
+  padding: 48px 0 32px;
   border-bottom: 1px solid var(--line);
 }
 .eyebrow { color: var(--red); font-size: 11px; letter-spacing: 3px; font-weight: 800; }
@@ -55,10 +59,102 @@ header {
 .hero h1 span { color: var(--red); }
 .hero p { color: #a2a2a2; max-width: 650px; line-height: 1.8; }
 .hero-actions { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
-.btn { padding: 13px 19px; border: 1px solid #444; border-radius: 4px; font-weight: 700; font-size: 12px; }
+.btn { display: inline-block; padding: 13px 19px; border: 1px solid #444; border-radius: 4px; font-weight: 700; font-size: 12px; }
 .btn-primary { background: var(--red); color: white; border-color: var(--red); }
 .btn-secondary { background: #151515; }
 
+/* TOP BANNERS */
+.banner-section {
+  padding: 25px 0 27px;
+  border-bottom: 1px solid var(--line);
+}
+.banner-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+.banner-heading h2 {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.banner-heading span {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+.banner-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+.banner-card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  min-width: 0;
+  aspect-ratio: 4 / 3;
+  background: #151515;
+  border: 1px solid #333;
+  border-radius: 5px;
+  isolation: isolate;
+}
+.banner-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .35s, filter .35s;
+}
+.banner-card:hover img {
+  transform: scale(1.06);
+  filter: brightness(1.15);
+}
+.banner-card::after {
+  content: "";
+  position: absolute;
+  inset: 35% 0 0;
+  background: linear-gradient(transparent, rgba(0,0,0,.9));
+  pointer-events: none;
+}
+.banner-label {
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 10px;
+}
+.banner-label strong {
+  display: block;
+  font-size: 11px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.banner-label small {
+  display: block;
+  color: #ccc;
+  margin-top: 4px;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+.banner-number {
+  position: absolute;
+  z-index: 2;
+  top: 8px;
+  left: 8px;
+  background: rgba(0,0,0,.7);
+  border: 1px solid rgba(255,255,255,.2);
+  padding: 4px 6px;
+  border-radius: 3px;
+  font-size: 9px;
+  color: white;
+}
+
+/* STATS */
 .stats {
   display: grid;
   grid-template-columns: repeat(3,1fr);
@@ -69,19 +165,33 @@ header {
 .stat strong { display: block; font-size: 23px; }
 .stat small { color: var(--muted); font-size: 10px; letter-spacing: 1px; }
 
+/* FORUM */
 main { padding-top: 38px; padding-bottom: 60px; }
 .section-title { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 18px; }
 .section-title h2 { margin: 0; font-size: 23px; }
 .section-title p { color: var(--muted); font-size: 12px; }
 .forum-layout { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 22px; align-items: start; }
-
-.search { width: 100%; padding: 14px; background: #101111; color: white; border: 1px solid #303030; border-radius: 4px; outline: none; margin-bottom: 20px; }
+.search {
+  width: 100%;
+  padding: 14px;
+  background: #101111;
+  color: white;
+  border: 1px solid #303030;
+  border-radius: 4px;
+  outline: none;
+  margin-bottom: 20px;
+}
 .search:focus { border-color: #777; }
 
 .category { background: var(--panel); border: 1px solid var(--line); margin-bottom: 16px; border-radius: 5px; overflow: hidden; }
 .category-header {
-  display: flex; justify-content: space-between; align-items: center; gap: 15px;
-  padding: 17px; background: var(--panel2); cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 17px;
+  background: var(--panel2);
+  cursor: pointer;
 }
 .category-header h3 { margin: 0; font-size: 15px; }
 .category-header p { margin: 5px 0 0; font-size: 11px; color: var(--muted); }
@@ -104,8 +214,12 @@ main { padding-top: 38px; padding-bottom: 60px; }
 .side-link:hover { color: var(--red); }
 
 .topic-detail {
-  display: none; background: #101111; border: 1px solid #343434;
-  border-radius: 5px; padding: 23px; margin-bottom: 20px;
+  display: none;
+  background: #101111;
+  border: 1px solid #343434;
+  border-radius: 5px;
+  padding: 23px;
+  margin-bottom: 20px;
 }
 .topic-detail.open { display: block; }
 .topic-detail h2 { font-size: 22px; line-height: 1.4; }
@@ -113,20 +227,27 @@ main { padding-top: 38px; padding-bottom: 60px; }
 .topic-detail p { color: #c0c0c0; line-height: 1.8; }
 .close-detail { background: #202020; color: white; border: 1px solid #444; padding: 9px 14px; border-radius: 3px; }
 
+.no-results { display: none; color: var(--muted); padding: 25px; text-align: center; border: 1px solid var(--line); }
 footer { border-top: 1px solid var(--line); padding: 28px 0; color: #777; font-size: 11px; }
 .footer-inner { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-.no-results { display: none; color: var(--muted); padding: 25px; text-align: center; border: 1px solid var(--line); }
 
+@media(max-width:1000px) {
+  .banner-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .banner-card:nth-child(n+4) { display: none; }
+}
 @media(max-width:850px) {
   .forum-layout { grid-template-columns: 1fr; }
   .sidebar { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
   .sidebar-card { margin: 0; }
 }
 @media(max-width:560px) {
-  .nav { padding: 15px 0; align-items: flex-start; flex-direction: column; }
+  .nav { padding-top: 15px; padding-bottom: 15px; align-items: flex-start; flex-direction: column; }
   .nav-links { gap: 15px; }
-  .hero { padding: 40px 0 30px; }
+  .hero { padding: 35px 0 27px; }
   .hero h1 { letter-spacing: -1.5px; }
+  .banner-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 9px; }
+  .banner-card:nth-child(n+3) { display: none; }
+  .banner-card { aspect-ratio: 5 / 3; }
   .sidebar { grid-template-columns: 1fr; }
   .stat strong { font-size: 19px; }
   .stat small { font-size: 9px; }
@@ -154,6 +275,20 @@ footer { border-top: 1px solid var(--line); padding: 28px 0; color: #777; font-s
     <div class="hero-actions">
       <a class="btn btn-primary" href="#forum">ОТКРЫТЬ ФОРУМ →</a>
       <a class="btn btn-secondary" href="#categories">КАТЕГОРИИ</a>
+    </div>
+  </div>
+</section>
+
+<!-- ПЯТЬ КЛИКАБЕЛЬНЫХ БАННЕРОВ -->
+<section class="banner-section">
+  <div class="container">
+    <div class="banner-heading">
+      <h2>Медиа / Баннеры</h2>
+      <span>FEATURED CONTENT</span>
+    </div>
+
+    <div class="banner-grid" id="bannerGrid">
+      <!-- Баннеры создаются скриптом из массива ниже -->
     </div>
   </div>
 </section>
@@ -287,31 +422,111 @@ footer { border-top: 1px solid var(--line); padding: 28px 0; color: #777; font-s
 </footer>
 
 <script>
-const categories = document.querySelectorAll(".category");
-const search = document.getElementById("search");
-const noResults = document.getElementById("noResults");
-const detail = document.getElementById("detail");
-const detailTitle = document.getElementById("detailTitle");
-const detailAuthor = document.getElementById("detailAuthor");
-const detailText = document.getElementById("detailText");
+/*
+  НАСТРОЙКА БАННЕРОВ:
+  image — ссылка на GIF, анимированный WEBP или обычное изображение.
+  url   — адрес страницы, которая откроется по клику.
+  title — подпись на баннере.
 
-categories.forEach(category => {
+  Замени demo-ссылки на собственные файлы и страницы.
+*/
+const banners = [
+  {
+    title: "FENIX / MEDIA 01",
+    label: "FEATURED",
+    image: "https://placehold.co/600x450/180d12/ff3048.gif?text=FENIX+01",
+    url: "https://example.com/page-1"
+  },
+  {
+    title: "DIGITAL NETWORK",
+    label: "COMMUNITY",
+    image: "https://placehold.co/600x450/10151d/73b9ff.gif?text=NETWORK+02",
+    url: "https://example.com/page-2"
+  },
+  {
+    title: "NIGHT SIGNAL",
+    label: "MEDIA",
+    image: "https://placehold.co/600x450/181818/f0f0f0.gif?text=SIGNAL+03",
+    url: "https://example.com/page-3"
+  },
+  {
+    title: "DARK MODE",
+    label: "FEATURED",
+    image: "https://placehold.co/600x450/21120d/ff8a45.gif?text=DARK+04",
+    url: "https://example.com/page-4"
+  },
+  {
+    title: "FENIX / NETWORK",
+    label: "COMMUNITY",
+    image: "https://placehold.co/600x450/151020/c49bff.gif?text=FENIX+05",
+    url: "https://example.com/page-5"
+  }
+];
+
+const bannerGrid = document.getElementById("bannerGrid");
+
+banners.forEach((banner, index) => {
+  const card = document.createElement("a");
+  card.className = "banner-card";
+  card.href = banner.url;
+  card.target = "_blank";
+  card.rel = "noopener noreferrer";
+  card.setAttribute("aria-label", banner.title);
+
+  const img = document.createElement("img");
+  img.src = banner.image;
+  img.alt = banner.title;
+  img.loading = index < 3 ? "eager" : "lazy";
+
+  img.onerror = () => {
+    img.removeAttribute("src");
+    card.style.background =
+      "linear-gradient(135deg,#240d12,#111827)";
+  };
+
+  const number = document.createElement("span");
+  number.className = "banner-number";
+  number.textContent = String(index + 1).padStart(2, "0");
+
+  const label = document.createElement("div");
+  label.className = "banner-label";
+
+  const title = document.createElement("strong");
+  title.textContent = banner.title;
+
+  const subtitle = document.createElement("small");
+  subtitle.textContent = banner.label;
+
+  label.append(title, subtitle);
+  card.append(img, number, label);
+  bannerGrid.appendChild(card);
+});
+
+/* Раскрытие и сворачивание категорий */
+document.querySelectorAll(".category").forEach(category => {
   category.querySelector(".category-header").addEventListener("click", () => {
     category.classList.toggle("closed");
   });
 });
 
+/* Открытие карточек тем */
+const detail = document.getElementById("detail");
+const detailTitle = document.getElementById("detailTitle");
+const detailAuthor = document.getElementById("detailAuthor");
+const detailText = document.getElementById("detailText");
+
 document.querySelectorAll(".topic-title").forEach(link => {
   link.addEventListener("click", event => {
     event.preventDefault();
-    const topic = link.closest(".topic");
-    const author = topic.querySelector(".topic-author").textContent;
 
+    const topic = link.closest(".topic");
     detailTitle.textContent = link.textContent;
-    detailAuthor.textContent = author;
+    detailAuthor.textContent =
+      topic.querySelector(".topic-author").textContent;
     detailText.textContent =
-      "Информационная карточка темы для демонстрационной версии форума. " +
-      "Исходный HTML содержит название публикации и имя автора, но не содержит полной переписки или подробного описания.";
+      "Информационная карточка темы демонстрационного форума FENIX. " +
+      "Исходные материалы содержат название публикации и имя автора, " +
+      "но не полную переписку.";
 
     detail.classList.add("open");
     detail.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -322,16 +537,21 @@ document.getElementById("closeDetail").addEventListener("click", () => {
   detail.classList.remove("open");
 });
 
+/* Поиск тем и авторов */
+const search = document.getElementById("search");
+const noResults = document.getElementById("noResults");
+
 search.addEventListener("input", () => {
   const query = search.value.toLocaleLowerCase("ru").trim();
   let count = 0;
 
-  categories.forEach(category => {
+  document.querySelectorAll(".category").forEach(category => {
     let categoryCount = 0;
 
     category.querySelectorAll(".topic").forEach(topic => {
       const match = topic.textContent.toLocaleLowerCase("ru").includes(query);
       topic.style.display = match ? "flex" : "none";
+
       if (match) {
         count++;
         categoryCount++;
@@ -344,5 +564,6 @@ search.addEventListener("input", () => {
   noResults.style.display = count ? "none" : "block";
 });
 </script>
+
 </body>
 </html>
