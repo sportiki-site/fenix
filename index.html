@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
 :root {
   --bg:#0b0a0a;
@@ -30,18 +31,22 @@
   --body:'Inter',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
   --ease:cubic-bezier(.2,.7,.2,1);
 }
+
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+
 body{
   margin:0;background:var(--bg);color:var(--text);
   font:400 15px/1.6 var(--body);
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
 }
+
 body:before{
   content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
   background:radial-gradient(900px 500px at 8% -5%,rgba(229,50,74,.10),transparent 70%);
 }
+
 a{color:inherit;text-decoration:none}
 button,input,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
@@ -109,7 +114,7 @@ h1,h2,h3,h4,p{margin:0}
 .btn-ghost:hover{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.04)}
 .btn-sm{height:36px;padding:0 var(--s4);font-size:13px}
 
-/* AD CAROUSEL */
+/* TOP BANNER CAROUSEL */
 .ad-carousel{padding-top:var(--s4)}
 .ad-heading{
   display:flex;align-items:center;justify-content:space-between;
@@ -131,7 +136,23 @@ h1,h2,h3,h4,p{margin:0}
   position:relative;display:block;min-width:0;overflow:hidden;
   aspect-ratio:16/7;border:1px solid var(--line);
   border-radius:var(--r);background:linear-gradient(135deg,#291117,#151212);
+  will-change:transform,opacity;
 }
+
+/* Smooth banner entrance animation */
+.ad-slide{
+  animation:bannerEnter .55s var(--ease) both;
+}
+.ad-slide:nth-child(2){animation-delay:.04s}
+.ad-slide:nth-child(3){animation-delay:.08s}
+.ad-slide:nth-child(4){animation-delay:.12s}
+.ad-slide:nth-child(5){animation-delay:.16s}
+
+@keyframes bannerEnter{
+  from{opacity:0;transform:translateX(24px) scale(.985)}
+  to{opacity:1;transform:translateX(0) scale(1)}
+}
+
 .ad-slide img{
   display:block;width:100%;height:100%;object-fit:cover;
   transition:transform .6s var(--ease),filter .3s;
@@ -165,7 +186,7 @@ h1,h2,h3,h4,p{margin:0}
 .ad-dots{display:flex;align-items:center;gap:5px;margin:0 var(--s2)}
 .ad-dot{
   width:6px;height:6px;padding:0;border:0;border-radius:99px;
-  background:#625b59;
+  background:#625b59;transition:width .25s,background .25s;
 }
 .ad-dot.active{width:18px;background:var(--accent)}
 
@@ -229,9 +250,12 @@ main{padding-top:var(--s6)}
   content:"";width:8px;height:8px;border-radius:50%;background:var(--green);
   animation:pulse 2.6s ease-in-out infinite;
 }
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(63,210,154,.45)}50%{box-shadow:0 0 0 7px rgba(63,210,154,0)}}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(63,210,154,.45)}
+  50%{box-shadow:0 0 0 7px rgba(63,210,154,0)}
+}
 
-/* FORUM LAYOUT */
+/* FORUM */
 .section-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:var(--s5)}
 .section-label h2{font:700 clamp(28px,3vw,36px)/1 var(--display);text-transform:uppercase}
 .section-label h2 span{color:var(--accent)}
@@ -339,6 +363,7 @@ footer nav{display:flex;gap:var(--s5)}
 .reveal{animation:rise .8s var(--ease) both}
 @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 
+/* RESPONSIVE */
 @media(max-width:1100px){
   .nav{gap:var(--s4)}.navlinks a{padding:var(--s2)}
   .search{width:140px}.search:focus{width:170px}
@@ -393,12 +418,17 @@ footer nav{display:flex;gap:var(--s5)}
   footer{flex-direction:column}
 }
 @media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+  *,*:before,*:after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    scroll-behavior:auto!important;
+    transition-duration:.01ms!important
+  }
 }
 </style>
 </head>
-<body>
 
+<body>
 <header class="topbar" id="topbar">
  <div class="shell nav">
   <a class="brand" href="#home" data-page="home">Fenix</a>
@@ -419,7 +449,7 @@ footer nav{display:flex;gap:var(--s5)}
  </div>
 </header>
 
-<!-- РЕКЛАМНАЯ КАРУСЕЛЬ -->
+<!-- TOP BANNER CAROUSEL -->
 <section class="ad-carousel" aria-label="Рекламные баннеры">
  <div class="ad-heading shell">
   <strong>FENIX / Media</strong>
@@ -428,7 +458,7 @@ footer nav{display:flex;gap:var(--s5)}
  <div class="ad-window shell">
   <div class="ad-track" id="adTrack"></div>
   <div class="ad-bottom">
-   <span class="ad-status" id="adStatus">РЕКЛАМА · 5 БАННЕРОВ</span>
+   <span class="ad-status" id="adStatus">БАННЕРЫ</span>
    <div class="ad-controls">
     <div class="ad-dots" id="adDots"></div>
     <button type="button" id="adPrev" aria-label="Предыдущие баннеры">←</button>
@@ -471,10 +501,10 @@ footer nav{display:flex;gap:var(--s5)}
  </div>
 
  <div class="stats reveal" id="stats">
-  <div class="stat"><strong data-count="12487">12 487</strong><small>участников</small></div>
-  <div class="stat"><strong data-count="3421">3 421</strong><small>тем на форуме</small></div>
-  <div class="stat"><strong data-count="28913">28 913</strong><small>сообщений</small></div>
-  <div class="stat online"><strong data-count="1203">1 203</strong><small>сейчас онлайн</small></div>
+  <div class="stat"><strong>12 487</strong><small>участников</small></div>
+  <div class="stat"><strong>3 421</strong><small>тем на форуме</small></div>
+  <div class="stat"><strong>28 913</strong><small>сообщений</small></div>
+  <div class="stat online"><strong>1 203</strong><small>сейчас онлайн</small></div>
  </div>
 
  <div class="section-label reveal"><h2>The <span>community</span></h2><a class="link" href="#forum" data-page="forum">Все разделы <span class="arr">→</span></a></div>
@@ -549,7 +579,6 @@ footer nav{display:flex;gap:var(--s5)}
  <div class="subpage">
   <div class="eyebrow">01 · Discussions</div><h1>The <span>forum</span></h1>
   <p>Разделы сообщества FENIX. Названия тем и авторы взяты из предоставленного исходного материала.</p>
-
   <h2 class="eyebrow" style="margin-top:32px">01 / Документы</h2>
   <div class="subrow">Загранпаспорт РФ — оформление и получение · ALEBARDA</div>
   <div class="subrow">ВУ и удостоверения личности · Володар</div>
@@ -583,73 +612,98 @@ footer nav{display:flex;gap:var(--s5)}
   <div class="subrow">Создание сайтов и SEO · АЛЕКСЕЙ_SEO</div>
   <div class="subrow">Продвижение Telegram-каналов и ботов · adm_top</div>
   <div class="subrow">Авиабилеты и путешествия · BlackWallet</div>
-
   <p>Демонстрационный форум. Полные тексты обсуждений в исходном материале отсутствовали, поэтому здесь сохранены названия и авторы без выдуманных переписок.</p>
  </div>
 </section>
 
 <section id="market" class="page">
- <div class="subpage"><div class="eyebrow">02 · Marketplace</div><h1>The <span>market</span></h1><p>Каталог цифровых товаров, сервисов и профессиональных услуг.</p>
- <div class="subrow">Digital — Цифровые сервисы и подписки</div><div class="subrow">Gaming — Игровые товары и инструменты</div><div class="subrow">Creative — Дизайн, разработка и креативные услуги</div><div class="subrow">Tools — Инструменты для работы и продуктивности</div></div>
+ <div class="subpage">
+  <div class="eyebrow">02 · Marketplace</div><h1>The <span>market</span></h1>
+  <p>Каталог цифровых товаров, сервисов и профессиональных услуг.</p>
+  <div class="subrow">Digital — Цифровые сервисы и подписки</div>
+  <div class="subrow">Gaming — Игровые товары и инструменты</div>
+  <div class="subrow">Creative — Дизайн, разработка и креативные услуги</div>
+  <div class="subrow">Tools — Инструменты для работы и продуктивности</div>
+ </div>
 </section>
 
 <section id="reviews" class="page">
- <div class="subpage"><div class="eyebrow">03 · Reputation</div><h1>Trust is <span>earned.</span></h1><p>Отзывы, опыт участников и информация о качестве сервисов.</p>
- <div class="subrow">★★★★★ — Обзоры цифровых сервисов</div><div class="subrow">★★★★★ — Истории сотрудничества</div><div class="subrow">Reputation — Профили и репутация участников</div><p>Отзывы в этом макете демонстрационные.</p></div>
+ <div class="subpage">
+  <div class="eyebrow">03 · Reputation</div><h1>Trust is <span>earned.</span></h1>
+  <p>Отзывы, опыт участников и информация о качестве сервисов.</p>
+  <div class="subrow">★★★★★ — Обзоры цифровых сервисов</div>
+  <div class="subrow">★★★★★ — Истории сотрудничества</div>
+  <div class="subrow">Reputation — Профили и репутация участников</div>
+  <p>Отзывы в этом макете демонстрационные.</p>
+ </div>
 </section>
 
 <section id="users" class="page">
- <div class="subpage"><div class="eyebrow">04 · Members</div><h1>The <span>people.</span></h1><p>Знакомься с сообществом и изучай активность участников.</p>
- <div class="subrow">01 — DarkSeller / Community member</div><div class="subrow">02 — coderhub / Development</div><div class="subrow">03 — realuser / Community member</div><div class="subrow">04 — tradeuser / Exchange</div></div>
+ <div class="subpage">
+  <div class="eyebrow">04 · Members</div><h1>The <span>people.</span></h1>
+  <p>Знакомься с сообществом и изучай активность участников.</p>
+  <div class="subrow">01 — DarkSeller / Community member</div>
+  <div class="subrow">02 — coderhub / Development</div>
+  <div class="subrow">03 — realuser / Community member</div>
+  <div class="subrow">04 — tradeuser / Exchange</div>
+ </div>
 </section>
 
 <section id="rules" class="page">
- <div class="subpage"><div class="eyebrow">05 · Community standards</div><h1>Know the <span>rules.</span></h1>
- <div class="subrow">01 — Уважайте других участников и администрацию.</div>
- <div class="subrow">02 — Запрещены мошенничество, угрозы, спам и публикация чужих личных данных.</div>
- <div class="subrow">03 — Не публикуйте вредоносные файлы и незаконные предложения.</div>
- <div class="subrow">04 — Проверяйте информацию и не доверяйте неподтверждённым обещаниям.</div>
- <div class="subrow">05 — Сообщайте модераторам о нарушениях и спорных ситуациях.</div></div>
+ <div class="subpage">
+  <div class="eyebrow">05 · Community standards</div><h1>Know the <span>rules.</span></h1>
+  <div class="subrow">01 — Уважайте других участников и администрацию.</div>
+  <div class="subrow">02 — Запрещены мошенничество, угрозы, спам и публикация чужих личных данных.</div>
+  <div class="subrow">03 — Не публикуйте вредоносные файлы и незаконные предложения.</div>
+  <div class="subrow">04 — Проверяйте информацию и не доверяйте неподтверждённым обещаниям.</div>
+  <div class="subrow">05 — Сообщайте модераторам о нарушениях и спорных ситуациях.</div>
+ </div>
 </section>
 
 <section id="support" class="page">
- <form class="form" id="supportForm"><div class="eyebrow">06 · Help desk</div><h2>Need <span>backup?</span></h2><p>Демонстрационная форма поддержки. Сообщения не отправляются на сервер.</p>
- <label for="supportEmail">Email</label><input id="supportEmail" type="email" placeholder="you@example.com" required>
- <label for="supportMessage">Сообщение</label><textarea id="supportMessage" rows="4" maxlength="1000" placeholder="Опиши проблему…" required></textarea>
- <button class="btn btn-primary" type="submit">Подготовить обращение <span class="arr">→</span></button><div class="notice" id="supportResult" hidden></div></form>
+ <form class="form" id="supportForm">
+  <div class="eyebrow">06 · Help desk</div><h2>Need <span>backup?</span></h2>
+  <p>Демонстрационная форма поддержки. Сообщения не отправляются на сервер.</p>
+  <label for="supportEmail">Email</label><input id="supportEmail" type="email" placeholder="you@example.com" required>
+  <label for="supportMessage">Сообщение</label><textarea id="supportMessage" rows="4" maxlength="1000" placeholder="Опиши проблему…" required></textarea>
+  <button class="btn btn-primary" type="submit">Подготовить обращение <span class="arr">→</span></button>
+  <div class="notice" id="supportResult" hidden></div>
+ </form>
 </section>
 
 <section id="register" class="page">
- <form class="form" id="registerForm"><div class="eyebrow">Join the community</div><h2>Create your <span>identity.</span></h2><p>Демонстрационная форма регистрации — реальный аккаунт не создаётся.</p>
- <label for="regName">Никнейм</label><input id="regName" minlength="3" maxlength="24" placeholder="Твой никнейм" required>
- <label for="regEmail">Email</label><input id="regEmail" type="email" placeholder="you@example.com" required>
- <label for="regPass">Пароль</label><input id="regPass" type="password" minlength="8" placeholder="Не менее 8 символов" required>
- <label for="regPass2">Повторите пароль</label><input id="regPass2" type="password" minlength="8" placeholder="Повтори пароль" required>
- <button class="btn btn-primary" type="submit">Создать аккаунт <span class="arr">→</span></button><div class="notice" id="regResult" hidden></div></form>
+ <form class="form" id="registerForm">
+  <div class="eyebrow">Join the community</div><h2>Create your <span>identity.</span></h2>
+  <p>Демонстрационная форма регистрации — реальный аккаунт не создаётся.</p>
+  <label for="regName">Никнейм</label><input id="regName" minlength="3" maxlength="24" placeholder="Твой никнейм" required>
+  <label for="regEmail">Email</label><input id="regEmail" type="email" placeholder="you@example.com" required>
+  <label for="regPass">Пароль</label><input id="regPass" type="password" minlength="8" placeholder="Не менее 8 символов" required>
+  <label for="regPass2">Повторите пароль</label><input id="regPass2" type="password" minlength="8" placeholder="Повтори пароль" required>
+  <button class="btn btn-primary" type="submit">Создать аккаунт <span class="arr">→</span></button>
+  <div class="notice" id="regResult" hidden></div>
+ </form>
 </section>
 
 <section id="login" class="page">
- <form class="form" id="loginForm"><div class="eyebrow">Member access</div><h2>Welcome <span>back.</span></h2>
- <label for="loginName">Email или никнейм</label><input id="loginName" placeholder="Почта или никнейм" required>
- <label for="loginPass">Пароль</label><input id="loginPass" type="password" placeholder="Пароль" required>
- <button class="btn btn-primary" type="submit">Войти в Fenix <span class="arr">→</span></button><div class="notice" id="loginResult" hidden></div></form>
+ <form class="form" id="loginForm">
+  <div class="eyebrow">Member access</div><h2>Welcome <span>back.</span></h2>
+  <label for="loginName">Email или никнейм</label><input id="loginName" placeholder="Почта или никнейм" required>
+  <label for="loginPass">Пароль</label><input id="loginPass" type="password" placeholder="Пароль" required>
+  <button class="btn btn-primary" type="submit">Войти в Fenix <span class="arr">→</span></button>
+  <div class="notice" id="loginResult" hidden></div>
+ </form>
 </section>
 
-<footer><span>© 2026 Fenix Community — independent digital culture</span><nav aria-label="Футер"><a href="#rules" data-page="rules">Правила</a><a href="#support" data-page="support">Поддержка</a><a href="#register" data-page="register">Регистрация</a></nav></footer>
+<footer>
+ <span>© 2026 Fenix Community — independent digital culture</span>
+ <nav aria-label="Футер"><a href="#rules" data-page="rules">Правила</a><a href="#support" data-page="support">Поддержка</a><a href="#register" data-page="register">Регистрация</a></nav>
+</footer>
 </main>
 
 <script>
-/*
-  НАСТРОЙКА ПЯТИ РЕКЛАМНЫХ БАННЕРОВ.
-
-  image — путь к GIF/WEBP/PNG/JPG.
-  url   — страница для открытия после клика.
-  title — заголовок баннера.
-  label — небольшая подпись.
-
-  Примеры путей к файлам в репозитории:
-  images/banner1.gif
-  images/banner2.webp
+/* НАСТРОЙКА БАННЕРОВ
+   Положи GIF-файлы в папку images в своём GitHub-репозитории.
+   Имена файлов должны совпадать с указанными ниже.
 */
 const adBanners = [
  {title:'FENIX / MEDIA',label:'РЕКЛАМНЫЙ БАННЕР 01',image:'images/banner1.gif',url:'#market'},
@@ -663,15 +717,17 @@ const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* Карусель баннеров */
+/* БАННЕРНАЯ КАРУСЕЛЬ */
 const adTrack=$('#adTrack');
 const adDots=$('#adDots');
 const adStatus=$('#adStatus');
 let adStart=0;
+let adTimer=null;
 
 function renderAds(){
  adTrack.innerHTML='';
  adDots.innerHTML='';
+
  const mobile=window.matchMedia('(max-width:520px)').matches;
  const tablet=window.matchMedia('(max-width:860px)').matches;
  const visible=mobile?1:(tablet?3:5);
@@ -679,6 +735,7 @@ function renderAds(){
  for(let i=0;i<visible;i++){
   const index=(adStart+i)%adBanners.length;
   const item=adBanners[index];
+
   const a=document.createElement('a');
   a.className='ad-slide';
   a.href=item.url;
@@ -699,10 +756,13 @@ function renderAds(){
 
   const copy=document.createElement('span');
   copy.className='ad-copy';
+
   const title=document.createElement('b');
   title.textContent=item.title;
+
   const label=document.createElement('small');
   label.textContent=item.label;
+
   copy.append(title,label);
   a.append(img,copy);
   adTrack.append(a);
@@ -713,46 +773,77 @@ function renderAds(){
   dot.type='button';
   dot.className='ad-dot'+(i===adStart?' active':'');
   dot.setAttribute('aria-label','Показать баннер '+(i+1));
-  dot.addEventListener('click',()=>{adStart=i;renderAds();});
+
+  dot.addEventListener('click',()=>{
+   adStart=i;
+   renderAds();
+   startAdTimer();
+  });
+
   adDots.append(dot);
  });
- adStatus.textContent='БАННЕРЫ '+String(adStart+1).padStart(2,'0')+'–'+String(Math.min(adStart+visible,adBanners.length)).padStart(2,'0')+' / '+adBanners.length;
+
+ const last=Math.min(adStart+visible,adBanners.length);
+ adStatus.textContent='БАННЕРЫ '+String(adStart+1).padStart(2,'0')+'–'+String(last).padStart(2,'0')+' / '+adBanners.length;
+}
+
+function nextAd(){
+ adStart=(adStart+1)%adBanners.length;
+ renderAds();
+}
+
+function startAdTimer(){
+ if(adTimer!==null){
+  clearInterval(adTimer);
+  adTimer=null;
+ }
+
+ if(!reduce){
+  adTimer=window.setInterval(nextAd,6000);
+ }
 }
 
 $('#adPrev').addEventListener('click',()=>{
  adStart=(adStart-1+adBanners.length)%adBanners.length;
  renderAds();
+ startAdTimer();
 });
+
 $('#adNext').addEventListener('click',()=>{
- adStart=(adStart+1)%adBanners.length;
- renderAds();
+ nextAd();
+ startAdTimer();
 });
 
+/* Запуск карусели */
 renderAds();
-let adTimer=null;
-if(!reduce){
- adTimer=window.setInterval(()=>{
-  adStart=(adStart+1)%adBanners.length;
-  renderAds();
- },6000);
-}
-window.addEventListener('resize',renderAds);
+startAdTimer();
 
-/* Навигация между страницами */
+/* При изменении размера экрана пересчитать число баннеров */
+let resizeTimer=null;
+window.addEventListener('resize',()=>{
+ clearTimeout(resizeTimer);
+ resizeTimer=setTimeout(renderAds,150);
+});
+
+/* NAVIGATION */
 const pageIds=['home','forum','market','reviews','users','rules','support','register','login'];
 
 function showPage(id,push=true){
  if(!pageIds.includes(id))id='home';
+
  $$('.page').forEach(p=>p.classList.toggle('active',p.id===id));
  $$('.navlinks a').forEach(a=>a.classList.toggle('active',a.dataset.page===id));
+
  $('#navlinks').classList.remove('open');
  $('#menuBtn').setAttribute('aria-expanded','false');
 
  if(push&&location.hash!=='#'+id){
   try{history.pushState({page:id},'','#'+id)}catch(_){}
  }
+
  window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});
 }
+
 document.addEventListener('click',e=>{
  const link=e.target.closest('[data-page]');
  if(link){
@@ -760,75 +851,101 @@ document.addEventListener('click',e=>{
   showPage(link.dataset.page);
  }
 });
-window.addEventListener('popstate',()=>showPage(location.hash.slice(1)||'home',false));
 
+window.addEventListener('popstate',()=>{
+ showPage(location.hash.slice(1)||'home',false);
+});
+
+/* MOBILE MENU */
 $('#menuBtn').addEventListener('click',()=>{
  const open=$('#navlinks').classList.toggle('open');
  $('#menuBtn').setAttribute('aria-expanded',String(open));
 });
 
-/* Шапка при прокрутке */
+/* STICKY HEADER */
 const topbar=$('#topbar');
 const onScroll=()=>topbar.classList.toggle('scrolled',window.scrollY>8);
 window.addEventListener('scroll',onScroll,{passive:true});
 onScroll();
 
-/* Поиск по разделам форума */
+/* SEARCH */
 const search=$('#search');
+
 search.addEventListener('input',()=>{
  const q=search.value.trim().toLocaleLowerCase('ru');
- if(q&&!$('#home').classList.contains('active'))showPage('home',false);
+
+ if(q&&!$('#home').classList.contains('active')){
+  showPage('home',false);
+ }
 
  let shown=0;
+
  $$('#home .forum-row').forEach(row=>{
-  const hit=!q||row.innerText.toLocaleLowerCase('ru').includes(q)||(row.dataset.search||'').includes(q);
+  const hit=!q||
+   row.innerText.toLocaleLowerCase('ru').includes(q)||
+   (row.dataset.search||'').includes(q);
+
   row.hidden=!hit;
   if(hit)shown++;
  });
+
  $('#searchEmpty').hidden=shown>0;
 });
 
-/* Рейтинг участников */
+/* MEMBER RANKING */
 const numbers={
  week:['322','281','245','198'],
  month:['942','801','675','521'],
  all:['2.4K','1.9K','1.5K','1.1K']
 };
+
 $$('[data-rank]').forEach(button=>{
  button.addEventListener('click',()=>{
   $$('[data-rank]').forEach(b=>b.classList.toggle('active',b===button));
+
   const box=$('#ranking');
   box.classList.add('swap');
+
   setTimeout(()=>{
-   $$('.rank em',box).forEach((el,i)=>el.textContent=numbers[button.dataset.rank][i]);
+   $$('.rank em',box).forEach((el,i)=>{
+    el.textContent=numbers[button.dataset.rank][i];
+   });
    box.classList.remove('swap');
   },reduce?0:180);
  });
 });
 
-/* Демонстрационные формы */
+/* DEMO REGISTRATION FORM */
 $('#registerForm').addEventListener('submit',e=>{
  e.preventDefault();
+
  const r=$('#regResult');
  r.hidden=false;
+
  r.textContent=$('#regPass').value!==$('#regPass2').value
   ?'Пароли не совпадают. Проверь введённые данные.'
   :'Это демонстрационная форма. Для регистрации потребуется сервер.';
 });
+
+/* DEMO LOGIN FORM */
 $('#loginForm').addEventListener('submit',e=>{
  e.preventDefault();
+
  const r=$('#loginResult');
  r.hidden=false;
  r.textContent='Демонстрационный интерфейс: для входа нужно подключить систему авторизации.';
 });
+
+/* DEMO SUPPORT FORM */
 $('#supportForm').addEventListener('submit',e=>{
  e.preventDefault();
+
  const r=$('#supportResult');
  r.hidden=false;
  r.textContent='Форма проверена. Для отправки обращения требуется сервер.';
 });
 
-/* Стартовая страница */
+/* INITIAL PAGE */
 showPage(location.hash?location.hash.slice(1):'home',false);
 window.scrollTo(0,0);
 </script>
