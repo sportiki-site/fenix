@@ -129,10 +129,12 @@ footer nav{display:flex;gap:24px}
 @media(max-width:520px){.navtools{flex-basis:100%;order:3}.search{width:100%}.hero-grid{grid-template-columns:1fr}.hero-card.featured{min-height:320px}.hero-card{min-height:200px}.stats{gap:16px}.stat{padding:8px 12px}.forum-row{grid-template-columns:76px minmax(0,1fr);gap:12px;padding:16px}.forum-row .count{display:none}.form{padding:24px}footer{flex-direction:column}}
 @media(prefers-reduced-motion:reduce){.ad-track{animation-play-state:paused}}
 
-}/* FENIX — GIF на всю площадь баннера */
+}/* FENIX — широкие баннеры с GIF */
 .ad-slide {
-  height: 124px;
-  aspect-ratio: auto;
+  flex: 0 0 clamp(320px, 32vw, 460px) !important;
+  width: clamp(320px, 32vw, 460px) !important;
+  height: 150px !important;
+  aspect-ratio: auto !important;
 }
 
 .ad-slide img {
@@ -146,8 +148,9 @@ footer nav{display:flex;gap:24px}
   inset: 0;
   background: linear-gradient(
     transparent 35%,
-    rgba(0, 0, 0, 0.82) 100%
+    rgba(0, 0, 0, 0.65) 100%
   );
+}
 }</style>
 </head>
 <body>
