@@ -4,566 +4,833 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#080909">
-<title>FENIX — Digital Community</title>
-
+<meta name="theme-color" content="#0b0a0a">
+<title>FENIX — Underground Community</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-
 :root {
-  --bg: #080909;
-  --panel: #101212;
-  --panel2: #151717;
-  --red: #ff2038;
-  --line: #292929;
-  --muted: #858b91;
-  --text: #eeeeee;
+  --bg:#0b0a0a;
+  --surface:#121010;
+  --surface-2:#191615;
+  --line:rgba(255,255,255,.08);
+  --line-strong:rgba(255,255,255,.16);
+  --text:#efebe9;
+  --text-2:#aaa2a0;
+  --muted:#8a8381;
+  --accent:#e5324a;
+  --accent-hover:#f0465c;
+  --accent-soft:rgba(229,50,74,.12);
+  --green:#3fd29a;
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;
+  --s5:24px;--s6:32px;--s7:48px;--s8:72px;
+  --r:6px;
+  --display:'Barlow Condensed','Arial Narrow',Impact,sans-serif;
+  --body:'Inter',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font:400 15px/1.6 var(--body);
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:radial-gradient(900px 500px at 8% -5%,rgba(229,50,74,.10),transparent 70%);
+}
+a{color:inherit;text-decoration:none}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+img{max-width:100%}
+::selection{background:var(--accent);color:#fff}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+h1,h2,h3,h4,p{margin:0}
+.shell{width:min(1240px,100%);margin:0 auto;padding:0 var(--s5)}
+
+/* HEADER */
+.topbar{
+  position:sticky;top:0;z-index:30;height:72px;
+  background:rgba(11,10,10,.82);backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s var(--ease),background .3s;
+}
+.topbar.scrolled{border-bottom-color:var(--line);background:rgba(11,10,10,.92)}
+.nav{height:100%;display:flex;align-items:center;gap:var(--s6)}
+.brand{
+  font:700 30px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;
+  display:flex;align-items:center;gap:var(--s2);white-space:nowrap;
+}
+.brand:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.navlinks{display:flex;align-items:center;gap:var(--s1);flex:1}
+.navlinks a{
+  position:relative;padding:var(--s2) var(--s3);font-size:14px;
+  font-weight:500;color:var(--text-2);transition:color .2s;white-space:nowrap;
+}
+.navlinks a:after{
+  content:"";position:absolute;left:var(--s3);right:var(--s3);bottom:2px;
+  height:2px;background:var(--accent);transform:scaleX(0);
+  transform-origin:left;transition:transform .35s var(--ease);
+}
+.navlinks a:hover,.navlinks a.active{color:var(--text)}
+.navlinks a:hover:after{transform:scaleX(.4)}
+.navlinks a.active:after{transform:scaleX(1)}
+.navtools{display:flex;align-items:center;gap:var(--s3)}
+.search{
+  width:180px;height:40px;padding:0 var(--s4);border-radius:var(--r);
+  border:1px solid var(--line);background:var(--surface);color:var(--text);
+  outline:none;font-size:14px;transition:border-color .2s,width .35s var(--ease);
+}
+.search::placeholder{color:var(--muted)}
+.search:focus{border-color:var(--line-strong);background:var(--surface-2);width:230px}
+.menu-btn{
+  display:none;width:40px;height:40px;border:1px solid var(--line);
+  border-radius:var(--r);background:var(--surface);
+  align-items:center;justify-content:center;font-size:18px;
 }
 
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  background: radial-gradient(ellipse at 50% 0, #2b0b10 0, transparent 40%), var(--bg);
-  color: var(--text);
-  font-family: Inter, Arial, sans-serif;
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);
+  height:44px;padding:0 var(--s5);border-radius:var(--r);
+  border:1px solid transparent;font-size:14px;font-weight:600;
+  letter-spacing:.01em;white-space:nowrap;
+  transition:background .2s,border-color .2s,color .2s;
 }
-a { color: inherit; text-decoration: none; }
-button, input { font: inherit; }
-button { cursor: pointer; }
-.container { width: min(1400px, 100%); margin: auto; padding: 0 18px; }
+.btn .arr{display:inline-block;transition:transform .3s var(--ease)}
+.btn:hover .arr{transform:translateX(4px)}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-hover)}
+.btn-ghost{background:transparent;border-color:var(--line-strong);color:var(--text)}
+.btn-ghost:hover{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.04)}
+.btn-sm{height:36px;padding:0 var(--s4);font-size:13px}
 
-header {
-  border-bottom: 1px solid var(--line);
-  background: rgba(8,9,9,.96);
+/* AD CAROUSEL */
+.ad-carousel{padding-top:var(--s4)}
+.ad-heading{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:var(--s3);margin-bottom:var(--s3);
 }
-.nav {
-  min-height: 82px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
+.ad-heading strong{
+  font:700 20px/1 var(--display);letter-spacing:.07em;text-transform:uppercase;
 }
-.logo { font-size: 27px; font-weight: 900; letter-spacing: 3px; }
-.logo span { color: var(--red); }
-.nav-links { display: flex; gap: 24px; flex-wrap: wrap; color: #bbb; font-size: 13px; }
-.nav-links a:hover { color: white; }
+.ad-heading span{font-size:11px;color:var(--muted);letter-spacing:.12em}
+.ad-window{
+  overflow:hidden;border:1px solid var(--line);
+  border-radius:var(--r);background:var(--surface);
+}
+.ad-track{
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:var(--s2);padding:var(--s3);
+}
+.ad-slide{
+  position:relative;display:block;min-width:0;overflow:hidden;
+  aspect-ratio:16/7;border:1px solid var(--line);
+  border-radius:var(--r);background:linear-gradient(135deg,#291117,#151212);
+}
+.ad-slide img{
+  display:block;width:100%;height:100%;object-fit:cover;
+  transition:transform .6s var(--ease),filter .3s;
+}
+.ad-slide:hover img{transform:scale(1.06);filter:brightness(1.15)}
+.ad-slide:after{
+  content:"";position:absolute;inset:30% 0 0;
+  background:linear-gradient(transparent,rgba(0,0,0,.88));
+  pointer-events:none;
+}
+.ad-copy{position:absolute;z-index:1;left:var(--s3);right:var(--s3);bottom:var(--s2)}
+.ad-copy b{
+  display:block;font:700 clamp(17px,2vw,24px)/1 var(--display);
+  text-transform:uppercase;overflow-wrap:anywhere;
+}
+.ad-copy small{
+  display:block;margin-top:5px;color:#d4cecc;font-size:10px;
+  letter-spacing:.08em;
+}
+.ad-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:var(--s3);padding:0 var(--s3) var(--s3);
+}
+.ad-status{font-size:11px;color:var(--muted)}
+.ad-controls{display:flex;align-items:center;gap:6px}
+.ad-controls button{
+  width:32px;height:30px;border:1px solid var(--line-strong);
+  border-radius:4px;background:var(--surface-2);color:var(--text);
+}
+.ad-controls button:hover{border-color:var(--accent)}
+.ad-dots{display:flex;align-items:center;gap:5px;margin:0 var(--s2)}
+.ad-dot{
+  width:6px;height:6px;padding:0;border:0;border-radius:99px;
+  background:#625b59;
+}
+.ad-dot.active{width:18px;background:var(--accent)}
 
 /* HERO */
-.hero {
-  padding: 48px 0 32px;
-  border-bottom: 1px solid var(--line);
+main{padding-top:var(--s6)}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.hero-head{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:var(--s6);margin-bottom:var(--s6);padding-top:var(--s5);
 }
-.eyebrow { color: var(--red); font-size: 11px; letter-spacing: 3px; font-weight: 800; }
-.hero h1 { font-size: clamp(36px,6vw,76px); line-height: 1; margin: 18px 0; font-weight: 900; letter-spacing: -3px; }
-.hero h1 span { color: var(--red); }
-.hero p { color: #a2a2a2; max-width: 650px; line-height: 1.8; }
-.hero-actions { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
-.btn { display: inline-block; padding: 13px 19px; border: 1px solid #444; border-radius: 4px; font-weight: 700; font-size: 12px; }
-.btn-primary { background: var(--red); color: white; border-color: var(--red); }
-.btn-secondary { background: #151515; }
-
-/* TOP BANNERS */
-.banner-section {
-  padding: 25px 0 27px;
-  border-bottom: 1px solid var(--line);
+.hero-head h1{
+  font:700 clamp(44px,7vw,92px)/.92 var(--display);
+  text-transform:uppercase;letter-spacing:.005em;margin-top:var(--s3);
 }
-.banner-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 15px;
+.hero-head h1 span{color:var(--accent)}
+.hero-note{font-size:13px;color:var(--text-2);line-height:1.7;max-width:260px;padding-bottom:var(--s2)}
+.hero-grid{display:grid;grid-template-columns:1.5fr 1fr;grid-template-rows:1fr 1fr;gap:var(--s4)}
+.hero-card{
+  position:relative;isolation:isolate;overflow:hidden;border-radius:var(--r);
+  border:1px solid var(--line);background:var(--surface);
+  display:flex;align-items:flex-end;padding:var(--s5);min-height:210px;
 }
-.banner-heading h2 {
-  margin: 0;
-  font-size: 13px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+.hero-card.featured{grid-row:1/3;min-height:440px;padding:var(--s6)}
+.hero-card:before{
+  content:"";position:absolute;inset:0;z-index:-2;
+  background:var(--image) center/cover;
+  filter:saturate(.55) contrast(1.05) brightness(.85);
+  transition:transform 1.2s var(--ease),filter .8s var(--ease);
 }
-.banner-heading span {
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 1px;
+.hero-card:after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(0deg,rgba(11,10,10,.94),rgba(11,10,10,.15));
 }
-.banner-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 12px;
+.hero-card:hover:before{transform:scale(1.04);filter:saturate(.8) brightness(.9)}
+.badge{
+  position:absolute;top:var(--s4);left:var(--s4);padding:var(--s1) var(--s3);
+  border-radius:99px;background:rgba(11,10,10,.6);
+  border:1px solid var(--line-strong);font-size:12px;
 }
-.banner-card {
-  position: relative;
-  display: block;
-  overflow: hidden;
-  min-width: 0;
-  aspect-ratio: 4 / 3;
-  background: #151515;
-  border: 1px solid #333;
-  border-radius: 5px;
-  isolation: isolate;
+.featured .badge{top:var(--s5);left:var(--s6)}
+.hero-content{width:100%;max-width:440px}
+.hero-content h2{
+  font:700 clamp(26px,3vw,32px)/1 var(--display);
+  text-transform:uppercase;margin:var(--s2) 0 var(--s3);
 }
-.banner-card img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform .35s, filter .35s;
-}
-.banner-card:hover img {
-  transform: scale(1.06);
-  filter: brightness(1.15);
-}
-.banner-card::after {
-  content: "";
-  position: absolute;
-  inset: 35% 0 0;
-  background: linear-gradient(transparent, rgba(0,0,0,.9));
-  pointer-events: none;
-}
-.banner-label {
-  position: absolute;
-  z-index: 1;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 12px 10px;
-}
-.banner-label strong {
-  display: block;
-  font-size: 11px;
-  line-height: 1.4;
-  overflow-wrap: anywhere;
-}
-.banner-label small {
-  display: block;
-  color: #ccc;
-  margin-top: 4px;
-  font-size: 9px;
-  letter-spacing: 1px;
-}
-.banner-number {
-  position: absolute;
-  z-index: 2;
-  top: 8px;
-  left: 8px;
-  background: rgba(0,0,0,.7);
-  border: 1px solid rgba(255,255,255,.2);
-  padding: 4px 6px;
-  border-radius: 3px;
-  font-size: 9px;
-  color: white;
-}
+.featured .hero-content h2{font-size:clamp(34px,4vw,48px)}
+.hero-content p{color:var(--text-2);font-size:14px;line-height:1.6;max-width:36ch}
+.hero-bottom{margin-top:var(--s5)}
 
 /* STATS */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  border-bottom: 1px solid var(--line);
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin:var(--s7) 0}
+.stat{padding:var(--s2) var(--s5);border-left:1px solid var(--line)}
+.stat:first-child{border-left:0;padding-left:0}
+.stat strong{
+  display:block;font:700 clamp(32px,4vw,44px)/1 var(--display);
+  font-variant-numeric:tabular-nums;
 }
-.stat { padding: 23px 10px; text-align: center; border-right: 1px solid var(--line); }
-.stat:last-child { border: 0; }
-.stat strong { display: block; font-size: 23px; }
-.stat small { color: var(--muted); font-size: 10px; letter-spacing: 1px; }
-
-/* FORUM */
-main { padding-top: 38px; padding-bottom: 60px; }
-.section-title { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 18px; }
-.section-title h2 { margin: 0; font-size: 23px; }
-.section-title p { color: var(--muted); font-size: 12px; }
-.forum-layout { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 22px; align-items: start; }
-.search {
-  width: 100%;
-  padding: 14px;
-  background: #101111;
-  color: white;
-  border: 1px solid #303030;
-  border-radius: 4px;
-  outline: none;
-  margin-bottom: 20px;
+.stat small{display:block;margin-top:var(--s2);font-size:13px;color:var(--text-2)}
+.stat.online strong{display:flex;align-items:center;gap:var(--s3);color:var(--green)}
+.stat.online strong:before{
+  content:"";width:8px;height:8px;border-radius:50%;background:var(--green);
+  animation:pulse 2.6s ease-in-out infinite;
 }
-.search:focus { border-color: #777; }
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(63,210,154,.45)}50%{box-shadow:0 0 0 7px rgba(63,210,154,0)}}
 
-.category { background: var(--panel); border: 1px solid var(--line); margin-bottom: 16px; border-radius: 5px; overflow: hidden; }
-.category-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  padding: 17px;
-  background: var(--panel2);
-  cursor: pointer;
+/* FORUM LAYOUT */
+.section-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:var(--s5)}
+.section-label h2{font:700 clamp(28px,3vw,36px)/1 var(--display);text-transform:uppercase}
+.section-label h2 span{color:var(--accent)}
+.link{font-size:14px;color:var(--text-2);transition:color .2s}
+.link:hover{color:var(--text)}
+.link .arr{display:inline-block;transition:transform .3s var(--ease)}
+.link:hover .arr{transform:translateX(3px)}
+.columns{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:var(--s6);align-items:start}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin-bottom:var(--s5);overflow:hidden}
+.panel-head{display:flex;justify-content:space-between;align-items:center;padding:var(--s4) var(--s5);border-bottom:1px solid var(--line)}
+.panel-head h3{font:700 20px/1 var(--display);text-transform:uppercase;letter-spacing:.04em}
+.panel-head span{font-size:12px;color:var(--muted)}
+
+.forum-row{
+  position:relative;display:grid;grid-template-columns:152px minmax(0,1fr) 64px 64px 180px;
+  gap:var(--s5);align-items:center;padding:var(--s5);
+  border-bottom:1px solid var(--line);transition:background .25s;
 }
-.category-header h3 { margin: 0; font-size: 15px; }
-.category-header p { margin: 5px 0 0; font-size: 11px; color: var(--muted); }
-.category-header .arrow { color: var(--red); font-size: 19px; transition: transform .2s; }
-.category.closed .arrow { transform: rotate(-90deg); }
-.category.closed .topics { display: none; }
-
-.topic { padding: 15px 17px; border-top: 1px solid #242424; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-.topic:hover { background: #181818; }
-.topic-title { font-size: 13px; font-weight: 700; line-height: 1.6; }
-.topic-title:hover { color: var(--red); }
-.topic-author { color: var(--muted); font-size: 11px; margin-top: 5px; }
-.topic-arrow { color: #666; font-size: 20px; }
-
-.sidebar-card { background: var(--panel); border: 1px solid var(--line); border-radius: 5px; margin-bottom: 17px; overflow: hidden; }
-.sidebar-title { padding: 15px; background: var(--panel2); border-bottom: 1px solid var(--line); font-size: 13px; font-weight: 800; }
-.sidebar-content { padding: 15px; color: #aaa; font-size: 12px; line-height: 1.8; }
-.side-link { display: block; padding: 9px 0; border-bottom: 1px solid #292929; }
-.side-link:last-child { border: 0; }
-.side-link:hover { color: var(--red); }
-
-.topic-detail {
-  display: none;
-  background: #101111;
-  border: 1px solid #343434;
-  border-radius: 5px;
-  padding: 23px;
-  margin-bottom: 20px;
+.forum-row:last-child{border-bottom:0}
+.forum-row:before{
+  content:"";position:absolute;left:0;top:var(--s5);bottom:var(--s5);
+  width:2px;background:var(--accent);transform:scaleY(0);
+  transition:transform .4s var(--ease);
 }
-.topic-detail.open { display: block; }
-.topic-detail h2 { font-size: 22px; line-height: 1.4; }
-.topic-detail .author { color: var(--muted); font-size: 12px; }
-.topic-detail p { color: #c0c0c0; line-height: 1.8; }
-.close-detail { background: #202020; color: white; border: 1px solid #444; padding: 9px 14px; border-radius: 3px; }
-
-.no-results { display: none; color: var(--muted); padding: 25px; text-align: center; border: 1px solid var(--line); }
-footer { border-top: 1px solid var(--line); padding: 28px 0; color: #777; font-size: 11px; }
-.footer-inner { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-
-@media(max-width:1000px) {
-  .banner-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
-  .banner-card:nth-child(n+4) { display: none; }
+.forum-row:hover{background:var(--surface-2)}
+.forum-row:hover:before{transform:scaleY(1)}
+.cover{aspect-ratio:3/2;border-radius:var(--r);overflow:hidden;background:var(--surface-2)}
+.cover img{width:100%;height:100%;display:block;object-fit:cover;filter:saturate(.55) brightness(.9)}
+.desc h4{font-size:17px;font-weight:600;line-height:1.3;margin-bottom:var(--s2)}
+.desc h4 a{transition:color .2s}
+.forum-row:hover .desc h4 a{color:#fff}
+.desc p{font-size:14px;color:var(--text-2);line-height:1.55;margin-bottom:var(--s3);max-width:52ch}
+.tag{
+  display:inline-block;font-size:12px;color:var(--text-2);
+  padding:2px var(--s3);margin:0 var(--s1) var(--s1) 0;
+  border-radius:99px;background:rgba(255,255,255,.05);
 }
-@media(max-width:850px) {
-  .forum-layout { grid-template-columns: 1fr; }
-  .sidebar { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
-  .sidebar-card { margin: 0; }
+.tag:hover{background:var(--accent-soft);color:var(--text)}
+.count{text-align:left;font:700 22px/1 var(--display);font-variant-numeric:tabular-nums}
+.count small{display:block;margin-top:var(--s1);font:400 12px/1.4 var(--body);color:var(--muted)}
+.last{display:flex;align-items:center;gap:var(--s3);min-width:0}
+.last-icon{
+  flex:0 0 36px;height:36px;display:grid;place-items:center;
+  border-radius:50%;background:var(--surface-2);border:1px solid var(--line);
+  font:700 16px var(--display);color:var(--text-2);
 }
-@media(max-width:560px) {
-  .nav { padding-top: 15px; padding-bottom: 15px; align-items: flex-start; flex-direction: column; }
-  .nav-links { gap: 15px; }
-  .hero { padding: 35px 0 27px; }
-  .hero h1 { letter-spacing: -1.5px; }
-  .banner-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 9px; }
-  .banner-card:nth-child(n+3) { display: none; }
-  .banner-card { aspect-ratio: 5 / 3; }
-  .sidebar { grid-template-columns: 1fr; }
-  .stat strong { font-size: 19px; }
-  .stat small { font-size: 9px; }
+.last-text{min-width:0;font-size:13px;line-height:1.5}
+.last-text b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+.last-text small{color:var(--muted);font-size:12px}
+.empty{padding:var(--s7) var(--s5);text-align:center;color:var(--text-2)}
+
+/* SIDEBAR */
+.sidebar .cta{display:grid;gap:var(--s3);margin-bottom:var(--s5)}
+.sidebar .btn{width:100%;justify-content:space-between;height:48px}
+.topic{display:grid;grid-template-columns:28px minmax(0,1fr);gap:var(--s3);padding:var(--s4) var(--s5);border-bottom:1px solid var(--line);align-items:baseline}
+.topic:last-child{border-bottom:0}
+.topic:hover{background:var(--surface-2)}
+.topic-icon{font:700 18px/1 var(--display);color:var(--muted)}
+.topic:hover .topic-icon{color:var(--accent)}
+.topic b{display:block;font-size:14px;font-weight:500;line-height:1.45}
+.topic small{display:block;margin-top:var(--s1);font-size:12px;color:var(--muted)}
+.tabs{display:flex;gap:var(--s2);padding:var(--s3) var(--s5);border-bottom:1px solid var(--line)}
+.tabs button{padding:var(--s1) var(--s3);border:0;border-radius:99px;background:none;color:var(--text-2);font-size:13px}
+.tabs button.active{background:rgba(255,255,255,.08);color:var(--text)}
+.rank{display:grid;grid-template-columns:24px 36px minmax(0,1fr) auto;gap:var(--s3);align-items:center;padding:var(--s3) var(--s5)}
+.rank-num{font:700 18px/1 var(--display);color:var(--muted)}
+.rank img{width:36px;height:36px;object-fit:cover;border-radius:50%}
+.rank b{font-size:14px;font-weight:500}
+.rank small{display:block;color:var(--muted);font-size:12px}
+.rank em{font-style:normal;font-size:13px;color:var(--text-2)}
+#ranking.swap .rank em{opacity:0}
+
+/* INNER PAGES */
+.page{display:none;min-height:420px}
+.page.active{display:block;animation:pagein .5s var(--ease) both}
+@keyframes pagein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.subpage{max-width:820px;margin:0 auto;padding:var(--s6) 0}
+.subpage h1{font:700 clamp(40px,6vw,64px)/.95 var(--display);text-transform:uppercase;margin:var(--s3) 0 var(--s4)}
+.subpage h1 span{color:var(--accent)}
+.subpage p{color:var(--text-2);line-height:1.7;max-width:62ch;margin-bottom:var(--s5)}
+.subpage p:last-child{margin-top:var(--s5);font-size:14px;color:var(--muted)}
+.subrow{padding:var(--s4) 0;border-bottom:1px solid var(--line);font-size:15px;transition:padding-left .35s var(--ease),color .2s}
+.subrow:hover{padding-left:var(--s3)}
+.subpage .subrow:first-of-type{border-top:1px solid var(--line)}
+.form{max-width:480px;margin:var(--s6) auto;padding:var(--s6);border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.form h2{font:700 36px/1 var(--display);text-transform:uppercase;margin:var(--s3) 0}
+.form h2 span{color:var(--accent)}
+.form p{font-size:14px;color:var(--text-2);line-height:1.6}
+.form label{display:block;margin:var(--s5) 0 var(--s2);font-size:13px;font-weight:500;color:var(--text-2)}
+.form input,.form textarea{
+  display:block;width:100%;padding:var(--s3) var(--s4);border-radius:var(--r);
+  background:var(--bg);border:1px solid var(--line-strong);outline:none;font-size:15px;
+}
+.form input:focus,.form textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.form .btn{width:100%;margin-top:var(--s5)}
+.notice{margin-top:var(--s4);padding:var(--s3) var(--s4);border-radius:var(--r);background:var(--accent-soft);font-size:13px;color:#f0c4ca;line-height:1.6}
+
+footer{
+  display:flex;justify-content:space-between;gap:var(--s4);flex-wrap:wrap;
+  padding:var(--s6) 0;margin-top:var(--s7);border-top:1px solid var(--line);
+  font-size:13px;color:var(--muted);
+}
+footer a:hover{color:var(--text)}
+footer nav{display:flex;gap:var(--s5)}
+.reveal{animation:rise .8s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+@media(max-width:1100px){
+  .nav{gap:var(--s4)}.navlinks a{padding:var(--s2)}
+  .search{width:140px}.search:focus{width:170px}
+  .forum-row{grid-template-columns:132px minmax(0,1fr) 56px 56px;gap:var(--s4)}
+  .last{display:none}
+  .columns{grid-template-columns:minmax(0,1fr) 280px;gap:var(--s5)}
+}
+@media(max-width:860px){
+  .shell{padding:0 var(--s4)}
+  .topbar{height:auto;position:relative}
+  .nav{min-height:64px;flex-wrap:wrap;gap:var(--s3);padding:var(--s3) 0}
+  .menu-btn{display:flex;margin-left:auto}
+  .navtools{margin-left:0}
+  .navlinks{display:none;order:5;flex-basis:100%;flex-direction:column;align-items:stretch;padding-bottom:var(--s2)}
+  .navlinks.open{display:flex}
+  .navlinks a{padding:var(--s3) 0;border-bottom:1px solid var(--line)}
+  .navlinks a:after{display:none}
+  .navlinks a.active{color:var(--accent)}
+  .ad-carousel{padding-left:var(--s4);padding-right:var(--s4)}
+  .ad-track{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .ad-slide:nth-child(n+4){display:none}
+  .hero-head{flex-direction:column;align-items:flex-start;gap:var(--s3)}
+  .hero-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .hero-card.featured{grid-column:1/-1;grid-row:auto;min-height:340px;padding:var(--s5)}
+  .featured .badge{left:var(--s5)}
+  .hero-card{min-height:230px;padding:var(--s4)}
+  .stats{grid-template-columns:1fr 1fr;row-gap:var(--s5);margin:var(--s6) 0}
+  .stat:nth-child(3){border-left:0;padding-left:0}
+  .columns{grid-template-columns:1fr}
+  .forum-row{grid-template-columns:104px minmax(0,1fr) 52px;gap:var(--s4);padding:var(--s4)}
+  .forum-row:before{top:var(--s4);bottom:var(--s4)}
+  .count:nth-of-type(4){display:none}
+  .desc p{display:none}
+}
+@media(max-width:520px){
+  body{font-size:15px}
+  main{padding-top:var(--s4)}
+  .search{width:100%;flex:1}.search:focus{width:100%}
+  .navtools{flex:1;order:3;flex-basis:100%}
+  .ad-carousel{padding:0 var(--s4);margin-top:var(--s3)}
+  .ad-track{grid-template-columns:1fr}
+  .ad-slide:nth-child(n+2){display:none}
+  .ad-slide{aspect-ratio:16/7}
+  .hero-grid{grid-template-columns:1fr;gap:var(--s3)}
+  .hero-card.featured{min-height:320px}
+  .hero-card{min-height:200px}
+  .stat{padding-left:var(--s4)}.stat strong{font-size:32px}
+  .forum-row{grid-template-columns:84px minmax(0,1fr);gap:var(--s3)}
+  .forum-row .count{display:none}
+  .desc h4{font-size:16px}
+  .form{padding:var(--s5)}
+  footer{flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
 }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="container nav">
-    <a class="logo" href="#">FENI<span>X</span></a>
-    <nav class="nav-links">
-      <a href="#forum">Форум</a>
-      <a href="#categories">Категории</a>
-      <a href="#about">О проекте</a>
-    </nav>
+<header class="topbar" id="topbar">
+ <div class="shell nav">
+  <a class="brand" href="#home" data-page="home">Fenix</a>
+  <nav class="navlinks" id="navlinks" aria-label="Основная навигация">
+   <a class="active" href="#home" data-page="home">Главная</a>
+   <a href="#forum" data-page="forum">Форум</a>
+   <a href="#market" data-page="market">Маркет</a>
+   <a href="#reviews" data-page="reviews">Гарант</a>
+   <a href="#users" data-page="users">Пользователи</a>
+   <a href="#rules" data-page="rules">Правила</a>
+   <a href="#support" data-page="support">Поддержка</a>
+  </nav>
+  <div class="navtools">
+   <input class="search" id="search" type="search" placeholder="Поиск по форуму" aria-label="Поиск по форуму">
+   <a class="btn btn-ghost btn-sm" href="#login" data-page="login">Войти</a>
   </div>
+  <button class="menu-btn" id="menuBtn" aria-label="Открыть меню" aria-expanded="false" aria-controls="navlinks">☰</button>
+ </div>
 </header>
 
-<section class="hero">
-  <div class="container">
-    <div class="eyebrow">DIGITAL COMMUNITY / 2026</div>
-    <h1>ТЕРРИТОРИЯ<br><span>FENIX.</span></h1>
-    <p>Цифровое сообщество. Форум публикаций, тематические разделы и профили участников в едином пространстве.</p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="#forum">ОТКРЫТЬ ФОРУМ →</a>
-      <a class="btn btn-secondary" href="#categories">КАТЕГОРИИ</a>
-    </div>
+<!-- РЕКЛАМНАЯ КАРУСЕЛЬ -->
+<section class="ad-carousel" aria-label="Рекламные баннеры">
+ <div class="ad-heading shell">
+  <strong>FENIX / Media</strong>
+  <span>FEATURED CONTENT</span>
+ </div>
+ <div class="ad-window shell">
+  <div class="ad-track" id="adTrack"></div>
+  <div class="ad-bottom">
+   <span class="ad-status" id="adStatus">РЕКЛАМА · 5 БАННЕРОВ</span>
+   <div class="ad-controls">
+    <div class="ad-dots" id="adDots"></div>
+    <button type="button" id="adPrev" aria-label="Предыдущие баннеры">←</button>
+    <button type="button" id="adNext" aria-label="Следующие баннеры">→</button>
+   </div>
   </div>
+ </div>
 </section>
 
-<!-- ПЯТЬ КЛИКАБЕЛЬНЫХ БАННЕРОВ -->
-<section class="banner-section">
-  <div class="container">
-    <div class="banner-heading">
-      <h2>Медиа / Баннеры</h2>
-      <span>FEATURED CONTENT</span>
-    </div>
-
-    <div class="banner-grid" id="bannerGrid">
-      <!-- Баннеры создаются скриптом из массива ниже -->
-    </div>
+<main class="shell">
+<section id="home" class="page active">
+ <div class="hero-head">
+  <div class="reveal">
+   <div class="eyebrow">Independent digital community · 2026</div>
+   <h1>Enter the <span>Fenix</span><br>underground.</h1>
   </div>
+  <p class="hero-note reveal">Основано в 2026. Сообщество строят его участники.</p>
+ </div>
+
+ <div class="hero-grid">
+  <article class="hero-card featured reveal" style="--image:linear-gradient(135deg,#36131b,#100e0e 70%)">
+   <span class="badge">Выбор сообщества</span>
+   <div class="hero-content">
+    <div class="eyebrow">Цифровая культура</div>
+    <h2>Find your next level.</h2>
+    <p>Аккаунты, подписки и цифровые сервисы в одном месте.</p>
+    <div class="hero-bottom"><a class="btn btn-primary" href="#market" data-page="market">Открыть маркет <span class="arr">→</span></a></div>
+   </div>
+  </article>
+  <article class="hero-card reveal" style="--image:linear-gradient(135deg,#281016,#121010 70%)">
+   <div class="hero-content"><h2>Make a move.</h2><p>Обмен опытом и цифровыми товарами.</p>
+    <div class="hero-bottom"><a class="btn btn-ghost btn-sm" href="#forum" data-page="forum">В форум <span class="arr">→</span></a></div>
+   </div>
+  </article>
+  <article class="hero-card reveal" style="--image:linear-gradient(135deg,#291c19,#100e0e 70%)">
+   <div class="hero-content"><h2>Built on trust.</h2><p>Обсуждения, отзывы и репутация.</p>
+    <div class="hero-bottom"><a class="btn btn-ghost btn-sm" href="#reviews" data-page="reviews">Отзывы <span class="arr">→</span></a></div>
+   </div>
+  </article>
+ </div>
+
+ <div class="stats reveal" id="stats">
+  <div class="stat"><strong data-count="12487">12 487</strong><small>участников</small></div>
+  <div class="stat"><strong data-count="3421">3 421</strong><small>тем на форуме</small></div>
+  <div class="stat"><strong data-count="28913">28 913</strong><small>сообщений</small></div>
+  <div class="stat online"><strong data-count="1203">1 203</strong><small>сейчас онлайн</small></div>
+ </div>
+
+ <div class="section-label reveal"><h2>The <span>community</span></h2><a class="link" href="#forum" data-page="forum">Все разделы <span class="arr">→</span></a></div>
+ <div class="columns">
+  <section class="panel reveal" id="forumPanel">
+   <div class="panel-head"><h3>Разделы форума</h3><span>5 разделов</span></div>
+
+   <article class="forum-row" data-search="документы загранпаспорт удостоверения личность визы медицинские">
+    <div class="cover"><img loading="lazy" src="https://placehold.co/600x400/251116/e5324a?text=DOCUMENTS" alt="Документы"></div>
+    <div class="desc"><h4><a href="#forum" data-page="forum">Документы</a></h4><p>Документы, удостоверения личности и тематические вопросы участников.</p><span class="tag">Документы</span><span class="tag">Визы</span><span class="tag">Обсуждения</span></div>
+    <div class="count">06<small>тем</small></div><div class="count">120<small>постов</small></div>
+    <div class="last"><div class="last-icon">D</div><div class="last-text"><b>Вопросы участников</b><small>ALEBARDA · сегодня</small></div></div>
+   </article>
+
+   <article class="forum-row" data-search="обменные сервисы обмен валют api цифровые активы">
+    <div class="cover"><img loading="lazy" src="https://placehold.co/600x400/191218/e5324a?text=EXCHANGE" alt="Обменные сервисы"></div>
+    <div class="desc"><h4><a href="#forum" data-page="forum">Обменные сервисы</a></h4><p>Обменные операции, сервисы и цифровые инструменты.</p><span class="tag">Обмен</span><span class="tag">Сервисы</span><span class="tag">API</span></div>
+    <div class="count">05<small>тем</small></div><div class="count">96<small>постов</small></div>
+    <div class="last"><div class="last-icon">E</div><div class="last-text"><b>Обменные операции</b><small>AMLgroup · сегодня</small></div></div>
+   </article>
+
+   <article class="forum-row" data-search="сервисы услуги ликвидатор региональные услуги">
+    <div class="cover"><img loading="lazy" src="https://placehold.co/600x400/211313/e5324a?text=SERVICES" alt="Сервисы и услуги"></div>
+    <div class="desc"><h4><a href="#forum" data-page="forum">Сервисы и услуги</a></h4><p>Публикации участников о сервисах и различных услугах.</p><span class="tag">Сервисы</span><span class="tag">Услуги</span><span class="tag">Обсуждения</span></div>
+    <div class="count">03<small>тем</small></div><div class="count">64<small>поста</small></div>
+    <div class="last"><div class="last-icon">S</div><div class="last-text"><b>Сервисы участников</b><small>BORIS_ARCAN · сегодня</small></div></div>
+   </article>
+
+   <article class="forum-row" data-search="продавцы техника электроника цифровые сервисы">
+    <div class="cover"><img loading="lazy" src="https://placehold.co/600x400/17151a/e5324a?text=SELLERS" alt="Продавцы и сервисы"></div>
+    <div class="desc"><h4><a href="#forum" data-page="forum">Продавцы и сервисы</a></h4><p>Каталог тематических публикаций продавцов и сервисов.</p><span class="tag">Продавцы</span><span class="tag">Техника</span><span class="tag">Сервисы</span></div>
+    <div class="count">03<small>темы</small></div><div class="count">78<small>постов</small></div>
+    <div class="last"><div class="last-icon">S</div><div class="last-text"><b>Техника и электроника</b><small>ДРАГУНОВ · вчера</small></div></div>
+   </article>
+
+   <article class="forum-row" data-search="vip торговая площадка бизнес telegram seo продвижение путешествия">
+    <div class="cover"><img loading="lazy" src="https://placehold.co/600x400/221015/e5324a?text=VIP+MARKET" alt="VIP-площадка"></div>
+    <div class="desc"><h4><a href="#forum" data-page="forum">Торговая площадка — VIP</a></h4><p>Бизнес-темы, цифровые сервисы, продвижение и путешествия.</p><span class="tag">VIP</span><span class="tag">Бизнес</span><span class="tag">Цифровые сервисы</span></div>
+    <div class="count">07<small>тем</small></div><div class="count">142<small>поста</small></div>
+    <div class="last"><div class="last-icon">V</div><div class="last-text"><b>Публикации VIP</b><small>EDEN_CORP · вчера</small></div></div>
+   </article>
+   <div class="empty" id="searchEmpty" hidden>Ничего не найдено. Попробуйте другое слово.</div>
+  </section>
+
+  <aside class="sidebar">
+   <div class="cta reveal">
+    <a class="btn btn-primary" href="#register" data-page="register">Присоединиться <span class="arr">→</span></a>
+    <a class="btn btn-ghost" href="#support" data-page="support">Центр поддержки <span class="arr">→</span></a>
+   </div>
+   <section class="panel reveal">
+    <div class="panel-head"><h3>В тренде</h3></div>
+    <a class="topic" href="#forum" data-page="forum"><div class="topic-icon">01</div><div><b>Документы и вопросы участников</b><small>Тематический раздел</small></div></a>
+    <a class="topic" href="#forum" data-page="forum"><div class="topic-icon">02</div><div><b>Обменные сервисы</b><small>Обсуждения сообщества</small></div></a>
+    <a class="topic" href="#forum" data-page="forum"><div class="topic-icon">03</div><div><b>Продавцы и услуги</b><small>Каталог публикаций</small></div></a>
+    <a class="topic" href="#forum" data-page="forum"><div class="topic-icon">04</div><div><b>Торговая площадка — VIP</b><small>Тематические публикации</small></div></a>
+   </section>
+   <section class="panel reveal">
+    <div class="panel-head"><h3>Участники</h3></div>
+    <div class="tabs"><button class="active" data-rank="week">Неделя</button><button data-rank="month">Месяц</button><button data-rank="all">Всё время</button></div>
+    <div id="ranking">
+     <div class="rank"><span class="rank-num">01</span><img loading="lazy" src="https://placehold.co/80x80/3a1a1e/e5324a?text=D" alt=""><div><b>DarkSeller</b><small>Активный участник</small></div><em>322</em></div>
+     <div class="rank"><span class="rank-num">02</span><img loading="lazy" src="https://placehold.co/80x80/1a2a3a/6ea8d8?text=C" alt=""><div><b>coderhub</b><small>Разработка</small></div><em>281</em></div>
+     <div class="rank"><span class="rank-num">03</span><img loading="lazy" src="https://placehold.co/80x80/2a2a1a/d8b86e?text=R" alt=""><div><b>realuser</b><small>Участник</small></div><em>245</em></div>
+     <div class="rank"><span class="rank-num">04</span><img loading="lazy" src="https://placehold.co/80x80/1a3a2a/6ed8a0?text=T" alt=""><div><b>tradeuser</b><small>Обмен</small></div><em>198</em></div>
+    </div>
+   </section>
+  </aside>
+ </div>
 </section>
 
-<div class="container">
-  <div class="stats">
-    <div class="stat"><strong>24</strong><small>ТЕМЫ</small></div>
-    <div class="stat"><strong>5</strong><small>РАЗДЕЛОВ</small></div>
-    <div class="stat"><strong>2026</strong><small>СЕЗОН</small></div>
-  </div>
-</div>
+<section id="forum" class="page">
+ <div class="subpage">
+  <div class="eyebrow">01 · Discussions</div><h1>The <span>forum</span></h1>
+  <p>Разделы сообщества FENIX. Названия тем и авторы взяты из предоставленного исходного материала.</p>
 
-<main class="container" id="forum">
-  <div class="section-title">
-    <div>
-      <h2>Обсуждения</h2>
-      <p>Каталог тем и участников сообщества</p>
-    </div>
-  </div>
+  <h2 class="eyebrow" style="margin-top:32px">01 / Документы</h2>
+  <div class="subrow">Загранпаспорт РФ — оформление и получение · ALEBARDA</div>
+  <div class="subrow">ВУ и удостоверения личности · Володар</div>
+  <div class="subrow">Life_Reboot — документы и визовые вопросы · Life_Reboot</div>
+  <div class="subrow">Медицинские услуги и документы · Papa_Karlo</div>
+  <div class="subrow">Индонезия / Бали — визовые вопросы · КУЙБЫШЕВ</div>
+  <div class="subrow">RBT — документы · RBT</div>
 
-  <div class="forum-layout">
-    <section id="categories">
-      <input class="search" id="search" type="search" placeholder="Поиск тем или авторов...">
+  <h2 class="eyebrow" style="margin-top:32px">02 / Обменные сервисы</h2>
+  <div class="subrow">AML GROUP — обменные операции · AMLgroup</div>
+  <div class="subrow">Обменные операции и API · СВЕРДЛОВ</div>
+  <div class="subrow">Обмен валют и цифровых активов · Razor_EX</div>
+  <div class="subrow">XMR SHOP · XMR_SHOP</div>
+  <div class="subrow">WindExchange — обменные сервисы · WindExchange</div>
 
-      <div class="topic-detail" id="detail">
-        <button class="close-detail" id="closeDetail">← Назад к разделам</button>
-        <h2 id="detailTitle"></h2>
-        <div class="author" id="detailAuthor"></div>
-        <p id="detailText"></p>
-      </div>
+  <h2 class="eyebrow" style="margin-top:32px">03 / Сервисы и услуги</h2>
+  <div class="subrow">Сервис Бориса · BORIS_ARCAN</div>
+  <div class="subrow">Ликвидатор Сервис · Likvidator_S</div>
+  <div class="subrow">Sport_Aleks — региональные услуги · Sport_Aleks</div>
 
-      <div class="category">
-        <div class="category-header">
-          <div><h3>Документы</h3><p>Документальные и административные темы</p></div><span class="arrow">⌄</span>
-        </div>
-        <div class="topics">
-          <div class="topic"><div><a class="topic-title" href="#">Загранпаспорт РФ — оформление и получение</a><div class="topic-author">Автор: ALEBARDA</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">ВУ и удостоверения личности</a><div class="topic-author">Автор: Володар</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">Life_Reboot — документы и визовые вопросы</a><div class="topic-author">Автор: Life_Reboot</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">Медицинские услуги и документы</a><div class="topic-author">Автор: Papa_Karlo</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">Индонезия / Бали — визовые вопросы</a><div class="topic-author">Автор: КУЙБЫШЕВ</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">RBT — документы</a><div class="topic-author">Автор: RBT</div></div><span class="topic-arrow">›</span></div>
-        </div>
-      </div>
+  <h2 class="eyebrow" style="margin-top:32px">04 / Продавцы и сервисы</h2>
+  <div class="subrow">VBIV GUARD — электроника · VBIV GUAR</div>
+  <div class="subrow">Техника и электроника · ДРАГУНОВ</div>
+  <div class="subrow">Dr_Cash — финансовая тематика · dr_cash</div>
 
-      <div class="category">
-        <div class="category-header">
-          <div><h3>Обменные сервисы</h3><p>Валютные операции и цифровые активы</p></div><span class="arrow">⌄</span>
-        </div>
-        <div class="topics">
-          <div class="topic"><div><a class="topic-title" href="#">AML GROUP — обменные операции</a><div class="topic-author">Автор: AMLgroup</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">Обменные операции и API</a><div class="topic-author">Автор: СВЕРДЛОВ</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">Обмен валют и цифровых активов</a><div class="topic-author">Автор: Razor_EX</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">XMR SHOP</a><div class="topic-author">Автор: XMR_SHOP</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">WindExchange — обменные сервисы</a><div class="topic-author">Автор: WindExchange</div></div><span class="topic-arrow">›</span></div>
-        </div>
-      </div>
+  <h2 class="eyebrow" style="margin-top:32px">05 / Торговая площадка — VIP</h2>
+  <div class="subrow">Документы от EDEN_CORP — ЕС и международные вопросы · EDEN_CORP</div>
+  <div class="subrow">Готовые фирмы и регистрация бизнеса · ipshnik</div>
+  <div class="subrow">Социальные сети и цифровая безопасность · BARBADOS</div>
+  <div class="subrow">Telegram — аккаунты и безопасность · TG_master</div>
+  <div class="subrow">Создание сайтов и SEO · АЛЕКСЕЙ_SEO</div>
+  <div class="subrow">Продвижение Telegram-каналов и ботов · adm_top</div>
+  <div class="subrow">Авиабилеты и путешествия · BlackWallet</div>
 
-      <div class="category">
-        <div class="category-header">
-          <div><h3>Сервисы и услуги</h3><p>Профили участников и тематические публикации</p></div><span class="arrow">⌄</span>
-        </div>
-        <div class="topics">
-          <div class="topic"><div><a class="topic-title" href="#">Сервис Бориса</a><div class="topic-author">Автор: BORIS_ARCAN</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">Ликвидатор Сервис</a><div class="topic-author">Автор: Likvidator_S</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">Sport_Aleks — региональные услуги</a><div class="topic-author">Автор: Sport_Aleks</div></div><span class="topic-arrow">›</span></div>
-        </div>
-      </div>
+  <p>Демонстрационный форум. Полные тексты обсуждений в исходном материале отсутствовали, поэтому здесь сохранены названия и авторы без выдуманных переписок.</p>
+ </div>
+</section>
 
-      <div class="category">
-        <div class="category-header">
-          <div><h3>Продавцы и сервисы</h3><p>Техника, товары и цифровые услуги</p></div><span class="arrow">⌄</span>
-        </div>
-        <div class="topics">
-          <div class="topic"><div><a class="topic-title" href="#">VBIV GUARD — электроника</a><div class="topic-author">Автор: VBIV GUAR</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">Техника и электроника</a><div class="topic-author">Автор: ДРАГУНОВ</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">Dr_Cash — финансовая тематика</a><div class="topic-author">Автор: dr_cash</div></div><span class="topic-arrow">›</span></div>
-        </div>
-      </div>
+<section id="market" class="page">
+ <div class="subpage"><div class="eyebrow">02 · Marketplace</div><h1>The <span>market</span></h1><p>Каталог цифровых товаров, сервисов и профессиональных услуг.</p>
+ <div class="subrow">Digital — Цифровые сервисы и подписки</div><div class="subrow">Gaming — Игровые товары и инструменты</div><div class="subrow">Creative — Дизайн, разработка и креативные услуги</div><div class="subrow">Tools — Инструменты для работы и продуктивности</div></div>
+</section>
 
-      <div class="category">
-        <div class="category-header">
-          <div><h3>Торговая площадка — VIP</h3><p>Бизнес, цифровые сервисы и другие публикации</p></div><span class="arrow">⌄</span>
-        </div>
-        <div class="topics">
-          <div class="topic"><div><a class="topic-title" href="#">Документы от EDEN_CORP — ЕС и международные вопросы</a><div class="topic-author">Автор: EDEN_CORP</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">Готовые фирмы и регистрация бизнеса</a><div class="topic-author">Автор: ipshnik</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">Социальные сети и цифровая безопасность</a><div class="topic-author">Автор: BARBADOS</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">Telegram — аккаунты и безопасность</a><div class="topic-author">Автор: TG_master</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">Создание сайтов и SEO</a><div class="topic-author">Автор: АЛЕКСЕЙ_SEO</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">Продвижение Telegram-каналов и ботов</a><div class="topic-author">Автор: adm_top</div></div><span class="topic-arrow">›</span></div>
-          <div class="topic"><div><a class="topic-title" href="#">Авиабилеты и путешествия</a><div class="topic-author">Автор: BlackWallet</div></div><span class="topic-arrow">›</span></div>
-        </div>
-      </div>
+<section id="reviews" class="page">
+ <div class="subpage"><div class="eyebrow">03 · Reputation</div><h1>Trust is <span>earned.</span></h1><p>Отзывы, опыт участников и информация о качестве сервисов.</p>
+ <div class="subrow">★★★★★ — Обзоры цифровых сервисов</div><div class="subrow">★★★★★ — Истории сотрудничества</div><div class="subrow">Reputation — Профили и репутация участников</div><p>Отзывы в этом макете демонстрационные.</p></div>
+</section>
 
-      <div class="no-results" id="noResults">Ничего не найдено.</div>
-    </section>
+<section id="users" class="page">
+ <div class="subpage"><div class="eyebrow">04 · Members</div><h1>The <span>people.</span></h1><p>Знакомься с сообществом и изучай активность участников.</p>
+ <div class="subrow">01 — DarkSeller / Community member</div><div class="subrow">02 — coderhub / Development</div><div class="subrow">03 — realuser / Community member</div><div class="subrow">04 — tradeuser / Exchange</div></div>
+</section>
 
-    <aside class="sidebar">
-      <div class="sidebar-card">
-        <div class="sidebar-title">РАЗДЕЛЫ ФОРУМА</div>
-        <div class="sidebar-content">
-          <a class="side-link" href="#categories">Документы</a>
-          <a class="side-link" href="#categories">Обменные сервисы</a>
-          <a class="side-link" href="#categories">Сервисы и услуги</a>
-          <a class="side-link" href="#categories">Продавцы и сервисы</a>
-          <a class="side-link" href="#categories">VIP-площадка</a>
-        </div>
-      </div>
-      <div class="sidebar-card" id="about">
-        <div class="sidebar-title">О СООБЩЕСТВЕ</div>
-        <div class="sidebar-content">
-          FENIX — демонстрационный цифровой форум для кинематографического проекта.
-        </div>
-      </div>
-      <div class="sidebar-card">
-        <div class="sidebar-title">НАВИГАЦИЯ</div>
-        <div class="sidebar-content">
-          Выбери раздел, чтобы раскрыть список тем. Нажми на тему, чтобы открыть информационную карточку.
-        </div>
-      </div>
-    </aside>
-  </div>
+<section id="rules" class="page">
+ <div class="subpage"><div class="eyebrow">05 · Community standards</div><h1>Know the <span>rules.</span></h1>
+ <div class="subrow">01 — Уважайте других участников и администрацию.</div>
+ <div class="subrow">02 — Запрещены мошенничество, угрозы, спам и публикация чужих личных данных.</div>
+ <div class="subrow">03 — Не публикуйте вредоносные файлы и незаконные предложения.</div>
+ <div class="subrow">04 — Проверяйте информацию и не доверяйте неподтверждённым обещаниям.</div>
+ <div class="subrow">05 — Сообщайте модераторам о нарушениях и спорных ситуациях.</div></div>
+</section>
+
+<section id="support" class="page">
+ <form class="form" id="supportForm"><div class="eyebrow">06 · Help desk</div><h2>Need <span>backup?</span></h2><p>Демонстрационная форма поддержки. Сообщения не отправляются на сервер.</p>
+ <label for="supportEmail">Email</label><input id="supportEmail" type="email" placeholder="you@example.com" required>
+ <label for="supportMessage">Сообщение</label><textarea id="supportMessage" rows="4" maxlength="1000" placeholder="Опиши проблему…" required></textarea>
+ <button class="btn btn-primary" type="submit">Подготовить обращение <span class="arr">→</span></button><div class="notice" id="supportResult" hidden></div></form>
+</section>
+
+<section id="register" class="page">
+ <form class="form" id="registerForm"><div class="eyebrow">Join the community</div><h2>Create your <span>identity.</span></h2><p>Демонстрационная форма регистрации — реальный аккаунт не создаётся.</p>
+ <label for="regName">Никнейм</label><input id="regName" minlength="3" maxlength="24" placeholder="Твой никнейм" required>
+ <label for="regEmail">Email</label><input id="regEmail" type="email" placeholder="you@example.com" required>
+ <label for="regPass">Пароль</label><input id="regPass" type="password" minlength="8" placeholder="Не менее 8 символов" required>
+ <label for="regPass2">Повторите пароль</label><input id="regPass2" type="password" minlength="8" placeholder="Повтори пароль" required>
+ <button class="btn btn-primary" type="submit">Создать аккаунт <span class="arr">→</span></button><div class="notice" id="regResult" hidden></div></form>
+</section>
+
+<section id="login" class="page">
+ <form class="form" id="loginForm"><div class="eyebrow">Member access</div><h2>Welcome <span>back.</span></h2>
+ <label for="loginName">Email или никнейм</label><input id="loginName" placeholder="Почта или никнейм" required>
+ <label for="loginPass">Пароль</label><input id="loginPass" type="password" placeholder="Пароль" required>
+ <button class="btn btn-primary" type="submit">Войти в Fenix <span class="arr">→</span></button><div class="notice" id="loginResult" hidden></div></form>
+</section>
+
+<footer><span>© 2026 Fenix Community — independent digital culture</span><nav aria-label="Футер"><a href="#rules" data-page="rules">Правила</a><a href="#support" data-page="support">Поддержка</a><a href="#register" data-page="register">Регистрация</a></nav></footer>
 </main>
-
-<footer>
-  <div class="container footer-inner">
-    <div>© 2026 FENIX COMMUNITY</div>
-    <div>DEMONSTRATION FORUM</div>
-  </div>
-</footer>
 
 <script>
 /*
-  НАСТРОЙКА БАННЕРОВ:
-  image — ссылка на GIF, анимированный WEBP или обычное изображение.
-  url   — адрес страницы, которая откроется по клику.
-  title — подпись на баннере.
+  НАСТРОЙКА ПЯТИ РЕКЛАМНЫХ БАННЕРОВ.
 
-  Замени demo-ссылки на собственные файлы и страницы.
+  image — путь к GIF/WEBP/PNG/JPG.
+  url   — страница для открытия после клика.
+  title — заголовок баннера.
+  label — небольшая подпись.
+
+  Примеры путей к файлам в репозитории:
+  images/banner1.gif
+  images/banner2.webp
 */
-const banners = [
-  {
-    title: "FENIX / MEDIA 01",
-    label: "FEATURED",
-    image: "https://placehold.co/600x450/180d12/ff3048.gif?text=FENIX+01",
-    url: "https://example.com/page-1"
-  },
-  {
-    title: "DIGITAL NETWORK",
-    label: "COMMUNITY",
-    image: "https://placehold.co/600x450/10151d/73b9ff.gif?text=NETWORK+02",
-    url: "https://example.com/page-2"
-  },
-  {
-    title: "NIGHT SIGNAL",
-    label: "MEDIA",
-    image: "https://placehold.co/600x450/181818/f0f0f0.gif?text=SIGNAL+03",
-    url: "https://example.com/page-3"
-  },
-  {
-    title: "DARK MODE",
-    label: "FEATURED",
-    image: "https://placehold.co/600x450/21120d/ff8a45.gif?text=DARK+04",
-    url: "https://example.com/page-4"
-  },
-  {
-    title: "FENIX / NETWORK",
-    label: "COMMUNITY",
-    image: "https://placehold.co/600x450/151020/c49bff.gif?text=FENIX+05",
-    url: "https://example.com/page-5"
-  }
+const adBanners = [
+ {title:'FENIX / MEDIA',label:'РЕКЛАМНЫЙ БАННЕР 01',image:'images/banner1.gif',url:'#market'},
+ {title:'DIGITAL COMMUNITY',label:'РЕКЛАМНЫЙ БАННЕР 02',image:'images/banner2.gif',url:'#forum'},
+ {title:'NIGHT SIGNAL',label:'РЕКЛАМНЫЙ БАННЕР 03',image:'images/banner3.gif',url:'#reviews'},
+ {title:'CREATIVE NETWORK',label:'РЕКЛАМНЫЙ БАННЕР 04',image:'images/banner4.gif',url:'#users'},
+ {title:'FENIX PARTNERS',label:'РЕКЛАМНЫЙ БАННЕР 05',image:'images/banner5.gif',url:'#support'}
 ];
 
-const bannerGrid = document.getElementById("bannerGrid");
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-banners.forEach((banner, index) => {
-  const card = document.createElement("a");
-  card.className = "banner-card";
-  card.href = banner.url;
-  card.target = "_blank";
-  card.rel = "noopener noreferrer";
-  card.setAttribute("aria-label", banner.title);
+/* Карусель баннеров */
+const adTrack=$('#adTrack');
+const adDots=$('#adDots');
+const adStatus=$('#adStatus');
+let adStart=0;
 
-  const img = document.createElement("img");
-  img.src = banner.image;
-  img.alt = banner.title;
-  img.loading = index < 3 ? "eager" : "lazy";
+function renderAds(){
+ adTrack.innerHTML='';
+ adDots.innerHTML='';
+ const mobile=window.matchMedia('(max-width:520px)').matches;
+ const tablet=window.matchMedia('(max-width:860px)').matches;
+ const visible=mobile?1:(tablet?3:5);
 
-  img.onerror = () => {
-    img.removeAttribute("src");
-    card.style.background =
-      "linear-gradient(135deg,#240d12,#111827)";
-  };
+ for(let i=0;i<visible;i++){
+  const index=(adStart+i)%adBanners.length;
+  const item=adBanners[index];
+  const a=document.createElement('a');
+  a.className='ad-slide';
+  a.href=item.url;
+  a.setAttribute('aria-label',item.title);
 
-  const number = document.createElement("span");
-  number.className = "banner-number";
-  number.textContent = String(index + 1).padStart(2, "0");
+  if(item.url.startsWith('#')){
+   a.dataset.page=item.url.slice(1);
+  }else if(/^https?:\/\//i.test(item.url)){
+   a.target='_blank';
+   a.rel='noopener noreferrer';
+  }
 
-  const label = document.createElement("div");
-  label.className = "banner-label";
+  const img=document.createElement('img');
+  img.src=item.image;
+  img.alt=item.title;
+  img.loading='lazy';
+  img.onerror=()=>{img.style.display='none';};
 
-  const title = document.createElement("strong");
-  title.textContent = banner.title;
+  const copy=document.createElement('span');
+  copy.className='ad-copy';
+  const title=document.createElement('b');
+  title.textContent=item.title;
+  const label=document.createElement('small');
+  label.textContent=item.label;
+  copy.append(title,label);
+  a.append(img,copy);
+  adTrack.append(a);
+ }
 
-  const subtitle = document.createElement("small");
-  subtitle.textContent = banner.label;
+ adBanners.forEach((item,i)=>{
+  const dot=document.createElement('button');
+  dot.type='button';
+  dot.className='ad-dot'+(i===adStart?' active':'');
+  dot.setAttribute('aria-label','Показать баннер '+(i+1));
+  dot.addEventListener('click',()=>{adStart=i;renderAds();});
+  adDots.append(dot);
+ });
+ adStatus.textContent='БАННЕРЫ '+String(adStart+1).padStart(2,'0')+'–'+String(Math.min(adStart+visible,adBanners.length)).padStart(2,'0')+' / '+adBanners.length;
+}
 
-  label.append(title, subtitle);
-  card.append(img, number, label);
-  bannerGrid.appendChild(card);
+$('#adPrev').addEventListener('click',()=>{
+ adStart=(adStart-1+adBanners.length)%adBanners.length;
+ renderAds();
+});
+$('#adNext').addEventListener('click',()=>{
+ adStart=(adStart+1)%adBanners.length;
+ renderAds();
 });
 
-/* Раскрытие и сворачивание категорий */
-document.querySelectorAll(".category").forEach(category => {
-  category.querySelector(".category-header").addEventListener("click", () => {
-    category.classList.toggle("closed");
-  });
+renderAds();
+let adTimer=null;
+if(!reduce){
+ adTimer=window.setInterval(()=>{
+  adStart=(adStart+1)%adBanners.length;
+  renderAds();
+ },6000);
+}
+window.addEventListener('resize',renderAds);
+
+/* Навигация между страницами */
+const pageIds=['home','forum','market','reviews','users','rules','support','register','login'];
+
+function showPage(id,push=true){
+ if(!pageIds.includes(id))id='home';
+ $$('.page').forEach(p=>p.classList.toggle('active',p.id===id));
+ $$('.navlinks a').forEach(a=>a.classList.toggle('active',a.dataset.page===id));
+ $('#navlinks').classList.remove('open');
+ $('#menuBtn').setAttribute('aria-expanded','false');
+
+ if(push&&location.hash!=='#'+id){
+  try{history.pushState({page:id},'','#'+id)}catch(_){}
+ }
+ window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});
+}
+document.addEventListener('click',e=>{
+ const link=e.target.closest('[data-page]');
+ if(link){
+  e.preventDefault();
+  showPage(link.dataset.page);
+ }
+});
+window.addEventListener('popstate',()=>showPage(location.hash.slice(1)||'home',false));
+
+$('#menuBtn').addEventListener('click',()=>{
+ const open=$('#navlinks').classList.toggle('open');
+ $('#menuBtn').setAttribute('aria-expanded',String(open));
 });
 
-/* Открытие карточек тем */
-const detail = document.getElementById("detail");
-const detailTitle = document.getElementById("detailTitle");
-const detailAuthor = document.getElementById("detailAuthor");
-const detailText = document.getElementById("detailText");
+/* Шапка при прокрутке */
+const topbar=$('#topbar');
+const onScroll=()=>topbar.classList.toggle('scrolled',window.scrollY>8);
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
 
-document.querySelectorAll(".topic-title").forEach(link => {
-  link.addEventListener("click", event => {
-    event.preventDefault();
+/* Поиск по разделам форума */
+const search=$('#search');
+search.addEventListener('input',()=>{
+ const q=search.value.trim().toLocaleLowerCase('ru');
+ if(q&&!$('#home').classList.contains('active'))showPage('home',false);
 
-    const topic = link.closest(".topic");
-    detailTitle.textContent = link.textContent;
-    detailAuthor.textContent =
-      topic.querySelector(".topic-author").textContent;
-    detailText.textContent =
-      "Информационная карточка темы демонстрационного форума FENIX. " +
-      "Исходные материалы содержат название публикации и имя автора, " +
-      "но не полную переписку.";
-
-    detail.classList.add("open");
-    detail.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
+ let shown=0;
+ $$('#home .forum-row').forEach(row=>{
+  const hit=!q||row.innerText.toLocaleLowerCase('ru').includes(q)||(row.dataset.search||'').includes(q);
+  row.hidden=!hit;
+  if(hit)shown++;
+ });
+ $('#searchEmpty').hidden=shown>0;
 });
 
-document.getElementById("closeDetail").addEventListener("click", () => {
-  detail.classList.remove("open");
+/* Рейтинг участников */
+const numbers={
+ week:['322','281','245','198'],
+ month:['942','801','675','521'],
+ all:['2.4K','1.9K','1.5K','1.1K']
+};
+$$('[data-rank]').forEach(button=>{
+ button.addEventListener('click',()=>{
+  $$('[data-rank]').forEach(b=>b.classList.toggle('active',b===button));
+  const box=$('#ranking');
+  box.classList.add('swap');
+  setTimeout(()=>{
+   $$('.rank em',box).forEach((el,i)=>el.textContent=numbers[button.dataset.rank][i]);
+   box.classList.remove('swap');
+  },reduce?0:180);
+ });
 });
 
-/* Поиск тем и авторов */
-const search = document.getElementById("search");
-const noResults = document.getElementById("noResults");
-
-search.addEventListener("input", () => {
-  const query = search.value.toLocaleLowerCase("ru").trim();
-  let count = 0;
-
-  document.querySelectorAll(".category").forEach(category => {
-    let categoryCount = 0;
-
-    category.querySelectorAll(".topic").forEach(topic => {
-      const match = topic.textContent.toLocaleLowerCase("ru").includes(query);
-      topic.style.display = match ? "flex" : "none";
-
-      if (match) {
-        count++;
-        categoryCount++;
-      }
-    });
-
-    category.style.display = categoryCount ? "block" : "none";
-  });
-
-  noResults.style.display = count ? "none" : "block";
+/* Демонстрационные формы */
+$('#registerForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const r=$('#regResult');
+ r.hidden=false;
+ r.textContent=$('#regPass').value!==$('#regPass2').value
+  ?'Пароли не совпадают. Проверь введённые данные.'
+  :'Это демонстрационная форма. Для регистрации потребуется сервер.';
 });
+$('#loginForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const r=$('#loginResult');
+ r.hidden=false;
+ r.textContent='Демонстрационный интерфейс: для входа нужно подключить систему авторизации.';
+});
+$('#supportForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const r=$('#supportResult');
+ r.hidden=false;
+ r.textContent='Форма проверена. Для отправки обращения требуется сервер.';
+});
+
+/* Стартовая страница */
+showPage(location.hash?location.hash.slice(1):'home',false);
+window.scrollTo(0,0);
 </script>
-
 </body>
 </html>
