@@ -4,322 +4,260 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#090909">
-<title>FENIX — Underground Community</title>
+<title>FENIX — Digital Community</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@500;600;700&display=swap');
 
-:root{
-  --bg:#090909;--surface:#101010;--surface2:#151515;
-  --line:#292626;--red:#ff253b;--red2:#a90017;
-  --text:#f3f0ef;--muted:#898486;--green:#35db93;
-  --display:'Barlow Condensed',Impact,sans-serif;
-  --body:'Inter',Arial,sans-serif;
-}
+:root{--bg:#080909;--panel:#101212;--panel2:#151717;--red:#ff2038;--line:#292929;--muted:#85898e;--white:#f5f5f5}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:13px}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
-background:radial-gradient(ellipse at 0 25%,#38101440,transparent 38%),
-radial-gradient(ellipse at 100% 65%,#260c1040,transparent 35%)}
+body{margin:0;background:radial-gradient(ellipse at 50% 0,#2b0b10 0,transparent 40%),var(--bg);color:var(--white);font:13px Inter,Arial,sans-serif}
 a{color:inherit;text-decoration:none}
-button,input{font:inherit}
-button,a{ -webkit-tap-highlight-color:transparent}
+button,input,textarea{font:inherit}
 button{cursor:pointer}
-::selection{background:var(--red);color:#fff}
-.shell{width:min(1420px,100%);margin:auto;padding:0 22px}
-.topbar{height:66px;position:sticky;top:0;z-index:30;background:#090909ed;
-backdrop-filter:blur(16px);border-bottom:1px solid #342326}
-.nav{height:100%;display:flex;align-items:center;gap:28px}
-.brand{font:900 38px/.8 var(--display);font-style:italic;letter-spacing:-2px;color:var(--red);
-text-shadow:0 0 24px #ff253b35;white-space:nowrap}
-.brand span{color:white}
-.navlinks{display:flex;gap:3px;align-items:center;flex:1}
-.navlinks a{font-size:10px;letter-spacing:.04em;font-weight:800;padding:13px 11px;
-color:#aaa;transition:color .2s,background .2s;white-space:nowrap}
-.navlinks a:hover,.navlinks a.active{color:white;background:#201113}
-.navlinks a.active{box-shadow:inset 0 -2px var(--red)}
-.navlinks a.active:before{content:"/ ";color:var(--red)}
-.navtools{display:flex;align-items:center;gap:12px}
-.search{width:150px;border:1px solid #302c2c;background:#111;color:white;padding:11px 12px;outline:none}
+.container{width:min(1400px,100%);margin:auto;padding:0 18px}
+header{position:sticky;top:0;z-index:20;background:#090909ed;backdrop-filter:blur(14px);border-bottom:1px solid #3a1b20}
+.nav{height:65px;display:flex;align-items:center;gap:24px}
+.logo{font:700 38px Oswald,sans-serif;font-style:italic;color:var(--red);letter-spacing:-2px;text-shadow:0 0 24px #ff203844}
+.navlinks{display:flex;align-items:center;gap:3px;flex:1}
+.navlinks a{padding:12px 9px;color:#bbb;font-size:10px;font-weight:800;white-space:nowrap}
+.navlinks a:hover,.navlinks a.active{color:white;background:#241013;border-bottom:2px solid var(--red)}
+.navright{display:flex;align-items:center;gap:10px}
+.search{width:145px;background:#101010;border:1px solid #333;padding:10px;color:white;outline:none}
 .search:focus{border-color:var(--red)}
-.user{display:flex;align-items:center;gap:8px;font-size:11px;white-space:nowrap}
-.avatar{width:31px;height:31px;border:1px solid #5d292f;border-radius:50%;object-fit:cover}
-.menu-btn{display:none;border:1px solid var(--line);background:#111;color:white;padding:9px 12px}
-main{padding-top:20px}
-.eyebrow{font-size:10px;letter-spacing:.19em;color:var(--red);font-weight:800;text-transform:uppercase}
-.hero-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:13px}
-.hero-head h1{font:800 clamp(30px,4vw,48px)/.92 var(--display);text-transform:uppercase;margin:7px 0 0;letter-spacing:.01em}
-.hero-head h1 span{color:var(--red)}
-.hero-note{font-size:10px;color:var(--muted);letter-spacing:.08em;text-align:right;line-height:1.8}
-.hero-grid{display:grid;grid-template-columns:1.55fr 1fr 1fr;gap:10px}
-.hero-card{position:relative;isolation:isolate;overflow:hidden;min-height:226px;
-border:1px solid #392326;background:#151010;display:flex;align-items:end;padding:19px}
-.hero-card:before{content:"";position:absolute;inset:0;z-index:-2;background-image:var(--image);
-background-size:cover;background-position:center;transition:transform 1s cubic-bezier(.2,.7,.2,1),filter .6s}
-.hero-card:after{content:"";position:absolute;inset:0;z-index:-1;
-background:linear-gradient(0deg,#080707 0%,#080707d9 21%,#08070720 80%),
-linear-gradient(90deg,#08070780,transparent);transition:background .3s}
-.hero-card:hover:before{transform:scale(1.07);filter:saturate(1.2)}
-.hero-card.featured{min-height:258px}
-.hero-card.featured:before{animation:slowpan 17s ease-in-out infinite alternate}
-@keyframes slowpan{from{transform:scale(1.02) translateX(-1%)}to{transform:scale(1.12) translateX(1%)}}
-.card-index{position:absolute;top:13px;left:15px;font:700 11px var(--display);letter-spacing:.1em;color:#fff9}
-.live{position:absolute;top:13px;right:13px;display:flex;align-items:center;gap:6px;
-background:#090909b8;border:1px solid #ffffff24;padding:6px 8px;font-size:9px;letter-spacing:.12em}
-.live:before{content:"";width:6px;height:6px;background:var(--red);border-radius:50%;box-shadow:0 0 9px var(--red)}
-.play{position:absolute;top:39%;left:50%;transform:translate(-50%,-50%);width:45px;height:45px;
-border:1px solid #ffffff85;border-radius:50%;display:grid;place-items:center;background:#09090952;
-backdrop-filter:blur(5px);transition:background .25s,transform .25s}
-.hero-card:hover .play{background:var(--red);transform:translate(-50%,-50%) scale(1.08)}
-.play:after{content:"";border-top:7px solid transparent;border-bottom:7px solid transparent;
-border-left:10px solid white;margin-left:3px}
-.hero-content{width:100%}
-.hero-content h2{font:800 26px/.95 var(--display);text-transform:uppercase;margin:0 0 8px}
-.hero-card:not(.featured) .hero-content h2{font-size:22px}
-.hero-content p{margin:0;color:#b7b1b2;font-size:11px;line-height:1.6}
-.hero-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:15px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--red);
-border:1px solid #ff5665;color:white;font-weight:800;font-size:10px;letter-spacing:.07em;
-padding:12px 15px;transition:background .2s,transform .2s}
-.btn:hover{background:#d90820;transform:translateY(-2px)}
-.btn-ghost{background:#111;border-color:#413638}
-.carousel-controls{display:flex;justify-content:center;align-items:center;gap:7px;margin:12px 0 20px}
-.carousel-controls button{width:6px;height:6px;border:0;border-radius:8px;background:#4a4445;padding:0}
-.carousel-controls button.active{width:24px;background:var(--red);box-shadow:0 0 12px #ff253b65}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);
-background:#101010;margin-bottom:18px}
-.stat{display:flex;align-items:center;gap:13px;padding:12px 17px;border-right:1px solid var(--line)}
+.profile{white-space:nowrap;font-size:11px}
+.menu{display:none;background:#151515;color:white;border:1px solid #333;padding:9px}
+main{padding-top:18px}
+.kicker{font-size:10px;color:var(--red);font-weight:800;letter-spacing:.17em;text-transform:uppercase}
+h1,h2,h3,p{margin-top:0}
+.hero-title{display:flex;justify-content:space-between;align-items:end;margin-bottom:14px}
+.hero-title h1{font:700 clamp(32px,4vw,48px)/.95 Oswald,sans-serif;margin:7px 0 0;text-transform:uppercase}
+.hero-title h1 span{color:var(--red)}
+.hero-title p{color:var(--muted);font-size:10px;line-height:1.8;text-align:right;margin:0}
+.carousel{overflow:hidden;position:relative}
+.track{display:flex;gap:10px;width:max-content;animation:marquee 42s linear infinite}
+.carousel:hover .track{animation-play-state:paused}
+.group{display:flex;gap:10px}
+.ad{width:420px;height:215px;position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:end;padding:19px;border:1px solid #512329;background:#171010}
+.ad.large{width:490px;height:240px}
+.ad:before{content:"";position:absolute;inset:0;z-index:-2;background-image:var(--image);background-size:cover;background-position:center;animation:zoom 12s ease-in-out infinite alternate;transition:filter .4s}
+.ad:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,#050505 0%,#050505d9 22%,#05050518 85%),linear-gradient(90deg,#05050588,transparent)}
+.ad:hover:before{filter:saturate(1.35) brightness(1.15)}
+.ad-label{position:absolute;top:12px;left:14px;font-size:9px;letter-spacing:.15em;font-weight:800}
+.ad-status{position:absolute;top:12px;right:12px;font-size:9px;background:#080808b8;border:1px solid #ffffff36;padding:6px 8px}
+.ad-status:before{content:"●";color:var(--red);margin-right:6px}
+.play{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);width:43px;height:43px;border:1px solid #ffffff99;border-radius:50%;display:grid;place-items:center;background:#0005;font-size:15px;padding-left:3px}
+.ad-content{width:100%}
+.ad h2{font:700 27px/.98 Oswald,sans-serif;text-transform:uppercase;margin:0 0 7px}
+.ad:not(.large) h2{font-size:23px}
+.ad p{font-size:11px;color:#bcb7b8;line-height:1.5;margin:0}
+.ad-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:13px}
+.btn{display:inline-block;padding:11px 14px;background:var(--red);border:1px solid #ff5668;color:white;font-size:10px;font-weight:800;letter-spacing:.04em;transition:.2s}
+.btn:hover{background:#d9001c;transform:translateY(-2px);box-shadow:0 5px 20px #ff203833}
+.btn.dark{background:#111;border-color:#494040}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@keyframes zoom{from{transform:scale(1)}to{transform:scale(1.11)}}
+.dots{display:flex;justify-content:center;gap:7px;margin:12px 0 19px}
+.dots span{height:6px;width:6px;border-radius:9px;background:#55474a}
+.dots span:first-child{width:22px;background:var(--red);box-shadow:0 0 10px #ff203866}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);background:var(--panel);margin-bottom:20px}
+.stat{display:flex;gap:12px;align-items:center;padding:13px 16px;border-right:1px solid var(--line)}
 .stat:last-child{border:0}
-.stat-icon{width:37px;height:37px;display:grid;place-items:center;border:1px solid #392226;
-color:var(--red);font-size:17px;background:#1b1012}
-.stat strong{font:800 23px/.9 var(--display);color:var(--red);display:block}
-.stat small{display:block;font-size:9px;letter-spacing:.09em;color:var(--muted);margin-top:6px}
-.stat.online strong,.stat.online .stat-icon{color:var(--green)}
-.stat.online .stat-icon{border-color:#1d4937;background:#0d1b14}
-.section-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.section-label h2{font:800 24px/.9 var(--display);text-transform:uppercase;margin:0}
-.section-label h2 span{color:var(--red)}
-.section-label a{font-size:10px;color:var(--muted);border-bottom:1px solid #4b282c;padding-bottom:4px}
-.columns{display:grid;grid-template-columns:minmax(0,1fr) 292px;gap:17px;align-items:start}
-.panel{background:var(--surface);border:1px solid var(--line);margin-bottom:14px}
-.panel-head{min-height:45px;display:flex;justify-content:space-between;align-items:center;
-padding:12px 15px;border-bottom:1px solid var(--line)}
-.panel-head h3{font:700 19px/.9 var(--display);text-transform:uppercase;margin:0}
+.stat-icon{width:39px;height:39px;display:grid;place-items:center;background:#201013;color:var(--red);font-size:20px}
+.stat strong{font:700 24px Oswald;color:var(--red);display:block}
+.stat small{font-size:9px;letter-spacing:.1em;color:var(--muted)}
+.stat.online strong,.stat.online .stat-icon{color:#1bdc91}
+.stat.online .stat-icon{background:#102018}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.section-head h2{font:700 25px Oswald;text-transform:uppercase;margin:0}
+.section-head h2 span{color:var(--red)}
+.section-head a{font-size:10px;color:var(--muted)}
+.columns{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:16px;align-items:start}
+.panel{background:linear-gradient(135deg,#111313,#0c0d0d);border:1px solid var(--line);margin-bottom:12px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid var(--line)}
+.panel-head h3{font:600 20px Oswald;text-transform:uppercase;margin:0}
 .panel-head h3:before{content:"";display:inline-block;width:3px;height:13px;background:var(--red);margin-right:10px}
-.panel-head span{font-size:9px;color:var(--muted);letter-spacing:.08em}
-.forum-row{display:grid;grid-template-columns:180px minmax(0,1fr) 62px 67px 165px;gap:12px;
-align-items:center;min-height:100px;padding:9px 12px;border-bottom:1px solid #252323;transition:background .2s}
+.panel-head small{font-size:9px;color:var(--muted)}
+.forum-row{display:grid;grid-template-columns:175px minmax(0,1fr) 54px 62px 160px;gap:11px;align-items:center;padding:9px 10px;min-height:96px;border-bottom:1px solid #262626;transition:background .2s}
 .forum-row:last-child{border-bottom:0}
-.forum-row:hover{background:#191213}
-.cover{height:79px;position:relative;overflow:hidden;background:#171010}
-.cover img{width:100%;height:100%;display:block;object-fit:cover;filter:saturate(.7);transition:transform .6s,filter .4s}
+.forum-row:hover{background:#1a1213}
+.cover{height:77px;overflow:hidden;background:#1b1011}
+.cover img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.75);transition:.5s}
 .forum-row:hover .cover img{transform:scale(1.08);filter:saturate(1.2)}
-.cover:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#08080833,#ff152015)}
-.desc h4{font-size:12px;font-weight:800;margin:0 0 6px}
-.desc p{font-size:10px;color:var(--muted);line-height:1.55;margin:0 0 7px}
-.tag{display:inline-block;font-size:9px;color:#b8b0b1;border:1px solid #343030;padding:4px 6px;margin:0 3px 2px 0}
+.desc h3{font:700 13px Inter;margin:0 0 6px}
+.desc p{font-size:10px;color:var(--muted);line-height:1.5;margin:0 0 6px}
+.tag{display:inline-block;padding:4px 6px;margin:0 3px 2px 0;border:1px solid #353131;color:#bbb;font-size:9px}
 .tag:hover{border-color:var(--red);color:white}
-.count{text-align:center;font:700 17px var(--display)}
-.count small{display:block;font:9px var(--body);letter-spacing:.06em;color:var(--muted);margin-top:5px}
-.last{display:flex;align-items:center;gap:9px;min-width:0}
-.last-icon{flex:0 0 34px;height:34px;display:grid;place-items:center;border:1px solid #413234;
-font:800 19px var(--display);color:var(--red);background:#0b0b0b}
-.last-text{min-width:0;font-size:10px;line-height:1.6;color:#d8d0d0}
-.last-text b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.count{text-align:center;font:600 18px Oswald}
+.count small{display:block;color:var(--muted);font:9px Inter;margin-top:4px}
+.last{display:flex;align-items:center;gap:8px;min-width:0}
+.last-icon{flex:0 0 34px;height:34px;display:grid;place-items:center;border:1px solid #453135;color:var(--red);font:700 18px Oswald}
+.last-text{font-size:10px;line-height:1.6;min-width:0}
+.last-text b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .last-text small{color:var(--muted);font-size:9px}
-.side-button{display:flex;align-items:center;justify-content:space-between;padding:14px 13px;
-margin-bottom:8px;background:var(--red);border:1px solid #ff4a5b;font-size:10px;font-weight:800;letter-spacing:.06em}
-.side-button span{font-size:17px}
-.side-button.dark{background:#121212;border-color:#333}
-.topic{display:grid;grid-template-columns:36px minmax(0,1fr);gap:10px;padding:11px 12px;
-border-bottom:1px solid #262323;align-items:center}
-.topic:last-child{border-bottom:0}
-.topic-icon{width:34px;height:34px;display:grid;place-items:center;border:1px solid #3d3032;
-background:#171011;color:var(--red);font:800 17px var(--display)}
-.topic b{font-size:10px;font-weight:600;line-height:1.5;display:block}
-.topic small{font-size:9px;color:var(--muted);display:block;margin-top:3px}
+.side-button{display:flex;justify-content:space-between;align-items:center;padding:13px;margin-bottom:8px;background:var(--red);border:1px solid #ff4a60;font-size:10px;font-weight:800}
+.side-button.secondary{background:#141414;border-color:#333}
+.topic{display:grid;grid-template-columns:35px minmax(0,1fr);gap:10px;padding:11px;border-bottom:1px solid #292525;align-items:center}
+.topic:last-child{border:0}
+.topic-icon{width:34px;height:34px;display:grid;place-items:center;background:#1a1012;border:1px solid #41292d;color:var(--red);font:700 16px Oswald}
+.topic b{font-size:10px;line-height:1.5;display:block}
+.topic small{display:block;color:var(--muted);font-size:9px;margin-top:3px}
 .topic:hover b{color:var(--red)}
-.tabs{display:flex;gap:16px;padding:10px 13px;border-bottom:1px solid var(--line);font-size:9px;color:var(--muted)}
-.tabs button{padding:0;background:none;border:0;color:inherit;font-size:inherit}
-.tabs button.active{color:white}
-.rank{display:grid;grid-template-columns:23px 30px minmax(0,1fr) auto;gap:9px;align-items:center;padding:8px 12px}
-.rank-num{font:800 17px var(--display);color:#aaa}
-.rank:first-of-type .rank-num{color:var(--red)}
-.rank img{width:29px;height:29px;object-fit:cover;border-radius:50%;border:1px solid #554044}
+.tabs{display:flex;justify-content:space-around;padding:10px;border-bottom:1px solid var(--line)}
+.tabs button{background:none;border:0;color:var(--muted);font-size:9px}
+.tabs button.active{color:var(--red)}
+.rank{display:grid;grid-template-columns:22px 30px 1fr auto;align-items:center;gap:8px;padding:8px 11px}
+.rank img{width:30px;height:30px;object-fit:cover;border-radius:50%}
+.rank .num{font:700 16px Oswald;color:var(--red)}
 .rank b{font-size:10px}
 .rank small{display:block;color:var(--muted);font-size:9px;margin-top:3px}
-.rank em{font-style:normal;font-size:10px;color:#aaa}
-.page{display:none;min-height:380px}
-.page.active{display:block}
-.subpage{border:1px solid var(--line);background:var(--surface);padding:25px}
-.subpage h1{font:800 38px/.95 var(--display);text-transform:uppercase;margin:0 0 12px}
+.rank em{font-style:normal;color:#aaa;font-size:10px}
+.page{display:none;min-height:400px}
+.page.active{display:block;animation:appear .3s ease}
+@keyframes appear{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.subpage{border:1px solid var(--line);background:var(--panel);padding:25px}
+.subpage h1{font:700 40px Oswald;text-transform:uppercase;margin:8px 0}
 .subpage h1 span{color:var(--red)}
-.subpage p{font-size:12px;color:var(--muted);line-height:1.8}
-.subrow{padding:15px 0;border-bottom:1px solid var(--line);font-size:12px}
-.form{max-width:520px;margin:25px auto;padding:25px;border:1px solid #4a282d;background:#101010}
-.form h2{font:800 32px var(--display);text-transform:uppercase;margin:0}
-.form label{display:block;margin:17px 0 7px;font-size:10px;color:#b5adaf}
-.form input,.form textarea{display:block;width:100%;padding:12px;background:#090909;border:1px solid #373030;color:white;outline:none}
+.subpage p{color:var(--muted);font-size:12px;line-height:1.8}
+.subrow{padding:15px 0;border-bottom:1px solid var(--line)}
+.form{max-width:500px;margin:25px auto;padding:25px;border:1px solid #512329;background:#111}
+.form h2{font:700 34px Oswald;text-transform:uppercase;margin:8px 0}
+.form label{display:block;margin:17px 0 7px;font-size:10px;color:#bbb}
+.form input,.form textarea{width:100%;padding:12px;background:#080808;border:1px solid #353030;color:white;outline:none}
 .form input:focus,.form textarea:focus{border-color:var(--red)}
-.form .btn{width:100%;margin-top:17px}
-.notice{font-size:11px;color:#e2b6bc;line-height:1.7;margin-top:12px}
-footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:26px 0;margin-top:15px;
-border-top:1px solid var(--line);font-size:9px;letter-spacing:.07em;color:#777}
-footer a:hover{color:var(--red)}
-@media(max-width:1150px){
- .nav{gap:15px}.navlinks a{padding:12px 7px;font-size:9px}.navlinks{gap:0}
- .forum-row{grid-template-columns:140px minmax(0,1fr) 48px 55px}.last{display:none}
- .columns{grid-template-columns:minmax(0,1fr) 260px}
- .hero-card{min-height:210px}.hero-card.featured{min-height:230px}
-}
-@media(max-width:800px){
- .shell{padding:0 13px}.topbar{height:auto;position:relative}.nav{min-height:62px;flex-wrap:wrap;gap:12px;padding:10px 0}
- .brand{font-size:34px}.menu-btn{display:block;margin-left:auto}.navtools{margin-left:auto}
- .navlinks{display:none;order:5;flex-basis:100%;overflow-x:auto;padding-bottom:4px}
- .navlinks.open{display:flex}.navlinks a{font-size:10px}
- .search{width:125px}.user{display:none}
- .hero-head h1{font-size:37px}.hero-note{display:none}
- .hero-grid{grid-template-columns:1fr 1fr}.hero-card.featured{grid-column:1/-1;min-height:245px}
- .hero-card{min-height:185px;padding:14px}.hero-content h2{font-size:22px}
+.form button{width:100%;margin-top:16px}
+.notice{margin-top:12px;color:#e2b8bd;font-size:11px;line-height:1.7}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid var(--line);padding:24px 0;margin-top:20px;color:#777;font-size:9px;letter-spacing:.06em}
+@media(max-width:1150px){.nav{gap:13px}.navlinks a{padding:12px 6px;font-size:9px}.forum-row{grid-template-columns:130px minmax(0,1fr) 45px 52px}.last{display:none}.ad{width:360px}.ad.large{width:430px}}
+@media(max-width:780px){
+ .container{padding:0 12px}.nav{height:auto;min-height:62px;flex-wrap:wrap;padding:10px 0;gap:10px}
+ .logo{font-size:34px}.menu{display:block;margin-left:auto}.navright{margin-left:auto}.profile{display:none}
+ .navlinks{display:none;order:5;flex-basis:100%;overflow-x:auto}.navlinks.open{display:flex}
+ .search{width:125px}.hero-title h1{font-size:36px}.hero-title p{display:none}
+ .ad{width:300px;height:185px}.ad.large{width:350px;height:210px}
  .stats{grid-template-columns:1fr 1fr}.stat{border-bottom:1px solid var(--line);padding:10px}
  .stat:nth-child(2){border-right:0}.stat:nth-child(n+3){border-bottom:0}
  .columns{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr;gap:10px}
- .sidebar>.panel{min-width:0}.side-button{margin:0 0 8px}
- .forum-row{grid-template-columns:112px minmax(0,1fr) 42px;gap:9px;min-height:86px}
- .cover{height:68px}.count:nth-of-type(4){display:none}
+ .forum-row{grid-template-columns:105px minmax(0,1fr) 40px;gap:8px}.cover{height:68px}
+ .forum-row .count:nth-of-type(4){display:none}
 }
 @media(max-width:480px){
- main{padding-top:14px}.hero-head h1{font-size:32px}
- .hero-grid{grid-template-columns:1fr 1fr;gap:6px}
- .hero-card.featured{min-height:215px}.hero-card{min-height:160px;padding:11px}
- .hero-card:not(.featured) .hero-content h2{font-size:19px}
- .hero-content h2{font-size:22px}.hero-content p{font-size:10px}
- .hero-bottom{margin-top:10px}.hero-bottom .btn{padding:9px;font-size:9px}
- .play{width:36px;height:36px}.stats{margin-bottom:15px}
- .stat{gap:8px;padding:9px 7px}.stat-icon{width:30px;height:30px}
+ .hero-title h1{font-size:30px}.ad{width:265px;height:165px;padding:12px}.ad.large{width:300px;height:190px}
+ .ad h2{font-size:22px}.ad:not(.large) h2{font-size:19px}.ad p{font-size:10px}
+ .ad .btn{padding:9px;font-size:9px}.stats{margin-bottom:15px}
+ .stat{gap:7px;padding:8px 6px}.stat-icon{width:30px;height:30px}
  .stat strong{font-size:21px}.stat small{font-size:8px}
- .section-label h2{font-size:22px}.section-label a{font-size:9px}
- .forum-row{grid-template-columns:76px minmax(0,1fr) 33px;padding:7px;gap:7px}
- .cover{height:61px}.desc h4{font-size:11px}.desc p{font-size:9px;margin-bottom:4px}
+ .section-head h2{font-size:22px}.forum-row{grid-template-columns:75px minmax(0,1fr) 33px;padding:7px;gap:7px}
+ .cover{height:59px}.desc h3{font-size:11px}.desc p{font-size:9px}
  .tag{font-size:8px;padding:3px 4px}.count{font-size:14px}
- .sidebar{grid-template-columns:1fr}.last{display:none}
- .form{padding:18px}.subpage{padding:17px}
- footer{line-height:1.8}
+ .sidebar{grid-template-columns:1fr}.form,.subpage{padding:17px}
 }
-@media(prefers-reduced-motion:reduce){
- *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
-}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<header class="topbar">
- <div class="shell nav">
-  <a class="brand" href="#home" data-page="home">FEN<span>IX</span></a>
-  <button class="menu-btn" id="menuBtn" aria-label="Открыть меню">☰</button>
+<header>
+ <div class="container nav">
+  <a class="logo" href="#home" data-page="home">FENIX</a>
+  <button class="menu" id="menuBtn">☰ МЕНЮ</button>
   <nav class="navlinks" id="navlinks">
-   <a class="active" href="#home" data-page="home">ГЛАВНАЯ</a>
-   <a href="#forum" data-page="forum">ФОРУМ</a>
-   <a href="#market" data-page="market">МАРКЕТ</a>
-   <a href="#reviews" data-page="reviews">ГАРАНТ</a>
-   <a href="#users" data-page="users">ПОЛЬЗОВАТЕЛИ</a>
-   <a href="#rules" data-page="rules">ПРАВИЛА</a>
-   <a href="#support" data-page="support">ПОДДЕРЖКА</a>
+   <a class="active" href="#home" data-page="home">⌂ ГЛАВНАЯ</a>
+   <a href="#forum" data-page="forum">▤ ФОРУМ</a>
+   <a href="#market" data-page="market">♢ МАРКЕТ</a>
+   <a href="#reviews" data-page="reviews">✓ ГАРАНТ</a>
+   <a href="#users" data-page="users">♟ ПОЛЬЗОВАТЕЛИ</a>
+   <a href="#rules" data-page="rules">▣ ПРАВИЛА</a>
+   <a href="#support" data-page="support">✥ ПОДДЕРЖКА</a>
   </nav>
-  <div class="navtools">
-   <input class="search" id="search" type="search" placeholder="⌕ Поиск...">
-   <a class="user" href="#login" data-page="login">
-    <img class="avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80" alt="">
-    Алексей ↗
-   </a>
+  <div class="navright">
+   <input class="search" id="search" placeholder="⌕ Поиск...">
+   <a class="profile" href="#login" data-page="login">♟ Алексей ↗</a>
   </div>
  </div>
 </header>
 
-<main class="shell">
+<main class="container">
 <section id="home" class="page active">
- <div class="hero-head">
-  <div><div class="eyebrow">Independent digital community / 2026</div>
-   <h1>ENTER THE <span>FENIX</span><br>UNDERGROUND.</h1>
-  </div>
-  <div class="hero-note">EST. 2026<br>BUILT BY THE COMMUNITY</div>
+ <div class="hero-title">
+  <div><div class="kicker">FENIX / DIGITAL UNDERGROUND</div><h1>FIND YOUR <span>NEXT LEVEL.</span></h1></div>
+  <p>COMMUNITY FIRST<br>BUILT FOR WHAT'S NEXT / 2026</p>
  </div>
 
- <div class="hero-grid">
-  <article class="hero-card featured" style="--image:url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1400&q=85')">
-   <span class="card-index">01 / FEATURED</span><span class="live">COMMUNITY PICK</span><span class="play"></span>
-   <div class="hero-content">
-    <div class="eyebrow">Digital culture / featured</div>
-    <h2>Find your next<br>level.</h2>
-    <p>Аккаунты, подписки и цифровые сервисы в одном месте.</p>
-    <div class="hero-bottom"><a class="btn" href="#market" data-page="market">ОТКРЫТЬ МАРКЕТ ↗</a></div>
+ <div class="carousel">
+  <div class="track">
+   <div class="group">
+    <article class="ad large" style="--image:url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=85')">
+     <span class="ad-label">01 / FEATURED</span><span class="ad-status">ВЫБОР СООБЩЕСТВА</span><span class="play">▶</span>
+     <div class="ad-content"><div class="kicker">DIGITAL GOODS</div><h2>Аккаунты и подписки</h2><p>Netflix, Spotify, YouTube и другие сервисы</p><div class="ad-bottom"><a class="btn" href="#market" data-page="market">ОТКРЫТЬ МАРКЕТ →</a></div></div>
+    </article>
+    <article class="ad" style="--image:url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1000&q=85')">
+     <span class="ad-label">02 / GAMING</span><span class="play">▶</span>
+     <div class="ad-content"><div class="kicker">GAMING CULTURE</div><h2>Игровые товары</h2><p>Обзоры, инструменты и игровая культура</p><div class="ad-bottom"><a class="btn" href="#forum" data-page="forum">СМОТРЕТЬ →</a></div></div>
+    </article>
+    <article class="ad" style="--image:url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1000&q=85')">
+     <span class="ad-label">03 / COMMUNITY</span><span class="play">▶</span>
+     <div class="ad-content"><div class="kicker">PEOPLE & SERVICES</div><h2>Новые возможности</h2><p>Услуги, эксперты и участники сообщества</p><div class="ad-bottom"><a class="btn" href="#users" data-page="users">УЗНАТЬ →</a></div></div>
+    </article>
    </div>
-  </article>
-  <article class="hero-card" style="--image:url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=85')">
-   <span class="card-index">02 / EXCHANGE</span><span class="play"></span>
-   <div class="hero-content"><div class="eyebrow">Trade / exchange</div><h2>Make a move.</h2><p>Обмен опытом и цифровыми товарами.</p>
-    <div class="hero-bottom"><a class="btn btn-ghost" href="#forum" data-page="forum">В ФОРУМ ↗</a></div>
+   <div class="group" aria-hidden="true">
+    <article class="ad large" style="--image:url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=85')"><span class="ad-label">01 / FEATURED</span><span class="play">▶</span><div class="ad-content"><div class="kicker">DIGITAL GOODS</div><h2>Аккаунты и подписки</h2><p>Netflix, Spotify, YouTube и другие сервисы</p><div class="ad-bottom"><a class="btn" href="#market" data-page="market">ОТКРЫТЬ МАРКЕТ →</a></div></div></article>
+    <article class="ad" style="--image:url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1000&q=85')"><span class="ad-label">02 / GAMING</span><span class="play">▶</span><div class="ad-content"><div class="kicker">GAMING CULTURE</div><h2>Игровые товары</h2><p>Обзоры, инструменты и игровая культура</p><div class="ad-bottom"><a class="btn" href="#forum" data-page="forum">СМОТРЕТЬ →</a></div></div></article>
+    <article class="ad" style="--image:url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1000&q=85')"><span class="ad-label">03 / COMMUNITY</span><span class="play">▶</span><div class="ad-content"><div class="kicker">PEOPLE & SERVICES</div><h2>Новые возможности</h2><p>Услуги, эксперты и участники сообщества</p><div class="ad-bottom"><a class="btn" href="#users" data-page="users">УЗНАТЬ →</a></div></div></article>
    </div>
-  </article>
-  <article class="hero-card" style="--image:url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=85')">
-   <span class="card-index">03 / COMMUNITY</span><span class="play"></span>
-   <div class="hero-content"><div class="eyebrow">People / reputation</div><h2>Built on trust.</h2><p>Обсуждения, отзывы и репутация.</p>
-    <div class="hero-bottom"><a class="btn btn-ghost" href="#reviews" data-page="reviews">ОТЗЫВЫ ↗</a></div>
-   </div>
-  </article>
+  </div>
  </div>
- <div class="carousel-controls" aria-label="Слайды"><button class="active" aria-label="Слайд 1"></button><button aria-label="Слайд 2"></button><button aria-label="Слайд 3"></button><button aria-label="Слайд 4"></button><button aria-label="Слайд 5"></button></div>
+ <div class="dots"><span></span><span></span><span></span><span></span><span></span></div>
 
  <div class="stats">
-  <div class="stat"><div class="stat-icon">♟</div><div><strong>12 487</strong><small>УЧАСТНИКОВ</small></div></div>
-  <div class="stat"><div class="stat-icon">▤</div><div><strong>3 421</strong><small>ТЕМ НА ФОРУМЕ</small></div></div>
-  <div class="stat"><div class="stat-icon">↗</div><div><strong>28 913</strong><small>СООБЩЕНИЙ</small></div></div>
-  <div class="stat online"><div class="stat-icon">●</div><div><strong>1 203</strong><small>СЕЙЧАС ОНЛАЙН</small></div></div>
+  <div class="stat"><div class="stat-icon">♟</div><div><strong>12 487</strong><small>ПОЛЬЗОВАТЕЛЕЙ</small></div></div>
+  <div class="stat"><div class="stat-icon">▣</div><div><strong>3 421</strong><small>ТЕМ</small></div></div>
+  <div class="stat"><div class="stat-icon">●</div><div><strong>28 913</strong><small>СООБЩЕНИЙ</small></div></div>
+  <div class="stat online"><div class="stat-icon">♟</div><div><strong>1 203</strong><small>СЕЙЧАС ОНЛАЙН</small></div></div>
  </div>
 
- <div class="section-label"><h2>THE <span>COMMUNITY</span></h2><a href="#forum" data-page="forum">ВСЕ РАЗДЕЛЫ ↗</a></div>
+ <div class="section-head"><h2>РАЗДЕЛЫ <span>ФОРУМА</span></h2><a href="#forum" data-page="forum">ВСЕ РАЗДЕЛЫ ↗</a></div>
  <div class="columns">
   <section class="panel">
-   <div class="panel-head"><h3>Разделы форума</h3><span>01 — 06 / DIRECTORY</span></div>
+   <div class="panel-head"><h3>Категории и обсуждения</h3><small>COMMUNITY DIRECTORY / 01—06</small></div>
 
-   <article class="forum-row" data-search="аккаунты цифровые товары подписки игры софт соцсети">
+   <article class="forum-row" data-search="аккаунты цифровые товары соцсети игры подписки софт">
     <div class="cover"><img loading="lazy" src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=500&q=80" alt="Игровые устройства"></div>
-    <div class="desc"><h4><a href="#forum" data-page="forum">Аккаунты и цифровые товары</a></h4><p>Обсуждение аккаунтов, подписок, ключей и цифровых товаров.</p><span class="tag">Соцсети</span><span class="tag">Игры</span><span class="tag">Подписки</span></div>
+    <div class="desc"><h3><a href="#forum" data-page="forum">Аккаунты и цифровые товары</a></h3><p>Обсуждение аккаунтов, подписок, ключей и цифровых товаров.</p><span class="tag">Соцсети</span><span class="tag">Игры</span><span class="tag">Подписки</span><span class="tag">Софт</span></div>
     <div class="count">1.2K<small>ТЕМ</small></div><div class="count">8.7K<small>ПОСТОВ</small></div>
-    <div class="last"><div class="last-icon">N</div><div class="last-text"><b>Netflix Premium</b><small>DarkSeller<br>Сегодня, 14:23</small></div></div>
+    <div class="last"><div class="last-icon">N</div><div class="last-text"><b>Netflix Premium | Обзор</b><small>DarkSeller<br>Сегодня, 14:23</small></div></div>
    </article>
 
    <article class="forum-row" data-search="маркетплейс покупка продажа цифровые товары скидки">
     <div class="cover"><img loading="lazy" src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=500&q=80" alt="Игровая сцена"></div>
-    <div class="desc"><h4><a href="#market" data-page="market">Маркетплейс</a></h4><p>Покупка и продажа цифровых товаров, сервисов и услуг.</p><span class="tag">Продажа</span><span class="tag">Покупка</span><span class="tag">Скидки</span></div>
+    <div class="desc"><h3><a href="#market" data-page="market">Маркетплейс</a></h3><p>Покупка и продажа цифровых товаров, сервисов и услуг.</p><span class="tag">Продажа</span><span class="tag">Покупка</span><span class="tag">Скидки</span><span class="tag">Проверенные</span></div>
     <div class="count">742<small>ТЕМ</small></div><div class="count">5.9K<small>ПОСТОВ</small></div>
-    <div class="last"><div class="last-icon">S</div><div class="last-text"><b>Подборка игровых товаров</b><small>seller1337<br>Сегодня, 12:11</small></div></div>
+    <div class="last"><div class="last-icon">S</div><div class="last-text"><b>Подборка игровых сервисов</b><small>seller1337<br>Сегодня, 12:11</small></div></div>
    </article>
 
-   <article class="forum-row" data-search="услуги разработка дизайн обучение продвижение">
+   <article class="forum-row" data-search="услуги разработка дизайн продвижение настройка обучение">
     <div class="cover"><img loading="lazy" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=500&q=80" alt="Рабочее место"></div>
-    <div class="desc"><h4><a href="#market" data-page="market">Услуги</a></h4><p>Разработка, дизайн, продвижение, настройка и обучение.</p><span class="tag">Разработка</span><span class="tag">Дизайн</span><span class="tag">Обучение</span></div>
+    <div class="desc"><h3><a href="#market" data-page="market">Услуги</a></h3><p>Разработка, дизайн, продвижение, настройка и обучение.</p><span class="tag">Разработка</span><span class="tag">Дизайн</span><span class="tag">Продвижение</span></div>
     <div class="count">631<small>ТЕМ</small></div><div class="count">4.2K<small>ПОСТОВ</small></div>
     <div class="last"><div class="last-icon">⌘</div><div class="last-text"><b>Инструменты для разработчиков</b><small>coderhub<br>Сегодня, 10:37</small></div></div>
    </article>
 
    <article class="forum-row" data-search="обмен аккаунты ключи подписки сотрудничество">
     <div class="cover"><img loading="lazy" src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=500&q=80" alt="Игровой контроллер"></div>
-    <div class="desc"><h4><a href="#forum" data-page="forum">Обмен</a></h4><p>Обмен опытом, цифровыми товарами и полезными инструментами.</p><span class="tag">Аккаунты</span><span class="tag">Ключи</span><span class="tag">Обмен</span></div>
+    <div class="desc"><h3><a href="#forum" data-page="forum">Обмен и сотрудничество</a></h3><p>Обмен опытом, цифровыми товарами и полезными инструментами.</p><span class="tag">Аккаунты</span><span class="tag">Ключи</span><span class="tag">Подписки</span></div>
     <div class="count">284<small>ТЕМ</small></div><div class="count">1.9K<small>ПОСТОВ</small></div>
     <div class="last"><div class="last-icon">⇄</div><div class="last-text"><b>Обмен и сотрудничество</b><small>tradeuser<br>Сегодня, 09:18</small></div></div>
    </article>
 
    <article class="forum-row" data-search="отзывы гаранты репутация проверенные продавцы">
     <div class="cover"><img loading="lazy" src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=500&q=80" alt="Командная работа"></div>
-    <div class="desc"><h4><a href="#reviews" data-page="reviews">Отзывы и репутация</a></h4><p>Опыт участников, обзоры сервисов и история сотрудничества.</p><span class="tag">Отзывы</span><span class="tag">Репутация</span><span class="tag">Гарант</span></div>
+    <div class="desc"><h3><a href="#reviews" data-page="reviews">Отзывы и репутация</a></h3><p>Отзывы об услугах, опыт участников и репутация продавцов.</p><span class="tag">Отзывы</span><span class="tag">Чёрный список</span><span class="tag">Гарант</span></div>
     <div class="count">412<small>ТЕМ</small></div><div class="count">3.1K<small>ПОСТОВ</small></div>
     <div class="last"><div class="last-icon">✓</div><div class="last-text"><b>Опыт работы с сервисом</b><small>realuser<br>Сегодня, 08:55</small></div></div>
    </article>
 
    <article class="forum-row" data-search="правила поддержка новости помощь жалобы">
     <div class="cover"><img loading="lazy" src="https://images.unsplash.com/photo-1510511459019-5daa1f2fd8e5?auto=format&fit=crop&w=500&q=80" alt="Рабочее пространство"></div>
-    <div class="desc"><h4><a href="#rules" data-page="rules">Правила и поддержка</a></h4><p>Правила сообщества, обновления, помощь и решение вопросов.</p><span class="tag">Правила</span><span class="tag">Новости</span><span class="tag">Помощь</span></div>
+    <div class="desc"><h3><a href="#rules" data-page="rules">Правила и поддержка</a></h3><p>Правила сообщества, новости, помощь и решение вопросов.</p><span class="tag">Правила</span><span class="tag">Новости</span><span class="tag">Помощь</span></div>
     <div class="count">98<small>ТЕМ</small></div><div class="count">962<small>ПОСТОВ</small></div>
     <div class="last"><div class="last-icon">!</div><div class="last-text"><b>Обновления сообщества</b><small>Support<br>Сегодня, 07:12</small></div></div>
    </article>
@@ -327,105 +265,67 @@ footer a:hover{color:var(--red)}
 
   <aside class="sidebar">
    <div>
-    <a class="side-button" href="#register" data-page="register">ПРИСОЕДИНИТЬСЯ <span>↗</span></a>
-    <a class="side-button dark" href="#support" data-page="support">ЦЕНТР ПОДДЕРЖКИ <span>↗</span></a>
+    <a class="side-button" href="#register" data-page="register">＋ СОЗДАТЬ ПРОФИЛЬ <span>↗</span></a>
+    <a class="side-button secondary" href="#support" data-page="support">▣ ЦЕНТР ПОДДЕРЖКИ <span>↗</span></a>
    </div>
    <section class="panel">
-    <div class="panel-head"><h3>В тренде</h3><span>HOT NOW</span></div>
-    <a class="topic" href="#forum" data-page="forum"><div class="topic-icon">01</div><div><b>Где выгоднее покупать цифровые сервисы?</b><small>52 ответа · сегодня</small></div></a>
-    <a class="topic" href="#forum" data-page="forum"><div class="topic-icon">02</div><div><b>Инструменты и сервисы 2026</b><small>37 ответов · сегодня</small></div></a>
-    <a class="topic" href="#forum" data-page="forum"><div class="topic-icon">03</div><div><b>Настройка рабочего пространства</b><small>28 ответов · вчера</small></div></a>
-    <a class="topic" href="#forum" data-page="forum"><div class="topic-icon">04</div><div><b>Как защитить свой аккаунт</b><small>19 ответов · вчера</small></div></a>
+    <div class="panel-head"><h3>Популярные темы</h3><small>TRENDING</small></div>
+    <a class="topic" href="#forum" data-page="forum"><div class="topic-icon">01</div><div><b>Где выгоднее покупать цифровые сервисы?</b><small>52 ответа</small></div></a>
+    <a class="topic" href="#forum" data-page="forum"><div class="topic-icon">02</div><div><b>Лучшие инструменты для работы</b><small>37 ответов</small></div></a>
+    <a class="topic" href="#forum" data-page="forum"><div class="topic-icon">03</div><div><b>Обзор популярных сервисов</b><small>28 ответов</small></div></a>
+    <a class="topic" href="#forum" data-page="forum"><div class="topic-icon">04</div><div><b>Как защитить свой аккаунт</b><small>19 ответов</small></div></a>
    </section>
    <section class="panel">
-    <div class="panel-head"><h3>Участники</h3><span>COMMUNITY</span></div>
+    <div class="panel-head"><h3>Топ пользователей</h3><small>LEADERBOARD</small></div>
     <div class="tabs"><button class="active" data-rank="week">НЕДЕЛЯ</button><button data-rank="month">МЕСЯЦ</button><button data-rank="all">ВСЁ ВРЕМЯ</button></div>
     <div id="ranking">
-     <div class="rank"><span class="rank-num">01</span><img loading="lazy" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80" alt=""><div><b>DarkSeller</b><small>Активный участник</small></div><em>322</em></div>
-     <div class="rank"><span class="rank-num">02</span><img loading="lazy" src="https://images.unsplash.com/photo-1535713875002-d1d0cf3776b5?auto=format&fit=crop&w=80&q=80" alt=""><div><b>coderhub</b><small>Разработка</small></div><em>281</em></div>
-     <div class="rank"><span class="rank-num">03</span><img loading="lazy" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=80&q=80" alt=""><div><b>realuser</b><small>Участник</small></div><em>245</em></div>
-     <div class="rank"><span class="rank-num">04</span><img loading="lazy" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" alt=""><div><b>tradeuser</b><small>Обмен</small></div><em>198</em></div>
+     <div class="rank"><span class="num">01</span><img loading="lazy" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80" alt=""><div><b>DarkSeller</b><small>Участник</small></div><em>322</em></div>
+     <div class="rank"><span class="num">02</span><img loading="lazy" src="https://images.unsplash.com/photo-1535713875002-d1d0cf3776b5?auto=format&fit=crop&w=80&q=80" alt=""><div><b>coderhub</b><small>Разработка</small></div><em>281</em></div>
+     <div class="rank"><span class="num">03</span><img loading="lazy" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=80&q=80" alt=""><div><b>realuser</b><small>Участник</small></div><em>245</em></div>
+     <div class="rank"><span class="num">04</span><img loading="lazy" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" alt=""><div><b>tradeuser</b><small>Обмен</small></div><em>198</em></div>
     </div>
    </section>
   </aside>
  </div>
 </section>
 
-<section id="forum" class="page">
- <div class="subpage"><div class="eyebrow">01 / Discussions</div><h1>THE <span>FORUM</span></h1><p>Обсуждения, руководства, идеи и опыт сообщества FENIX.</p>
- <div class="subrow">01 — Аккаунты и цифровые товары</div><div class="subrow">02 — Маркетплейс и услуги</div><div class="subrow">03 — Обмен опытом</div><div class="subrow">04 — Отзывы и репутация</div><div class="subrow">05 — Новости и поддержка</div>
- <p>Это демонстрационная версия форума. Создание реальных тем и публикация сообщений требуют серверной части.</p></div>
-</section>
+<section id="forum" class="page"><div class="subpage"><div class="kicker">01 / Discussions</div><h1>THE <span>FORUM.</span></h1><p>Обсуждения, руководства, идеи и опыт сообщества FENIX.</p><div class="subrow">01 — Аккаунты и цифровые товары</div><div class="subrow">02 — Маркетплейс и услуги</div><div class="subrow">03 — Обмен опытом</div><div class="subrow">04 — Отзывы и репутация</div><div class="subrow">05 — Новости и поддержка</div><p>Для реального создания тем и публикации сообщений потребуется серверная часть.</p></div></section>
 
-<section id="market" class="page">
- <div class="subpage"><div class="eyebrow">02 / Marketplace</div><h1>THE <span>MARKET</span></h1><p>Каталог цифровых товаров, сервисов и профессиональных услуг.</p>
- <div class="subrow">DIGITAL — Цифровые сервисы и подписки</div><div class="subrow">GAMING — Игровые товары и инструменты</div><div class="subrow">CREATIVE — Дизайн, разработка и креативные услуги</div><div class="subrow">TOOLS — Инструменты для работы и продуктивности</div></div>
-</section>
+<section id="market" class="page"><div class="subpage"><div class="kicker">02 / Marketplace</div><h1>THE <span>MARKET.</span></h1><p>Каталог цифровых товаров, сервисов и профессиональных услуг.</p><div class="subrow">DIGITAL — Цифровые сервисы и подписки</div><div class="subrow">GAMING — Игровые товары и инструменты</div><div class="subrow">CREATIVE — Дизайн, разработка и креативные услуги</div><div class="subrow">TOOLS — Инструменты для работы и продуктивности</div></div></section>
 
-<section id="reviews" class="page">
- <div class="subpage"><div class="eyebrow">03 / Reputation</div><h1>TRUST IS <span>EARNED.</span></h1><p>Отзывы, опыт участников и информация о качестве сервисов.</p>
- <div class="subrow">★★★★★ — Обзоры цифровых сервисов</div><div class="subrow">★★★★★ — Истории сотрудничества</div><div class="subrow">REPUTATION — Профили и репутация участников</div><p>Отзывы в этом макете демонстрационные. Реальные отзывы и сделки требуют хранения данных и модерации.</p></div>
-</section>
+<section id="reviews" class="page"><div class="subpage"><div class="kicker">03 / Reputation</div><h1>TRUST IS <span>EARNED.</span></h1><p>Примеры структуры отзывов — редактируй тексты прямо в HTML.</p><div class="subrow">★★★★★ — Отличный сервис, всё прошло быстро. <small>— user_example</small></div><div class="subrow">★★★★★ — Удобный интерфейс и хорошая поддержка. <small>— digital_user</small></div><div class="subrow">★★★★☆ — В целом положительный опыт. <small>— community_member</small></div></div></section>
 
-<section id="users" class="page">
- <div class="subpage"><div class="eyebrow">04 / Members</div><h1>THE <span>PEOPLE.</span></h1><p>Знакомься с сообществом, находи специалистов и изучай активность участников.</p>
- <div class="subrow">01 — DarkSeller / Community member</div><div class="subrow">02 — coderhub / Development</div><div class="subrow">03 — realuser / Community member</div><div class="subrow">04 — tradeuser / Exchange</div></div>
-</section>
+<section id="users" class="page"><div class="subpage"><div class="kicker">04 / Members</div><h1>THE <span>PEOPLE.</span></h1><p>Знакомься с сообществом, находи специалистов и изучай активность участников.</p><div class="subrow">01 — DarkSeller / Активный участник</div><div class="subrow">02 — coderhub / Разработка</div><div class="subrow">03 — realuser / Участник сообщества</div><div class="subrow">04 — tradeuser / Обмен</div></div></section>
 
-<section id="rules" class="page">
- <div class="subpage"><div class="eyebrow">05 / Community standards</div><h1>KNOW THE <span>RULES.</span></h1>
- <div class="subrow">01 — Уважайте других участников и администрацию.</div>
- <div class="subrow">02 — Запрещены мошенничество, угрозы, спам и публикация чужих личных данных.</div>
- <div class="subrow">03 — Не публикуйте вредоносные файлы, украденные данные и незаконные предложения.</div>
- <div class="subrow">04 — Проверяйте информацию и не доверяйте неподтверждённым обещаниям.</div>
- <div class="subrow">05 — Сообщайте модераторам о нарушениях и спорных ситуациях.</div></div>
-</section>
+<section id="rules" class="page"><div class="subpage"><div class="kicker">05 / Community standards</div><h1>KNOW THE <span>RULES.</span></h1><div class="subrow">01 — Уважайте других участников и администрацию.</div><div class="subrow">02 — Запрещены мошенничество, угрозы, спам и публикация чужих личных данных.</div><div class="subrow">03 — Не публикуйте вредоносные файлы, украденные данные и незаконные предложения.</div><div class="subrow">04 — Проверяйте информацию и не доверяйте неподтверждённым обещаниям.</div><div class="subrow">05 — Сообщайте модераторам о нарушениях.</div></div></section>
 
-<section id="support" class="page">
- <form class="form" id="supportForm"><div class="eyebrow">06 / Help desk</div><h2>NEED <span style="color:var(--red)">BACKUP?</span></h2><p>Опиши свой вопрос. Сейчас это демонстрационная форма, сообщения не отправляются на сервер.</p>
- <label for="supportEmail">EMAIL</label><input id="supportEmail" type="email" placeholder="you@example.com" required>
- <label for="supportMessage">MESSAGE</label><textarea id="supportMessage" rows="4" maxlength="1000" placeholder="Опиши проблему..." required></textarea>
- <button class="btn" type="submit">ПОДГОТОВИТЬ ОБРАЩЕНИЕ ↗</button><div class="notice" id="supportResult" hidden></div></form>
-</section>
+<section id="support" class="page"><form class="form" id="supportForm"><div class="kicker">06 / Help desk</div><h2>NEED <span style="color:var(--red)">BACKUP?</span></h2><p>Демонстрационная форма. Для реальной отправки потребуется сервер.</p><label for="supportEmail">EMAIL</label><input id="supportEmail" type="email" required placeholder="you@example.com"><label for="supportMessage">MESSAGE</label><textarea id="supportMessage" rows="4" required maxlength="1000" placeholder="Опиши свой вопрос"></textarea><button class="btn">ПОДГОТОВИТЬ ОБРАЩЕНИЕ ↗</button><div id="supportResult" class="notice" hidden></div></form></section>
 
-<section id="register" class="page">
- <form class="form" id="registerForm"><div class="eyebrow">Join the community</div><h2>CREATE YOUR <span style="color:var(--red)">IDENTITY.</span></h2><p>Создай профиль участника. В текущем макете регистрация не создаёт настоящий аккаунт.</p>
- <label for="regName">USERNAME</label><input id="regName" minlength="3" maxlength="24" placeholder="Твой никнейм" required>
- <label for="regEmail">EMAIL</label><input id="regEmail" type="email" placeholder="you@example.com" required>
- <label for="regPass">PASSWORD</label><input id="regPass" type="password" minlength="8" placeholder="Не менее 8 символов" required>
- <label for="regPass2">CONFIRM PASSWORD</label><input id="regPass2" type="password" minlength="8" placeholder="Повтори пароль" required>
- <button class="btn" type="submit">СОЗДАТЬ АККАУНТ ↗</button><div class="notice" id="regResult" hidden></div></form>
-</section>
+<section id="register" class="page"><form class="form" id="registerForm"><div class="kicker">Join the community</div><h2>CREATE YOUR <span style="color:var(--red)">IDENTITY.</span></h2><p>Макет регистрации. Пока сервер не подключён, аккаунт не создаётся.</p><label for="regName">USERNAME</label><input id="regName" required minlength="3" maxlength="24" placeholder="Твой никнейм"><label for="regEmail">EMAIL</label><input id="regEmail" type="email" required placeholder="you@example.com"><label for="regPass">PASSWORD</label><input id="regPass" type="password" required minlength="8" placeholder="Не менее 8 символов"><label for="regPass2">CONFIRM PASSWORD</label><input id="regPass2" type="password" required minlength="8" placeholder="Повтори пароль"><button class="btn">СОЗДАТЬ АККАУНТ ↗</button><div id="regResult" class="notice" hidden></div></form></section>
 
-<section id="login" class="page">
- <form class="form" id="loginForm"><div class="eyebrow">Member access</div><h2>WELCOME <span style="color:var(--red)">BACK.</span></h2>
- <label for="loginName">EMAIL OR USERNAME</label><input id="loginName" placeholder="Почта или никнейм" required>
- <label for="loginPass">PASSWORD</label><input id="loginPass" type="password" placeholder="Пароль" required>
- <button class="btn" type="submit">ВОЙТИ В FENIX ↗</button><div class="notice" id="loginResult" hidden></div></form>
-</section>
+<section id="login" class="page"><form class="form" id="loginForm"><div class="kicker">Member access</div><h2>WELCOME <span style="color:var(--red)">BACK.</span></h2><p>Демонстрационный вход без серверной авторизации.</p><label for="loginName">EMAIL OR USERNAME</label><input id="loginName" required placeholder="Почта или никнейм"><label for="loginPass">PASSWORD</label><input id="loginPass" type="password" required placeholder="Пароль"><button class="btn">ВОЙТИ В FENIX ↗</button><div id="loginResult" class="notice" hidden></div></form></section>
 
-<footer><span>FENIX COMMUNITY © 2026 — INDEPENDENT DIGITAL CULTURE</span><span><a href="#rules" data-page="rules">ПРАВИЛА</a>　/　<a href="#support" data-page="support">ПОДДЕРЖКА</a>　/　<a href="#register" data-page="register">РЕГИСТРАЦИЯ</a></span></footer>
+<footer><span>FENIX COMMUNITY © 2026 — DIGITAL CULTURE</span><span><a href="#rules" data-page="rules">ПРАВИЛА</a>　/　<a href="#support" data-page="support">ПОДДЕРЖКА</a>　/　<a href="#register" data-page="register">РЕГИСТРАЦИЯ</a></span></footer>
 </main>
 
 <script>
-const pageIds=['home','forum','market','reviews','users','rules','support','register','login'];
+const pages=['home','forum','market','reviews','users','rules','support','register','login'];
 function showPage(id,push=true){
- if(!pageIds.includes(id))id='home';
+ if(!pages.includes(id))id='home';
  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));
  document.querySelectorAll('[data-page]').forEach(a=>a.classList.toggle('active',a.dataset.page===id));
  document.getElementById('navlinks').classList.remove('open');
- if(push && location.hash!=='#'+id)history.pushState({page:id},'','#'+id);
+ if(push&&location.hash!=='#'+id)history.pushState({page:id},'','#'+id);
  window.scrollTo({top:0,behavior:'smooth'});
 }
 document.addEventListener('click',e=>{
- const link=e.target.closest('[data-page]');
- if(link){e.preventDefault();showPage(link.dataset.page);}
+ const a=e.target.closest('[data-page]');
+ if(a){e.preventDefault();showPage(a.dataset.page);}
 });
 window.addEventListener('popstate',()=>showPage(location.hash.slice(1)||'home',false));
 if(location.hash)showPage(location.hash.slice(1),false);
-document.getElementById('menuBtn').addEventListener('click',()=>{
- document.getElementById('navlinks').classList.toggle('open');
-});
+document.getElementById('menuBtn').addEventListener('click',()=>document.getElementById('navlinks').classList.toggle('open'));
+
 const search=document.getElementById('search');
 search.addEventListener('input',()=>{
  const q=search.value.trim().toLocaleLowerCase('ru');
@@ -434,35 +334,29 @@ search.addEventListener('input',()=>{
   row.hidden=!!q&&!row.innerText.toLocaleLowerCase('ru').includes(q);
  });
 });
+
 document.querySelectorAll('[data-rank]').forEach(button=>{
  button.addEventListener('click',()=>{
   document.querySelectorAll('[data-rank]').forEach(b=>b.classList.toggle('active',b===button));
-  const numbers={week:['322','281','245','198'],month:['942','801','675','521'],all:['2.4K','1.9K','1.5K','1.1K']};
-  document.querySelectorAll('#ranking .rank em').forEach((el,i)=>el.textContent=numbers[button.dataset.rank][i]);
+  const values={week:['322','281','245','198'],month:['942','801','675','521'],all:['2.4K','1.9K','1.5K','1.1K']};
+  document.querySelectorAll('#ranking .rank em').forEach((el,i)=>el.textContent=values[button.dataset.rank][i]);
  });
 });
-document.querySelectorAll('.carousel-controls button').forEach((button,i)=>{
- button.addEventListener('click',()=>{
-  document.querySelectorAll('.carousel-controls button').forEach(b=>b.classList.toggle('active',b===button));
-  const cards=document.querySelectorAll('.hero-card');
-  const target=cards[i%cards.length];
-  target.scrollIntoView({behavior:'smooth',block:'nearest',inline:'nearest'});
- });
-});
+
 document.getElementById('registerForm').addEventListener('submit',e=>{
  e.preventDefault();
- const result=document.getElementById('regResult');result.hidden=false;
- result.textContent=document.getElementById('regPass').value!==document.getElementById('regPass2').value
+ const out=document.getElementById('regResult');out.hidden=false;
+ out.textContent=document.getElementById('regPass').value!==document.getElementById('regPass2').value
  ?'Пароли не совпадают. Проверь введённые данные.'
- :'Макет работает, но для создания аккаунта нужно подключить сервер и систему авторизации. Пароль никуда не отправлен.';
+ :'Демонстрационная форма работает. Для настоящей регистрации нужно подключить сервер и систему авторизации. Данные никуда не отправлены.';
 });
 document.getElementById('loginForm').addEventListener('submit',e=>{
- e.preventDefault();const result=document.getElementById('loginResult');result.hidden=false;
- result.textContent='Демо-интерфейс: вход станет доступен после подключения реальной системы авторизации.';
+ e.preventDefault();const out=document.getElementById('loginResult');out.hidden=false;
+ out.textContent='Демо-интерфейс: для реального входа подключи сервер авторизации.';
 });
 document.getElementById('supportForm').addEventListener('submit',e=>{
- e.preventDefault();const result=document.getElementById('supportResult');result.hidden=false;
- result.textContent='Форма проверена. Сообщение не отправлено: для работы поддержки требуется сервер.';
+ e.preventDefault();const out=document.getElementById('supportResult');out.hidden=false;
+ out.textContent='Форма проверена. Сообщение не отправлено: для поддержки нужна серверная часть.';
 });
 </script>
 </body>
