@@ -4,321 +4,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101113">
-<title>FENIX — Форум</title>
+<title>FENIX — Digital Community</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
 :root {
-  --bg: #101113;
-  --panel: #17191d;
-  --panel2: #1d2025;
-  --border: #2b2e34;
-  --text: #e8e9ec;
-  --muted: #858b96;
-  --accent: #d83b43;
-  --accent2: #ff525a;
+  --bg: #080909;
+  --panel: #101212;
+  --panel2: #151717;
+  --red: #ff2038;
+  --line: #292929;
+  --muted: #858b91;
+  --text: #eeeeee;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  background: var(--bg);
+  background: radial-gradient(ellipse at 50% 0, #2b0b10 0, transparent 40%), var(--bg);
   color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
+  font-family: Inter, Arial, sans-serif;
 }
 a { color: inherit; text-decoration: none; }
-button, input { font: inherit; }
+button, input, textarea { font: inherit; }
+button { cursor: pointer; }
+.container { width: min(1400px,100%); margin: auto; padding: 0 18px; }
 
-.topline {
-  height: 3px;
-  background: var(--accent);
-}
 header {
-  background: #141518;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--line);
+  background: rgba(8,9,9,.94);
 }
-.header-inner {
-  max-width: 1180px;
-  margin: auto;
-  padding: 19px 22px;
+.nav {
+  min-height: 82px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 20px;
 }
-.brand {
-  font-size: 25px;
-  font-weight: 900;
-  letter-spacing: 3px;
-}
-.brand span { color: var(--accent2); }
-.brand-sub {
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 2px;
-  margin-top: 1px;
-}
-nav {
-  display: flex;
-  gap: 25px;
-  flex-wrap: wrap;
-}
-nav a {
-  color: #b8bbc2;
-  font-size: 13px;
-}
-nav a:hover { color: white; }
+.logo { font-size: 27px; font-weight: 900; letter-spacing: 3px; }
+.logo span { color: var(--red); }
+.nav-links { display: flex; gap: 24px; flex-wrap: wrap; color: #bbb; font-size: 13px; }
+.nav-links a:hover { color: white; }
 
 .hero {
-  border-bottom: 1px solid var(--border);
-  background: linear-gradient(110deg, #1c1d21, #121316 65%);
+  padding: 55px 0 40px;
+  border-bottom: 1px solid var(--line);
 }
-.hero-inner {
-  max-width: 1180px;
-  padding: 38px 22px 32px;
-  margin: auto;
-}
-.eyebrow {
-  color: var(--accent2);
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: bold;
-}
-.hero h1 {
-  font-size: clamp(28px, 5vw, 43px);
-  line-height: 1.15;
-  margin: 12px 0;
-  letter-spacing: -1px;
-}
-.hero p {
-  max-width: 650px;
-  color: #a1a5ae;
-  margin: 0;
-  font-size: 14px;
-}
-.hero-bottom {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 23px;
-}
-.hero-tag {
-  padding: 7px 11px;
-  border: 1px solid #353840;
-  background: #191a1e;
-  border-radius: 4px;
-  color: #bfc2c9;
-  font-size: 11px;
-}
+.eyebrow { color: var(--red); font-size: 11px; letter-spacing: 3px; font-weight: 800; }
+.hero h1 { font-size: clamp(36px,6vw,76px); line-height: 1; margin: 18px 0; font-weight: 900; letter-spacing: -3px; }
+.hero h1 span { color: var(--red); }
+.hero p { color: #a2a2a2; max-width: 650px; line-height: 1.8; }
+.hero-actions { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
+.btn { padding: 13px 19px; border: 1px solid #444; border-radius: 4px; font-weight: 700; font-size: 12px; }
+.btn-primary { background: var(--red); color: white; border-color: var(--red); }
+.btn-secondary { background: #151515; }
 
-main {
-  max-width: 1180px;
-  margin: auto;
-  padding: 28px 22px 60px;
-}
-.toolbar {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 22px;
-}
-.search-wrap {
-  position: relative;
-  flex: 1;
-}
-.search-wrap input {
-  width: 100%;
-  background: var(--panel);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  padding: 13px 15px;
-  outline: none;
-}
-.search-wrap input:focus {
-  border-color: #666b76;
-}
-.search-wrap input::placeholder { color: #747985; }
-
-.section-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 0 0 14px;
-}
-.section-heading h2 {
-  margin: 0;
-  font-size: 19px;
-}
-.count {
-  color: var(--muted);
-  font-size: 12px;
-}
-.layout {
+.stats {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 260px;
-  gap: 22px;
-  align-items: start;
+  grid-template-columns: repeat(3,1fr);
+  border-bottom: 1px solid var(--line);
 }
-.category {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
-  background: var(--panel);
-  margin-bottom: 17px;
-}
+.stat { padding: 23px 10px; text-align: center; border-right: 1px solid var(--line); }
+.stat:last-child { border: 0; }
+.stat strong { display: block; font-size: 23px; }
+.stat small { color: var(--muted); font-size: 10px; letter-spacing: 1px; }
+
+main { padding-top: 38px; padding-bottom: 60px; }
+.section-title { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 18px; }
+.section-title h2 { margin: 0; font-size: 23px; }
+.section-title p { color: var(--muted); font-size: 12px; }
+.forum-layout { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 22px; align-items: start; }
+
+.search { width: 100%; padding: 14px; background: #101111; color: white; border: 1px solid #303030; border-radius: 4px; outline: none; margin-bottom: 20px; }
+.search:focus { border-color: #777; }
+
+.category { background: var(--panel); border: 1px solid var(--line); margin-bottom: 16px; border-radius: 5px; overflow: hidden; }
 .category-header {
-  padding: 15px 17px;
-  background: var(--panel2);
-  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center; gap: 15px;
+  padding: 17px; background: var(--panel2); cursor: pointer;
 }
-.category-title {
-  font-size: 15px;
-  font-weight: 700;
+.category-header h3 { margin: 0; font-size: 15px; }
+.category-header p { margin: 5px 0 0; font-size: 11px; color: var(--muted); }
+.category-header .arrow { color: var(--red); font-size: 19px; transition: transform .2s; }
+.category.closed .arrow { transform: rotate(-90deg); }
+.category.closed .topics { display: none; }
+
+.topic { padding: 15px 17px; border-top: 1px solid #242424; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.topic:hover { background: #181818; }
+.topic-title { font-size: 13px; font-weight: 700; line-height: 1.6; }
+.topic-title:hover { color: var(--red); }
+.topic-author { color: var(--muted); font-size: 11px; margin-top: 5px; }
+.topic-arrow { color: #666; font-size: 20px; }
+
+.sidebar-card { background: var(--panel); border: 1px solid var(--line); border-radius: 5px; margin-bottom: 17px; overflow: hidden; }
+.sidebar-title { padding: 15px; background: var(--panel2); border-bottom: 1px solid var(--line); font-size: 13px; font-weight: 800; }
+.sidebar-content { padding: 15px; color: #aaa; font-size: 12px; line-height: 1.8; }
+.side-link { display: block; padding: 9px 0; border-bottom: 1px solid #292929; }
+.side-link:last-child { border: 0; }
+.side-link:hover { color: var(--red); }
+
+.topic-detail {
+  display: none; background: #101111; border: 1px solid #343434;
+  border-radius: 5px; padding: 23px; margin-bottom: 20px;
 }
-.category-description {
-  margin-top: 4px;
-  color: var(--muted);
-  font-size: 12px;
+.topic-detail.open { display: block; }
+.topic-detail h2 { font-size: 22px; line-height: 1.4; }
+.topic-detail .author { color: var(--muted); font-size: 12px; }
+.topic-detail p { color: #c0c0c0; line-height: 1.8; }
+.close-detail { background: #202020; color: white; border: 1px solid #444; padding: 9px 14px; border-radius: 3px; }
+
+footer { border-top: 1px solid var(--line); padding: 28px 0; color: #777; font-size: 11px; }
+.footer-inner { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.no-results { display: none; color: var(--muted); padding: 25px; text-align: center; border: 1px solid var(--line); }
+
+@media(max-width:850px) {
+  .forum-layout { grid-template-columns: 1fr; }
+  .sidebar { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+  .sidebar-card { margin: 0; }
 }
-.topic {
-  padding: 14px 17px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  border-bottom: 1px solid #27292e;
-  transition: background .15s;
-}
-.topic:last-child { border-bottom: 0; }
-.topic:hover { background: #202228; }
-.topic-main { min-width: 0; }
-.topic-title {
-  color: #e5e6e9;
-  font-size: 13px;
-  font-weight: 600;
-  overflow-wrap: anywhere;
-}
-.topic:hover .topic-title { color: var(--accent2); }
-.topic-author {
-  margin-top: 5px;
-  color: var(--muted);
-  font-size: 11px;
-}
-.topic-arrow {
-  color: #646a75;
-  font-size: 19px;
-  flex-shrink: 0;
-}
-.sidebar-box {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--panel);
-  margin-bottom: 17px;
-  overflow: hidden;
-}
-.sidebar-title {
-  padding: 14px 15px;
-  background: var(--panel2);
-  border-bottom: 1px solid var(--border);
-  font-weight: bold;
-  font-size: 13px;
-}
-.sidebar-content { padding: 14px 15px; }
-.filter-list {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.filter-btn {
-  cursor: pointer;
-  text-align: left;
-  padding: 10px;
-  background: transparent;
-  color: #aeb2bb;
-  border: 1px solid transparent;
-  border-radius: 4px;
-}
-.filter-btn:hover {
-  background: #22242a;
-  color: white;
-}
-.filter-btn.active {
-  background: #302024;
-  border-color: #593036;
-  color: #ff777d;
-}
-.filter-btn .num {
-  float: right;
-  color: #777d88;
-  font-size: 11px;
-}
-.info-text {
-  color: #a0a5af;
-  font-size: 12px;
-  line-height: 1.8;
-}
-.info-text strong { color: #e5e6e9; }
-.status-line {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #d5a04a;
-  margin-right: 7px;
-}
-.no-results {
-  display: none;
-  border: 1px dashed #393c44;
-  border-radius: 6px;
-  padding: 30px 20px;
-  color: var(--muted);
-  text-align: center;
-}
-footer {
-  border-top: 1px solid var(--border);
-  padding: 23px 20px;
-  color: #6e737d;
-  text-align: center;
-  font-size: 11px;
-}
-footer strong {
-  color: #c2c5cc;
-  letter-spacing: 2px;
-}
-@media (max-width: 760px) {
-  .header-inner {
-    align-items: flex-start;
-    flex-direction: column;
-    padding: 17px;
-  }
-  nav { gap: 18px; }
-  .hero-inner { padding: 30px 17px; }
-  main { padding: 22px 14px 40px; }
-  .layout { grid-template-columns: 1fr; }
-  .sidebar { order: -1; }
-  .filter-list {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-  .filter-btn { flex: 1 1 135px; }
-  .topic { padding: 13px; }
+@media(max-width:560px) {
+  .nav { padding: 15px 0; align-items: flex-start; flex-direction: column; }
+  .nav-links { gap: 15px; }
+  .hero { padding: 40px 0 30px; }
+  .hero h1 { letter-spacing: -1.5px; }
+  .sidebar { grid-template-columns: 1fr; }
+  .stat strong { font-size: 19px; }
+  .stat small { font-size: 9px; }
 }
 </style>
 </head>
 <body>
 
-<div class="topline"></div>
-
 <header>
-  <div class="header-inner">
-    <a href="#" class="brand-wrap" aria-label="FENIX — главная">
-      <div class="brand">FENI<span>X</span></div>
-      <div class="brand-sub">COMMUNITY FORUM</div>
-    </a>
-    <nav>
+  <div class="container nav">
+    <a class="logo" href="#">FENI<span>X</span></a>
+    <nav class="nav-links">
       <a href="#forum">Форум</a>
       <a href="#categories">Категории</a>
       <a href="#about">О проекте</a>
@@ -327,312 +147,132 @@ footer strong {
 </header>
 
 <section class="hero">
-  <div class="hero-inner">
-    <div class="eyebrow">Сообщество · Форум</div>
-    <h1>Добро пожаловать на FENIX</h1>
-    <p>
-      Тематические разделы сообщества, публикации участников
-      и обсуждения в едином пространстве.
-    </p>
-    <div class="hero-bottom">
-      <span class="hero-tag">Открытые разделы</span>
-      <span class="hero-tag">Каталог тем</span>
-      <span class="hero-tag">Поиск по форуму</span>
+  <div class="container">
+    <div class="eyebrow">DIGITAL COMMUNITY / 2026</div>
+    <h1>ТЕРРИТОРИЯ<br><span>FENIX.</span></h1>
+    <p>Цифровое сообщество. Форум публикаций, тематические разделы и профили участников в едином пространстве.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#forum">ОТКРЫТЬ ФОРУМ →</a>
+      <a class="btn btn-secondary" href="#categories">КАТЕГОРИИ</a>
     </div>
   </div>
 </section>
 
-<main id="forum">
-  <div class="section-heading">
-    <h2>Разделы форума</h2>
-    <span class="count" id="totalCount">Темы сообщества</span>
+<div class="container">
+  <div class="stats">
+    <div class="stat"><strong>24</strong><small>ТЕМЫ</small></div>
+    <div class="stat"><strong>5</strong><small>РАЗДЕЛОВ</small></div>
+    <div class="stat"><strong>2026</strong><small>СЕЗОН</small></div>
   </div>
+</div>
 
-  <div class="toolbar">
-    <div class="search-wrap">
-      <input
-        type="search"
-        id="searchInput"
-        placeholder="Поиск по названиям тем и авторам..."
-        aria-label="Поиск по форуму"
-      >
+<main class="container" id="forum">
+  <div class="section-title">
+    <div>
+      <h2>Обсуждения</h2>
+      <p>Каталог тем и участников сообщества</p>
     </div>
   </div>
 
-  <div class="layout">
-    <div id="categories">
+  <div class="forum-layout">
+    <section id="categories">
+      <input class="search" id="search" type="search" placeholder="Поиск тем или авторов...">
 
-      <section class="category" data-category="documents">
-        <div class="category-header">
-          <div class="category-title">Документы</div>
-          <div class="category-description">
-            Документальные и административные темы
-          </div>
-        </div>
-
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Загранпаспорт РФ — оформление и получение</a>
-            <div class="topic-author">Автор: ALEBARDA</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Водительские удостоверения и удостоверения личности</a>
-            <div class="topic-author">Автор: Володар</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Life_Reboot — документы, визы и автодокументы</a>
-            <div class="topic-author">Автор: Life_Reboot</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Медицинские услуги и документы</a>
-            <div class="topic-author">Автор: Papa_Karlo</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Индонезия / Бали — визовые вопросы</a>
-            <div class="topic-author">Автор: КУЙБЫШЕВ</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">RBT — документы</a>
-            <div class="topic-author">Автор: RBT</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-      </section>
-
-      <section class="category" data-category="exchange">
-        <div class="category-header">
-          <div class="category-title">Обменные сервисы</div>
-          <div class="category-description">
-            Валютные операции и цифровые активы
-          </div>
-        </div>
-
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">AML GROUP — обменные операции</a>
-            <div class="topic-author">Автор: AMLgroup</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Обменные операции и API</a>
-            <div class="topic-author">Автор: СВЕРДЛОВ</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Обмен валют и цифровых активов</a>
-            <div class="topic-author">Автор: Razor_EX</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">XMR SHOP</a>
-            <div class="topic-author">Автор: XMR_SHOP</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">WindExchange — обменные сервисы</a>
-            <div class="topic-author">Автор: WindExchange</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-      </section>
-
-      <section class="category" data-category="services">
-        <div class="category-header">
-          <div class="category-title">Сервисы и услуги</div>
-          <div class="category-description">
-            Профили участников и тематические публикации
-          </div>
-        </div>
-
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Сервис Бориса</a>
-            <div class="topic-author">Автор: BORIS_ARCAN</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Ликвидатор Сервис</a>
-            <div class="topic-author">Автор: Likvidator_S</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Sport_Aleks — региональные услуги</a>
-            <div class="topic-author">Автор: Sport_Aleks</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-      </section>
-
-      <section class="category" data-category="market">
-        <div class="category-header">
-          <div class="category-title">Продавцы и сервисы</div>
-          <div class="category-description">
-            Техника, товары и цифровые услуги
-          </div>
-        </div>
-
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">VBIV GUARD — электроника</a>
-            <div class="topic-author">Автор: VBIV GUAR</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Техника и электроника</a>
-            <div class="topic-author">Автор: ДРАГУНОВ</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Dr_Cash — финансовая тематика</a>
-            <div class="topic-author">Автор: dr_cash</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-      </section>
-
-      <section class="category" data-category="vip">
-        <div class="category-header">
-          <div class="category-title">Торговая площадка — VIP</div>
-          <div class="category-description">
-            Бизнес, цифровые сервисы и другие публикации
-          </div>
-        </div>
-
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Документы от EDEN_CORP — ЕС и международные вопросы</a>
-            <div class="topic-author">Автор: EDEN_CORP</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Готовые фирмы и регистрация бизнеса</a>
-            <div class="topic-author">Автор: ipshnik</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Социальные сети и цифровая безопасность</a>
-            <div class="topic-author">Автор: BARBADOS</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Telegram — аккаунты и безопасность</a>
-            <div class="topic-author">Автор: TG_master</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Создание сайтов и SEO</a>
-            <div class="topic-author">Автор: АЛЕКСЕЙ_SEO</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Продвижение Telegram-каналов и ботов</a>
-            <div class="topic-author">Автор: adm_top</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-        <div class="topic">
-          <div class="topic-main">
-            <a class="topic-title" href="#">Авиабилеты и путешествия</a>
-            <div class="topic-author">Автор: BlackWallet</div>
-          </div>
-          <span class="topic-arrow">›</span>
-        </div>
-      </section>
-
-      <div class="no-results" id="noResults">
-        По вашему запросу ничего не найдено.
+      <div class="topic-detail" id="detail">
+        <button class="close-detail" id="closeDetail">← Назад к разделам</button>
+        <h2 id="detailTitle"></h2>
+        <div class="author" id="detailAuthor"></div>
+        <p id="detailText"></p>
       </div>
-    </div>
+
+      <div class="category">
+        <div class="category-header">
+          <div><h3>Документы</h3><p>Документальные и административные темы</p></div><span class="arrow">⌄</span>
+        </div>
+        <div class="topics">
+          <div class="topic"><div><a class="topic-title" href="#">Загранпаспорт РФ — оформление и получение</a><div class="topic-author">Автор: ALEBARDA</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">ВУ и удостоверения личности</a><div class="topic-author">Автор: Володар</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">Life_Reboot — документы и визовые вопросы</a><div class="topic-author">Автор: Life_Reboot</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">Медицинские услуги и документы</a><div class="topic-author">Автор: Papa_Karlo</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">Индонезия / Бали — визовые вопросы</a><div class="topic-author">Автор: КУЙБЫШЕВ</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">RBT — документы</a><div class="topic-author">Автор: RBT</div></div><span class="topic-arrow">›</span></div>
+        </div>
+      </div>
+
+      <div class="category">
+        <div class="category-header">
+          <div><h3>Обменные сервисы</h3><p>Валютные операции и цифровые активы</p></div><span class="arrow">⌄</span>
+        </div>
+        <div class="topics">
+          <div class="topic"><div><a class="topic-title" href="#">AML GROUP — обменные операции</a><div class="topic-author">Автор: AMLgroup</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">Обменные операции и API</a><div class="topic-author">Автор: СВЕРДЛОВ</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">Обмен валют и цифровых активов</a><div class="topic-author">Автор: Razor_EX</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">XMR SHOP</a><div class="topic-author">Автор: XMR_SHOP</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">WindExchange — обменные сервисы</a><div class="topic-author">Автор: WindExchange</div></div><span class="topic-arrow">›</span></div>
+        </div>
+      </div>
+
+      <div class="category">
+        <div class="category-header">
+          <div><h3>Сервисы и услуги</h3><p>Профили участников и тематические публикации</p></div><span class="arrow">⌄</span>
+        </div>
+        <div class="topics">
+          <div class="topic"><div><a class="topic-title" href="#">Сервис Бориса</a><div class="topic-author">Автор: BORIS_ARCAN</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">Ликвидатор Сервис</a><div class="topic-author">Автор: Likvidator_S</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">Sport_Aleks — региональные услуги</a><div class="topic-author">Автор: Sport_Aleks</div></div><span class="topic-arrow">›</span></div>
+        </div>
+      </div>
+
+      <div class="category">
+        <div class="category-header">
+          <div><h3>Продавцы и сервисы</h3><p>Техника, товары и цифровые услуги</p></div><span class="arrow">⌄</span>
+        </div>
+        <div class="topics">
+          <div class="topic"><div><a class="topic-title" href="#">VBIV GUARD — электроника</a><div class="topic-author">Автор: VBIV GUAR</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">Техника и электроника</a><div class="topic-author">Автор: ДРАГУНОВ</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">Dr_Cash — финансовая тематика</a><div class="topic-author">Автор: dr_cash</div></div><span class="topic-arrow">›</span></div>
+        </div>
+      </div>
+
+      <div class="category">
+        <div class="category-header">
+          <div><h3>Торговая площадка — VIP</h3><p>Бизнес, цифровые сервисы и другие публикации</p></div><span class="arrow">⌄</span>
+        </div>
+        <div class="topics">
+          <div class="topic"><div><a class="topic-title" href="#">Документы от EDEN_CORP — ЕС и международные вопросы</a><div class="topic-author">Автор: EDEN_CORP</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">Готовые фирмы и регистрация бизнеса</a><div class="topic-author">Автор: ipshnik</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">Социальные сети и цифровая безопасность</a><div class="topic-author">Автор: BARBADOS</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">Telegram — аккаунты и безопасность</a><div class="topic-author">Автор: TG_master</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">Создание сайтов и SEO</a><div class="topic-author">Автор: АЛЕКСЕЙ_SEO</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">Продвижение Telegram-каналов и ботов</a><div class="topic-author">Автор: adm_top</div></div><span class="topic-arrow">›</span></div>
+          <div class="topic"><div><a class="topic-title" href="#">Авиабилеты и путешествия</a><div class="topic-author">Автор: BlackWallet</div></div><span class="topic-arrow">›</span></div>
+        </div>
+      </div>
+
+      <div class="no-results" id="noResults">Ничего не найдено.</div>
+    </section>
 
     <aside class="sidebar">
-      <div class="sidebar-box">
-        <div class="sidebar-title">Категории</div>
+      <div class="sidebar-card">
+        <div class="sidebar-title">РАЗДЕЛЫ ФОРУМА</div>
         <div class="sidebar-content">
-          <div class="filter-list">
-            <button class="filter-btn active" data-filter="all">
-              Все разделы <span class="num">24</span>
-            </button>
-            <button class="filter-btn" data-filter="documents">
-              Документы
-            </button>
-            <button class="filter-btn" data-filter="exchange">
-              Обменные сервисы
-            </button>
-            <button class="filter-btn" data-filter="services">
-              Сервисы и услуги
-            </button>
-            <button class="filter-btn" data-filter="market">
-              Продавцы и сервисы
-            </button>
-            <button class="filter-btn" data-filter="vip">
-              VIP-площадка
-            </button>
-          </div>
+          <a class="side-link" href="#categories">Документы</a>
+          <a class="side-link" href="#categories">Обменные сервисы</a>
+          <a class="side-link" href="#categories">Сервисы и услуги</a>
+          <a class="side-link" href="#categories">Продавцы и сервисы</a>
+          <a class="side-link" href="#categories">VIP-площадка</a>
         </div>
       </div>
-
-      <div class="sidebar-box" id="about">
-        <div class="sidebar-title">О сообществе</div>
+      <div class="sidebar-card" id="about">
+        <div class="sidebar-title">О СООБЩЕСТВЕ</div>
         <div class="sidebar-content">
-          <div class="info-text">
-            <strong>FENIX FORUM</strong><br>
-            Тематическая площадка с разделами, профилями авторов
-            и каталогом публикаций.<br><br>
-            <span class="status-line"></span>Демонстрационная версия
-            для кинематографического проекта.
-          </div>
+          FENIX — демонстрационный цифровой форум для кинематографического проекта.
         </div>
       </div>
-
-      <div class="sidebar-box">
-        <div class="sidebar-title">Навигация</div>
+      <div class="sidebar-card">
+        <div class="sidebar-title">НАВИГАЦИЯ</div>
         <div class="sidebar-content">
-          <div class="info-text">
-            Используйте поиск для нахождения темы по названию
-            или имени автора. Выберите категорию, чтобы отфильтровать
-            список публикаций.
-          </div>
+          Выбери раздел, чтобы раскрыть список тем. Нажми на тему, чтобы открыть информационную карточку.
         </div>
       </div>
     </aside>
@@ -640,75 +280,69 @@ footer strong {
 </main>
 
 <footer>
-  <strong>FENIX</strong><br>
-  <div style="margin-top:7px">
-    Демонстрационный форум · Кинематографический проект
+  <div class="container footer-inner">
+    <div>© 2026 FENIX COMMUNITY</div>
+    <div>DEMONSTRATION FORUM</div>
   </div>
 </footer>
 
 <script>
-const searchInput = document.getElementById("searchInput");
-const filterButtons = document.querySelectorAll(".filter-btn");
 const categories = document.querySelectorAll(".category");
+const search = document.getElementById("search");
 const noResults = document.getElementById("noResults");
-const totalCount = document.getElementById("totalCount");
+const detail = document.getElementById("detail");
+const detailTitle = document.getElementById("detailTitle");
+const detailAuthor = document.getElementById("detailAuthor");
+const detailText = document.getElementById("detailText");
 
-let currentFilter = "all";
-
-function updateForum() {
-  const query = searchInput.value.trim().toLocaleLowerCase("ru");
-  let visibleTopics = 0;
-
-  categories.forEach(category => {
-    const categoryMatches =
-      currentFilter === "all" ||
-      category.dataset.category === currentFilter;
-
-    let categoryTopics = 0;
-
-    category.querySelectorAll(".topic").forEach(topic => {
-      const text = topic.textContent.toLocaleLowerCase("ru");
-      const matchesSearch = text.includes(query);
-      const visible = categoryMatches && matchesSearch;
-
-      topic.style.display = visible ? "flex" : "none";
-
-      if (visible) {
-        visibleTopics++;
-        categoryTopics++;
-      }
-    });
-
-    category.style.display = categoryTopics ? "block" : "none";
-  });
-
-  noResults.style.display = visibleTopics ? "none" : "block";
-  totalCount.textContent = "Найдено тем: " + visibleTopics;
-}
-
-searchInput.addEventListener("input", updateForum);
-
-filterButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    currentFilter = button.dataset.filter;
-
-    filterButtons.forEach(item => {
-      item.classList.toggle("active", item === button);
-    });
-
-    updateForum();
+categories.forEach(category => {
+  category.querySelector(".category-header").addEventListener("click", () => {
+    category.classList.toggle("closed");
   });
 });
 
 document.querySelectorAll(".topic-title").forEach(link => {
   link.addEventListener("click", event => {
-    if (link.getAttribute("href") === "#") {
-      event.preventDefault();
-    }
+    event.preventDefault();
+    const topic = link.closest(".topic");
+    const author = topic.querySelector(".topic-author").textContent;
+
+    detailTitle.textContent = link.textContent;
+    detailAuthor.textContent = author;
+    detailText.textContent =
+      "Информационная карточка темы для демонстрационной версии форума. " +
+      "Исходный HTML содержит название публикации и имя автора, но не содержит полной переписки или подробного описания.";
+
+    detail.classList.add("open");
+    detail.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 });
 
-updateForum();
+document.getElementById("closeDetail").addEventListener("click", () => {
+  detail.classList.remove("open");
+});
+
+search.addEventListener("input", () => {
+  const query = search.value.toLocaleLowerCase("ru").trim();
+  let count = 0;
+
+  categories.forEach(category => {
+    let categoryCount = 0;
+
+    category.querySelectorAll(".topic").forEach(topic => {
+      const match = topic.textContent.toLocaleLowerCase("ru").includes(query);
+      topic.style.display = match ? "flex" : "none";
+      if (match) {
+        count++;
+        categoryCount++;
+      }
+    });
+
+    category.style.display = categoryCount ? "block" : "none";
+  });
+
+  noResults.style.display = count ? "none" : "block";
+});
 </script>
 </body>
 </html>
