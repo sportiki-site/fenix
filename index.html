@@ -1,1204 +1,271 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#090909">
-<meta name="description" content="SHADOW — форум цифровых возможностей. Обсуждения, гайды, цифровые товары, услуги и сообщество.">
-<title>SHADOW — Форум цифровых возможностей</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080808">
+<title>FENIX — форум</title>
 <style>
-:root {
-  --bg: #090909;
-  --panel: #101010;
-  --panel2: #151515;
-  --red: #f0202b;
-  --red-dark: #9d0710;
-  --text: #f0f0f0;
-  --muted: #85858d;
-  --border: #292929;
-  --green: #20d889;
-}
-
-* { box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-a { color: inherit; text-decoration: none; }
-button, input, textarea, select { font: inherit; }
-
-button { cursor: pointer; }
-
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: rgba(8,8,8,.97);
-  border-bottom: 1px solid #4a171b;
-  backdrop-filter: blur(12px);
-}
-
-.nav {
-  max-width: 1500px;
-  margin: auto;
-  min-height: 76px;
-  padding: 12px 22px;
-  display: flex;
-  align-items: center;
-  gap: 28px;
-}
-
-.logo {
-  min-width: 220px;
-  font-size: 36px;
-  line-height: 1;
-  font-weight: 1000;
-  font-style: italic;
-  letter-spacing: -2px;
-  color: var(--red);
-  text-shadow: 0 0 20px #f0202b35;
-}
-
-.logo small {
-  display: block;
-  margin-top: 6px;
-  font-size: 9px;
-  letter-spacing: 2px;
-  color: #aaa;
-  font-style: normal;
-}
-
-.nav-links {
-  display: flex;
-  gap: 7px;
-  align-items: center;
-}
-
-.nav-links a {
-  padding: 13px 12px;
-  color: #c6c6cb;
-  font-size: 12px;
-  font-weight: 800;
-  border-radius: 5px;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-  color: white;
-  background: #851019;
-}
-
-.nav-right {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.search {
-  width: 170px;
-  padding: 12px;
-  background: #111;
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  color: white;
-  outline: none;
-}
-
-.search:focus { border-color: var(--red); }
-
-.user-button {
-  border: 1px solid var(--border);
-  background: #141414;
-  color: white;
-  padding: 10px 12px;
-  border-radius: 6px;
-}
-
-main {
-  max-width: 1500px;
-  padding: 15px 17px 30px;
-  margin: auto;
-}
-
-/* Бесконечная лента рекламы */
-
-.ads-marquee {
-  overflow: hidden;
-  width: 100%;
-  margin-bottom: 15px;
-  position: relative;
-}
-
-.ads-track {
-  display: flex;
-  width: max-content;
-  gap: 12px;
-  animation: ads-scroll 35s linear infinite;
-  will-change: transform;
-}
-
-.ads-marquee:hover .ads-track {
-  animation-play-state: paused;
-}
-
-.ads-group {
-  display: flex;
-  flex-shrink: 0;
-  gap: 12px;
-}
-
-.ad-card {
-  position: relative;
-  display: block;
-  flex: 0 0 clamp(290px, 33vw, 430px);
-  height: 190px;
-  overflow: hidden;
-  border: 1px solid #522025;
-  border-radius: 8px;
-  background: #171010;
-  isolation: isolate;
-}
-
-.ad-art {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  transition: transform .5s;
-  background:
-    radial-gradient(ellipse at 80% 35%, #f3222b9c, transparent 35%),
-    linear-gradient(120deg, #111 10%, #2a080b 65%, #070707);
-}
-
-.ad-art::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    repeating-linear-gradient(
-      125deg,
-      transparent 0 18px,
-      #ffffff08 19px 20px
-    );
-}
-
-.ad-art::after {
-  content: attr(data-symbol);
-  position: absolute;
-  right: 20px;
-  top: 15px;
-  font-size: 100px;
-  font-weight: 1000;
-  color: #ffffff18;
-  transform: rotate(-12deg);
-}
-
-.ad-card:hover .ad-art { transform: scale(1.07); }
-
-.ad-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg,#080808f5,#08080865 75%,#08080830);
-}
-
-.ad-content {
-  position: absolute;
-  inset: 0;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.ad-label {
-  color: #ff646a;
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 2px;
-  margin-bottom: 9px;
-}
-
-.ad-content h2 {
-  max-width: 280px;
-  margin: 0;
-  font-size: clamp(22px, 2.2vw, 30px);
-  line-height: 1;
-  font-weight: 1000;
-  text-transform: uppercase;
-  font-style: italic;
-}
-
-.ad-content p {
-  margin: 9px 0 13px;
-  font-size: 12px;
-  color: #b7b7bc;
-}
-
-.ad-cta {
-  display: inline-block;
-  padding: 9px 13px;
-  border: 1px solid var(--red);
-  background: #b70a14;
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: .6px;
-}
-
-@keyframes ads-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-.ticker {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 15px;
-  padding: 10px 13px;
-  border: 1px solid var(--border);
-  background: #101010;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.ticker-title {
-  flex-shrink: 0;
-  color: var(--red);
-  font-size: 12px;
-  font-weight: 900;
-}
-
-.ticker-items {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.ticker-items::-webkit-scrollbar { display: none; }
-
-.ticker-item {
-  flex: 1 0 180px;
-  padding: 8px 10px;
-  background: #171717;
-  border: 1px solid #282828;
-  border-radius: 5px;
-  font-size: 11px;
-  color: #c4c4ca;
-}
-
-.ticker-item b {
-  display: block;
-  margin-bottom: 4px;
-  color: white;
-}
-
-/* Статистика */
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  margin-bottom: 15px;
-  background: #101010;
-}
-
-.stat {
-  padding: 15px 18px;
-  border-right: 1px solid var(--border);
-}
-
-.stat:last-child { border: 0; }
-
-.stat strong {
-  display: block;
-  color: var(--red);
-  font-size: 22px;
-}
-
-.stat span {
-  display: block;
-  margin-top: 5px;
-  color: var(--muted);
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: .7px;
-}
-
-.stat.online strong { color: var(--green); }
-
-/* Основная сетка форума */
-
-.layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
-  gap: 16px;
-  align-items: start;
-}
-
-.panel {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  overflow: hidden;
-  margin-bottom: 15px;
-}
-
-.panel-title {
-  padding: 16px 18px;
-  font-size: 14px;
-  font-weight: 900;
-  text-transform: uppercase;
-  border-bottom: 1px solid var(--border);
-  background: linear-gradient(90deg,#171717,#101010);
-}
-
-.forum-row {
-  display: grid;
-  grid-template-columns: 130px minmax(160px, 1fr) 90px 90px minmax(140px, .8fr);
-  gap: 13px;
-  align-items: center;
-  padding: 13px;
-  border-bottom: 1px solid #242424;
-  min-height: 108px;
-  transition: background .2s;
-}
-
-.forum-row:last-child { border-bottom: 0; }
-.forum-row:hover { background: #171313; }
-
-.forum-cover {
-  height: 80px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 43px;
-  border: 1px solid #442024;
-  background:
-    radial-gradient(circle at 80% 20%, #f0202b55, transparent 40%),
-    linear-gradient(135deg,#252020,#100808);
-}
-
-.forum-cover.red { background: linear-gradient(135deg,#510d12,#171010); }
-.forum-cover.gray { background: linear-gradient(135deg,#383838,#111); }
-.forum-cover.green { background: linear-gradient(135deg,#123c2c,#111); }
-
-.forum-info h3 {
-  margin: 0 0 7px;
-  font-size: 14px;
-}
-
-.forum-info p {
-  margin: 0 0 8px;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.5;
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-.tag {
-  padding: 5px 7px;
-  background: #1a1a1a;
-  border: 1px solid #292929;
-  color: #bdbdc2;
-  border-radius: 4px;
-  font-size: 10px;
-}
-
-.tag:hover { border-color: var(--red); color: white; }
-
-.forum-count {
-  text-align: center;
-  color: #d9d9df;
-  font-size: 15px;
-}
-
-.forum-count small {
-  display: block;
-  margin-top: 5px;
-  color: var(--muted);
-  font-size: 9px;
-  text-transform: uppercase;
-}
-
-.last-post {
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-
-.last-icon {
-  flex-shrink: 0;
-  width: 35px;
-  height: 35px;
-  display: grid;
-  place-items: center;
-  border-radius: 6px;
-  background: #181818;
-  border: 1px solid #333;
-  font-size: 19px;
-}
-
-.last-post strong {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 11px;
-  margin-bottom: 5px;
-}
-
-.last-post small {
-  display: block;
-  color: var(--muted);
-  font-size: 10px;
-  line-height: 1.5;
-}
-
-/* Правая колонка */
-
-.btn {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(90deg,#d50816,#a9000b);
-  border: 1px solid #ff2530;
-  border-radius: 6px;
-  color: white;
-  font-size: 12px;
-  font-weight: 900;
-  text-transform: uppercase;
-  box-shadow: 0 0 18px #f0202b16;
-}
-
-.btn:hover { filter: brightness(1.2); }
-
-.btn.secondary {
-  background: #151515;
-  border-color: #343434;
-  margin-top: 8px;
-  box-shadow: none;
-}
-
-.side-list { padding: 7px 13px; }
-
-.side-item {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  padding: 10px 2px;
-  border-bottom: 1px solid #252525;
-  font-size: 12px;
-  color: #d4d4d9;
-}
-
-.side-item:last-child { border-bottom: 0; }
-.side-item:hover { color: #ff5b62; }
-
-.side-item span:first-child { font-size: 17px; }
-
-.popular-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px 12px;
-  border-bottom: 1px solid #242424;
-}
-
-.popular-row:last-child { border-bottom: 0; }
-
-.popular-icon {
-  width: 34px;
-  height: 34px;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  border-radius: 6px;
-  background: #1c1112;
-  border: 1px solid #402025;
-}
-
-.popular-row strong {
-  display: block;
-  font-size: 11px;
-  margin-bottom: 5px;
-}
-
-.popular-row small {
-  color: var(--muted);
-  font-size: 10px;
-}
-
-.rank {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-bottom: 1px solid #252525;
-}
-
-.rank:last-child { border-bottom: 0; }
-
-.rank-number {
-  width: 26px;
-  height: 26px;
-  display: grid;
-  place-items: center;
-  border-radius: 4px;
-  background: #242424;
-  font-weight: 900;
-  font-size: 12px;
-}
-
-.rank:first-child .rank-number {
-  background: #b50914;
-  box-shadow: 0 0 10px #f0202b35;
-}
-
-.avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: #251617;
-  border: 1px solid #563035;
-}
-
-.rank strong { display: block; font-size: 11px; }
-.rank small { color: var(--muted); font-size: 10px; }
-
-/* Нижняя часть */
-
-.bottom-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-top: 5px;
-}
-
-.online-users {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 14px;
-}
-
-.online-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg,#5b1219,#191919);
-  border: 1px solid #522025;
-  font-size: 12px;
-}
-
-.footer {
-  border-top: 1px solid #351518;
-  margin-top: 25px;
-  padding: 25px 0;
-  color: var(--muted);
-  font-size: 11px;
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  flex-wrap: wrap;
-}
-
-.footer a:hover { color: white; }
-
-/* Окно создания темы */
-
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  padding: 20px;
-  background: #000c;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal.open { display: flex; }
-
-.modal-box {
-  width: min(500px,100%);
-  padding: 23px;
-  background: #111;
-  border: 1px solid #612027;
-  border-radius: 9px;
-  box-shadow: 0 20px 80px #000;
-}
-
-.modal-box h2 { margin-top: 0; }
-
-.modal-box label {
-  display: block;
-  font-size: 12px;
-  color: #aaa;
-  margin: 15px 0 7px;
-}
-
-.modal-box input,
-.modal-box textarea,
-.modal-box select {
-  width: 100%;
-  background: #080808;
-  color: white;
-  border: 1px solid #333;
-  border-radius: 5px;
-  padding: 12px;
-}
-
-.modal-box textarea { min-height: 120px; resize: vertical; }
-
-.modal-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 18px;
-}
-
-.modal-actions button { flex: 1; }
-
-.empty-message {
-  display: none;
-  padding: 25px;
-  text-align: center;
-  color: var(--muted);
-}
-
-@media (max-width: 1100px) {
-  .nav { gap: 12px; }
-  .logo { min-width: auto; }
-  .nav-links a { padding: 11px 8px; }
-  .forum-row {
-    grid-template-columns: 100px minmax(150px,1fr) 65px 65px;
-  }
-  .last-post { display: none; }
-  .forum-cover { height: 75px; }
-}
-
-@media (max-width: 760px) {
-  .nav {
-    flex-wrap: wrap;
-    padding: 12px;
-    gap: 12px;
-  }
-
-  .logo { font-size: 29px; }
-
-  .nav-links {
-    order: 3;
-    width: 100%;
-    overflow-x: auto;
-  }
-
-  .nav-links a { white-space: nowrap; }
-
-  .nav-right { margin-left: auto; }
-  .search { width: 120px; }
-  .user-button { display: none; }
-
-  main { padding: 10px; }
-
-  .ad-card {
-    flex-basis: 82vw;
-    height: 155px;
-  }
-
-  .ads-track { animation-duration: 28s; }
-
-  .ticker { align-items: flex-start; flex-direction: column; gap: 8px; }
-  .ticker-items { width: 100%; }
-
-  .stats { grid-template-columns: repeat(2,1fr); }
-  .stat:nth-child(2) { border-right: 0; }
-  .stat:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
-  .stat { padding: 12px; }
-  .stat strong { font-size: 18px; }
-
-  .layout { grid-template-columns: 1fr; }
-
-  .forum-row {
-    grid-template-columns: 75px minmax(0,1fr) 48px;
-    gap: 10px;
-    padding: 10px;
-  }
-
-  .forum-cover { height: 75px; font-size: 32px; }
-  .forum-info h3 { font-size: 12px; }
-  .forum-info p { font-size: 10px; }
-  .forum-count { font-size: 12px; }
-  .forum-count:nth-of-type(2) { display: none; }
-  .forum-row .forum-count:nth-of-type(4) { display: none; }
-  .tag { font-size: 9px; padding: 4px 5px; }
-
-  .bottom-grid { grid-template-columns: 1fr; }
-  .footer { flex-direction: column; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ads-track { animation: none; }
-  html { scroll-behavior: auto; }
-}
+:root{--red:#f20b20;--bg:#080909;--panel:#101111;--line:#292b2b;--muted:#85898e}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 50% 5%,#391014,transparent 48%),#080909;color:#f2f2f2;font:13px Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+.top{position:sticky;top:0;z-index:10;background:#080808f5;border-bottom:1px solid #45151b}
+.nav{max-width:1400px;min-height:62px;padding:8px 18px;margin:auto;display:flex;align-items:center;gap:20px}
+.logo{font-size:37px;font-weight:1000;font-style:italic;letter-spacing:-2px;color:#f32737;text-shadow:0 0 18px #f00a25;white-space:nowrap}
+.links{display:flex;align-items:center;gap:3px;flex:1;justify-content:center}
+.links a{padding:13px 9px;font-size:10px;font-weight:bold;white-space:nowrap;color:#ddd;border-radius:5px}
+.links a.active,.links a:hover{background:linear-gradient(#ff2738,#a90010);box-shadow:0 0 18px #ff001d66}
+.right{display:flex;align-items:center;gap:12px}
+.search{width:145px;background:#0b0b0b;border:1px solid #292929;border-radius:6px;padding:11px;color:#eee}
+.profile{white-space:nowrap}
+.wrap{max-width:1400px;margin:auto;padding:17px 18px}
+.ads{position:relative;overflow:hidden;margin-bottom:10px}
+.track{display:flex;gap:10px;width:max-content;animation:roll 45s linear infinite}
+.ads:hover .track{animation-play-state:paused}
+.group{display:flex;gap:10px}
+.banner{position:relative;isolation:isolate;overflow:hidden;flex:0 0 434px;height:198px;border:1px solid #471b20;border-radius:7px;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;padding:18px 20px;box-shadow:inset 0 0 35px #000a;transition:.3s}
+.banner:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,#030303f5,#05050530 85%);animation:cinema 10s ease-in-out infinite alternate}
+.banner:after{content:"▶";position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);border:1px solid #ffffff8a;background:#05050585;width:43px;height:43px;border-radius:50%;display:grid;place-items:center;padding-left:3px;font-size:17px}
+.banner:hover{border-color:#ff1b30;box-shadow:0 0 22px #f20b2038}
+.banner h2{font-size:16px;margin:0 0 5px;font-weight:900;text-transform:uppercase}
+.banner p{font-size:11px;color:#b9b9be;margin:0}
+.banner .cta{position:absolute;bottom:16px;right:15px;background:linear-gradient(#ff1c2d,#c80014);border:1px solid #ff3948;border-radius:5px;padding:10px 17px;font-size:10px;font-weight:900}
+.banner .copy{position:relative;z-index:1;max-width:65%}
+.arrow{position:absolute;z-index:3;top:43%;width:31px;height:31px;border-radius:50%;border:1px solid #e52235;background:#050505d9;color:white;font-size:20px;cursor:pointer}
+.arrow.left{left:8px}.arrow.rightarr{right:8px}
+@keyframes roll{to{transform:translateX(-50%)}}
+@keyframes cinema{from{background-position:45% center;filter:brightness(.78)}to{background-position:60% center;filter:brightness(1.18)}}
+.dots{height:9px;display:flex;justify-content:center;gap:6px;margin:5px 0 7px}
+.dots i{width:5px;height:5px;border-radius:50%;background:#666}
+.dots i:first-child{width:12px;border-radius:8px;background:var(--red);box-shadow:0 0 8px var(--red)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #292929;border-radius:7px;background:#101111;margin-bottom:9px;overflow:hidden}
+.stat{height:55px;display:flex;align-items:center;gap:15px;padding:8px 18px;border-right:1px solid #272727}
+.stat:last-child{border:0}
+.ico{width:43px;height:40px;display:grid;place-items:center;background:#1a1113;border-radius:5px;color:#ff1b30;font-size:22px}
+.stat b{font-size:16px;color:#ff2637;display:block;margin-bottom:3px}
+.stat small{color:#8c8f94;font-size:10px}
+.online .ico{color:#27c989;background:#0e1915}
+.online b{color:#18d47d}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 286px;gap:16px;align-items:start}
+.panel{background:linear-gradient(135deg,#111212,#0c0d0d);border:1px solid #282929;border-radius:7px;overflow:hidden;margin-bottom:10px}
+.title{padding:12px 17px;border-bottom:1px solid #2b2c2c;font-size:15px;font-weight:900;text-transform:uppercase}
+.forum-row{display:grid;grid-template-columns:214px minmax(180px,1fr) 60px 75px 200px;gap:12px;align-items:center;min-height:89px;padding:7px 10px;border-bottom:1px solid #242525}
+.forum-row:hover{background:#191112}
+.cover{height:76px;border-radius:4px;border:1px solid #352326;background-size:cover;background-position:center;position:relative;overflow:hidden}
+.cover:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0005,transparent,#0005)}
+.desc h3{font-size:13px;margin:0 0 4px}
+.desc p{font-size:11px;line-height:1.4;color:#85898d;margin:0 0 5px}
+.tag{display:inline-block;border:1px solid #2c2d2d;background:#171818;border-radius:4px;padding:4px 7px;color:#b4b5b7;font-size:10px;margin:1px 3px 0 0}
+.count{text-align:center;color:#d8d9dc;font-size:12px}
+.count small{display:block;font-size:9px;color:#81858a;margin-top:5px}
+.last{display:flex;align-items:center;gap:10px;min-width:0}
+.service-icon{flex:0 0 42px;height:42px;border-radius:8px;background:#070707;border:1px solid #383838;display:grid;place-items:center;font-size:23px;color:#ef293a}
+.last-text{min-width:0;font-size:11px;line-height:1.5;color:#ddd}
+.last-text strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.last-text small{color:#85898e}
+.side-action{display:block;text-align:center;background:linear-gradient(#f9182b,#b60012);border:1px solid #ff2436;padding:12px 8px;border-radius:6px;font-size:11px;font-weight:900;margin-bottom:7px}
+.side-action.secondary{background:#121313;border-color:#292a2a}
+.side .title{font-size:13px;text-transform:none}
+.topic{display:flex;gap:10px;align-items:center;padding:9px 12px;border-bottom:1px solid #252626;font-size:11px;line-height:1.4}
+.topic-icon{flex:0 0 32px;height:32px;border-radius:7px;display:grid;place-items:center;background:#090909;border:1px solid #333;font-size:19px}
+.topic small{display:block;color:#8a8d91;font-size:10px}
+.rank{display:grid;grid-template-columns:30px 32px 1fr;gap:8px;align-items:center;padding:6px 12px;font-size:11px}
+.rank-num{background:#222;border-radius:5px;text-align:center;padding:6px 0}
+.rank img{width:30px;height:30px;object-fit:cover;border-radius:50%;border:1px solid #444}
+.rank small{display:block;color:#85898d;margin-top:3px}
+.tabs{display:flex;justify-content:space-around;padding:8px;border-bottom:1px solid #292929;color:#9a9da1;font-size:10px}
+.page{display:none}.page.active{display:block}
+.form{max-width:560px;margin:20px auto;padding:24px;background:#111;border:1px solid #4b1b20;border-radius:8px}
+.form h1{margin-top:0}
+.form p{color:var(--muted);font-size:12px;line-height:1.6}
+.form label{display:block;margin:15px 0 7px;color:#bbb;font-size:12px}
+.form input{width:100%;padding:11px;background:#080808;border:1px solid #333;border-radius:5px;color:white}
+.btn{background:linear-gradient(#ff1b2c,#bd0013);color:white;border:1px solid #ff3544;padding:11px 14px;border-radius:5px;font-weight:bold;cursor:pointer}
+.form button{width:100%;margin-top:16px}
+.notice{padding:12px;margin-top:12px;background:#201214;border:1px solid #512027;border-radius:5px;color:#d6bfc1;font-size:12px}
+.footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:22px 0;color:#777;font-size:11px}
+@media(max-width:1100px){.nav{gap:10px}.links a{padding:12px 6px;font-size:9px}.banner{flex-basis:38vw}.forum-row{grid-template-columns:150px minmax(180px,1fr) 52px 52px}.last{display:none}}
+@media(max-width:760px){.nav{flex-wrap:wrap}.logo{font-size:31px}.links{order:3;flex-basis:100%;overflow:auto;justify-content:flex-start}.profile{display:none}.search{width:115px}.wrap{padding:10px}.layout{grid-template-columns:1fr}.banner{flex-basis:82vw;height:175px}.stats{grid-template-columns:repeat(2,1fr)}.stat{border-bottom:1px solid #272727}.stat:nth-child(2){border-right:0}.stat:nth-child(n+3){border-bottom:0}.forum-row{grid-template-columns:92px minmax(0,1fr) 42px;gap:8px;padding:7px}.cover{height:65px}.forum-row .count:nth-of-type(4){display:none}.desc h3{font-size:12px}.desc p{font-size:10px}.tag{font-size:9px;padding:3px 5px}}
+@media(max-width:430px){.search{width:95px}.banner{flex-basis:88vw}.banner h2{font-size:14px}.banner .cta{padding:8px 9px;font-size:9px}.forum-row{grid-template-columns:70px minmax(0,1fr) 36px}.cover{height:59px}.count{font-size:10px}.stat{padding:8px}.stat .ico{width:34px;height:34px}.stat b{font-size:14px}}
+@media(prefers-reduced-motion:reduce){.track,.banner:before{animation:none}}
 </style>
 </head>
-
 <body>
-
-<header class="topbar">
-  <div class="nav">
-    <a href="#" class="logo">
-      SHADOW
-      <small>ФОРУМ ЦИФРОВЫХ ВОЗМОЖНОСТЕЙ</small>
-    </a>
-
-    <nav class="nav-links">
-      <a class="active" href="#">⌂ ГЛАВНАЯ</a>
-      <a href="#sections">▤ ФОРУМ</a>
-      <a href="#users">♟ ПОЛЬЗОВАТЕЛИ</a>
-      <a href="#rules">▣ ПРАВИЛА</a>
-      <a href="#support">◉ ПОДДЕРЖКА</a>
-    </nav>
-
-    <div class="nav-right">
-      <input id="search" class="search" type="search" placeholder="⌕ Поиск...">
-      <button class="user-button" onclick="alert('Демонстрационный интерфейс уведомлений')">♧</button>
-      <button class="user-button" onclick="alert('Это демонстрационный профиль')">◉ Alexey⌄</button>
-    </div>
-  </div>
-</header>
-
-<main>
-
-  <!-- РЕКЛАМНЫЕ БАННЕРЫ -->
-  <section class="ads-marquee" aria-label="Рекламные объявления">
-    <div class="ads-track">
-
-      <div class="ads-group">
-        <a class="ad-card" href="#accounts">
-          <div class="ad-art" data-symbol="◈"></div>
-          <div class="ad-overlay"></div>
-          <div class="ad-content">
-            <span class="ad-label">SHADOW COMMUNITY</span>
-            <h2>AML GROUP<br> ОБМЕН БЕЗ AML/КРИПТА/НАЛИЧНЫЕ</h2>
-            <p>Обсуждения, обзоры и полезные гайды</p>
-            <span class="ad-cta">ПЕРЕЙТИ →</span>
-          </div>
-        </a>
-
-        <a class="ad-card" href="#services">
-          <div class="ad-art" data-symbol="⚡"
-               style="background:radial-gradient(ellipse at 80% 35%,#b00013,transparent 40%),linear-gradient(120deg,#090909,#321014)"></div>
-          <div class="ad-overlay"></div>
-          <div class="ad-content">
-            <span class="ad-label">НОВОЕ НА ФОРУМЕ</span>
-            <h2>БЫСТРЫЕ<br>РЕШЕНИЯ</h2>
-            <p>Опыт участников и проверенные инструкции</p>
-            <span class="ad-cta">ЧИТАТЬ ТЕМЫ →</span>
-          </div>
-        </a>
-
-        <a class="ad-card" href="#reviews">
-          <div class="ad-art" data-symbol="⬡"
-               style="background:radial-gradient(ellipse at 75% 25%,#8b2028,transparent 40%),linear-gradient(120deg,#0b0b0b,#252020)"></div>
-          <div class="ad-overlay"></div>
-          <div class="ad-content">
-            <span class="ad-label">SHADOW COMMUNITY</span>
-            <h2>РЕПУТАЦИЯ<br>И ДОВЕРИЕ</h2>
-            <p>Отзывы, рейтинги и опыт сообщества</p>
-            <span class="ad-cta">УЗНАТЬ БОЛЬШЕ →</span>
-          </div>
-        </a>
-      </div>
-
-      <!-- Повтор той же группы нужен для бесшовной анимации -->
-      <div class="ads-group" aria-hidden="true">
-        <a class="ad-card" href="#accounts" tabindex="-1">
-          <div class="ad-art" data-symbol="◈"></div>
-          <div class="ad-overlay"></div>
-          <div class="ad-content">
-            <span class="ad-label">SHADOW COMMUNITY</span>
-            <h2>ЦИФРОВОЙ<br>МИР БЕЗ ГРАНИЦ</h2>
-            <p>Обсуждения, обзоры и полезные гайды</p>
-            <span class="ad-cta">ПЕРЕЙТИ →</span>
-          </div>
-        </a>
-
-        <a class="ad-card" href="#services" tabindex="-1">
-          <div class="ad-art" data-symbol="⚡"
-               style="background:radial-gradient(ellipse at 80% 35%,#b00013,transparent 40%),linear-gradient(120deg,#090909,#321014)"></div>
-          <div class="ad-overlay"></div>
-          <div class="ad-content">
-            <span class="ad-label">НОВОЕ НА ФОРУМЕ</span>
-            <h2>БЫСТРЫЕ<br>РЕШЕНИЯ</h2>
-            <p>Опыт участников и проверенные гайды</p>
-            <span class="ad-cta">ЧИТАТЬ ТЕМЫ →</span>
-          </div>
-        </a>
-
-        <a class="ad-card" href="#reviews" tabindex="-1">
-          <div class="ad-art" data-symbol="⬡"
-               style="background:radial-gradient(ellipse at 75% 25%,#8b2028,transparent 40%),linear-gradient(120deg,#0b0b0b,#252020)"></div>
-          <div class="ad-overlay"></div>
-          <div class="ad-content">
-            <span class="ad-label">SHADOW COMMUNITY</span>
-            <h2>РЕПУТАЦИЯ<br>И ДОВЕРИЕ</h2>
-            <p>Отзывы, рейтинги и опыт сообщества</p>
-            <span class="ad-cta">УЗНАТЬ БОЛЬШЕ →</span>
-          </div>
-        </a>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- АКТУАЛЬНЫЕ ТЕМЫ -->
-  <section class="ticker">
-    <div class="ticker-title">🔥 АКТУАЛЬНЫЕ ТЕМЫ</div>
-    <div class="ticker-items">
-      <a class="ticker-item" href="#accounts"><b>Как защитить аккаунт?</b>coderhub · 2 часа назад</a>
-      <a class="ticker-item" href="#services"><b>Полезные инструменты 2026</b>realuser · 3 часа назад</a>
-      <a class="ticker-item" href="#reviews"><b>Как читать отзывы?</b>DarkSeller · 5 часов назад</a>
-      <a class="ticker-item" href="#support"><b>Новости сообщества</b>tradueser · 6 часов назад</a>
-    </div>
-  </section>
-
-  <!-- СТАТИСТИКА -->
-  <section class="stats">
-    <div class="stat"><strong>12 487</strong><span>Пользователей</span></div>
-    <div class="stat"><strong>3 421</strong><span>Тем форума</span></div>
-    <div class="stat"><strong>28 913</strong><span>Сообщений</span></div>
-    <div class="stat online"><strong>1 203</strong><span>Сейчас онлайн</span></div>
-  </section>
-
-  <div class="layout">
-
-    <section class="panel" id="sections">
-      <div class="panel-title">Разделы форума</div>
-
-      <div class="forum-row" id="accounts" data-search="аккаунты цифровые товары игры подписки софт">
-        <div class="forum-cover">◈</div>
-        <div class="forum-info">
-          <h3>Аккаунты и цифровые товары</h3>
-          <p>Обсуждение аккаунтов, ключей, подписок, цифровых товаров и сервисов.</p>
-          <div class="tags">
-            <a class="tag" href="#accounts">Соцсети</a>
-            <a class="tag" href="#accounts">Игры</a>
-            <a class="tag" href="#accounts">Подписки</a>
-            <a class="tag" href="#accounts">Софт</a>
-          </div>
-        </div>
-        <div class="forum-count">1.2K<small>Темы</small></div>
-        <div class="forum-count">8.7K<small>Сообщения</small></div>
-        <div class="last-post"><div class="last-icon">◉</div><div><strong>Где выгоднее подписка?</strong><small>realuser<br>Сегодня, 14:23</small></div></div>
-      </div>
-
-      <div class="forum-row" id="market" data-search="маркетплейс товары обзоры покупки продажи">
-        <div class="forum-cover red">▦</div>
-        <div class="forum-info">
-          <h3>Маркетплейс</h3>
-          <p>Обсуждение цифровых товаров, обзоры сервисов и рекомендации участников.</p>
-          <div class="tags">
-            <a class="tag" href="#market">Обзоры</a>
-            <a class="tag" href="#market">Сравнения</a>
-            <a class="tag" href="#market">Скидки</a>
-            <a class="tag" href="#market">Рекомендации</a>
-          </div>
-        </div>
-        <div class="forum-count">742<small>Темы</small></div>
-        <div class="forum-count">5.9K<small>Сообщения</small></div>
-        <div class="last-post"><div class="last-icon">▣</div><div><strong>Подборка сервисов недели</strong><small>seller1337<br>Сегодня, 12:11</small></div></div>
-      </div>
-
-      <div class="forum-row" id="services" data-search="услуги разработка дизайн обучение инструменты">
-        <div class="forum-cover gray">⚙</div>
-        <div class="forum-info">
-          <h3>Услуги и инструменты</h3>
-          <p>Разработка, дизайн, настройка, обучение и помощь участников.</p>
-          <div class="tags">
-            <a class="tag" href="#services">Разработка</a>
-            <a class="tag" href="#services">Дизайн</a>
-            <a class="tag" href="#services">Обучение</a>
-            <a class="tag" href="#services">Другое</a>
-          </div>
-        </div>
-        <div class="forum-count">631<small>Темы</small></div>
-        <div class="forum-count">4.2K<small>Сообщения</small></div>
-        <div class="last-post"><div class="last-icon">⌘</div><div><strong>Полезные инструменты</strong><small>coderhub<br>Сегодня, 10:37</small></div></div>
-      </div>
-
-      <div class="forum-row" id="exchange" data-search="обмен обмены подписки игры цифровые товары">
-        <div class="forum-cover">⇄</div>
-        <div class="forum-info">
-          <h3>Обмен и сотрудничество</h3>
-          <p>Поиск партнёров, обмен опытом и совместные проекты сообщества.</p>
-          <div class="tags">
-            <a class="tag" href="#exchange">Игры</a>
-            <a class="tag" href="#exchange">Подписки</a>
-            <a class="tag" href="#exchange">Коллаборации</a>
-          </div>
-        </div>
-        <div class="forum-count">284<small>Темы</small></div>
-        <div class="forum-count">1.9K<small>Сообщения</small></div>
-        <div class="last-post"><div class="last-icon">↔</div><div><strong>Ищу партнёра для проекта</strong><small>tradueser<br>Сегодня, 09:18</small></div></div>
-      </div>
-
-      <div class="forum-row" id="reviews" data-search="отзывы репутация гарант безопасность рейтинг">
-        <div class="forum-cover green">✚</div>
-        <div class="forum-info">
-          <h3>Отзывы и репутация</h3>
-          <p>Отзывы участников, репутация пользователей и рекомендации по безопасности.</p>
-          <div class="tags">
-            <a class="tag" href="#reviews">Отзывы</a>
-            <a class="tag" href="#reviews">Репутация</a>
-            <a class="tag" href="#reviews">Безопасность</a>
-          </div>
-        </div>
-        <div class="forum-count">412<small>Темы</small></div>
-        <div class="forum-count">3.1K<small>Сообщения</small></div>
-        <div class="last-post"><div class="last-icon">✓</div><div><strong>Отзыв о сервисе</strong><small>realuser<br>Сегодня, 08:55</small></div></div>
-      </div>
-
-      <div class="forum-row" id="rules" data-search="правила поддержка новости помощь вопросы">
-        <div class="forum-cover red">▤</div>
-        <div class="forum-info">
-          <h3>Правила и поддержка</h3>
-          <p>Правила форума, новости, помощь пользователям и решение вопросов.</p>
-          <div class="tags">
-            <a class="tag" href="#rules">Правила</a>
-            <a class="tag" href="#support">Новости</a>
-            <a class="tag" href="#support">Помощь</a>
-          </div>
-        </div>
-        <div class="forum-count">98<small>Темы</small></div>
-        <div class="forum-count">962<small>Сообщения</small></div>
-        <div class="last-post"><div class="last-icon">!</div><div><strong>Обновления форума</strong><small>Support<br>Сегодня, 07:12</small></div></div>
-      </div>
-
-      <div class="empty-message" id="empty">Ничего не найдено. Попробуй другой запрос.</div>
-    </section>
-
-    <aside>
-
-      <button class="btn" onclick="openModal()">＋ Создать тему</button>
-      <button class="btn secondary" onclick="alert('Демонстрация: новые сообщения появятся после подключения серверной части.')">▣ Новые сообщения</button>
-
-      <section class="panel" style="margin-top:15px">
-        <div class="panel-title">Навигация</div>
-        <div class="side-list">
-          <a class="side-item" href="#sections"><span>♟</span> Разделы форума</a>
-          <a class="side-item" href="#popular"><span>★</span> Популярные темы</a>
-          <a class="side-item" href="#users"><span>◉</span> Пользователи онлайн</a>
-          <a class="side-item" href="#rules"><span>▤</span> Правила сообщества</a>
-          <a class="side-item" href="#support"><span>✉</span> Поддержка</a>
-        </div>
-      </section>
-
-      <section class="panel" id="popular">
-        <div class="panel-title">Популярные темы</div>
-        <a class="popular-row" href="#accounts"><div class="popular-icon">◉</div><div><strong>Как защитить аккаунт?</strong><small>52 ответа · coderhub</small></div></a>
-        <a class="popular-row" href="#services"><div class="popular-icon">⌘</div><div><strong>Полезные инструменты</strong><small>37 ответов · realuser</small></div></a>
-        <a class="popular-row" href="#reviews"><div class="popular-icon">✚</div><div><strong>Как оценивать репутацию?</strong><small>28 ответов · DarkSeller</small></div></a>
-        <a class="popular-row" href="#market"><div class="popular-icon">▦</div><div><strong>Подборка сервисов</strong><small>21 ответ · tradueser</small></div></a>
-        <a class="popular-row" href="#support"><div class="popular-icon">?</div><div><strong>Вопросы новичков</strong><small>19 ответов · Support</small></div></a>
-      </section>
-
-      <section class="panel" id="users">
-        <div class="panel-title">Топ пользователей</div>
-        <div class="rank"><span class="rank-number">1</span><span class="avatar">◉</span><div><strong>DarkSeller</strong><small>322 сообщения</small></div></div>
-        <div class="rank"><span class="rank-number">2</span><span class="avatar">◈</span><div><strong>coderhub</strong><small>281 сообщение</small></div></div>
-        <div class="rank"><span class="rank-number">3</span><span class="avatar">◉</span><div><strong>realuser</strong><small>245 сообщений</small></div></div>
-        <div class="rank"><span class="rank-number">4</span><span class="avatar">⬡</span><div><strong>tradueser</strong><small>198 сообщений</small></div></div>
-        <div class="rank"><span class="rank-number">5</span><span class="avatar">◉</span><div><strong>Alexey</strong><small>176 сообщений</small></div></div>
-      </section>
-
-      <section class="panel" id="support">
-        <div class="panel-title">Поддержка</div>
-        <div class="side-list">
-          <p style="font-size:12px;line-height:1.7;color:#999">
-            Нужна помощь с форумом? Ознакомься с правилами или подготовь вопрос для администрации.
-          </p>
-          <a class="btn" style="display:block;text-align:center" href="#rules">Правила форума →</a>
-        </div>
-      </section>
-
-    </aside>
-  </div>
-
-  <div class="bottom-grid">
-    <section class="panel">
-      <div class="panel-title">Сейчас онлайн · 1 203</div>
-      <div class="online-users">
-        <span class="online-avatar">◉</span><span class="online-avatar">◈</span>
-        <span class="online-avatar">⬡</span><span class="online-avatar">◉</span>
-        <span class="online-avatar">⚡</span><span class="online-avatar">◈</span>
-        <span class="online-avatar">◉</span><span class="online-avatar">⬡</span>
-        <span class="online-avatar">◈</span><span class="online-avatar">◉</span>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="panel-title">Статистика форума</div>
-      <div class="online-users" style="justify-content:space-around">
-        <div><strong style="color:var(--red)">12 487</strong><small style="display:block;color:var(--muted);margin-top:5px">ПОЛЬЗОВАТЕЛЕЙ</small></div>
-        <div><strong style="color:var(--red)">3 421</strong><small style="display:block;color:var(--muted);margin-top:5px">ТЕМ</small></div>
-        <div><strong style="color:var(--red)">28 913</strong><small style="display:block;color:var(--muted);margin-top:5px">СООБЩЕНИЙ</small></div>
-      </div>
-    </section>
-  </div>
-
-  <footer class="footer">
-    <span>© 2026 SHADOW COMMUNITY · Демонстрационный макет форума</span>
-    <span><a href="#rules">Правила</a>　·　<a href="#support">Поддержка</a>　·　<a href="#sections">Разделы</a></span>
-  </footer>
-
-</main>
-
-<!-- Форма создания темы: демонстрационный интерфейс -->
-<div class="modal" id="topicModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal-box">
-    <h2 id="modalTitle">Создать тему</h2>
-    <p style="font-size:12px;color:#888">Демонстрационная форма. Для публикации тем потребуется серверная часть.</p>
-
-    <form id="topicForm">
-      <label for="topicTitle">Название темы</label>
-      <input id="topicTitle" required maxlength="100" placeholder="Введите заголовок">
-
-      <label for="topicSection">Раздел</label>
-      <select id="topicSection">
-        <option>Аккаунты и цифровые товары</option>
-        <option>Маркетплейс</option>
-        <option>Услуги и инструменты</option>
-        <option>Обмен и сотрудничество</option>
-        <option>Отзывы и репутация</option>
-        <option>Правила и поддержка</option>
-      </select>
-
-      <label for="topicBody">Сообщение</label>
-      <textarea id="topicBody" required maxlength="3000" placeholder="Напишите первое сообщение..."></textarea>
-
-      <div class="modal-actions">
-        <button type="submit" class="btn">Предпросмотр</button>
-        <button type="button" class="btn secondary" onclick="closeModal()">Отмена</button>
-      </div>
-    </form>
-  </div>
+<header class="top">
+<nav class="nav">
+<a class="logo" href="#home" data-page="home">FENIX</a>
+<div class="links">
+<a class="active" href="#home" data-page="home">⌂ ГЛАВНАЯ</a>
+<a href="#forum" data-page="forum">▤ ФОРУМ</a>
+<a href="#market" data-page="market">🛒 МАРКЕТ</a>
+<a href="#reviews" data-page="reviews">♢ ГАРАНТ</a>
+<a href="#users" data-page="users">♟ ПОЛЬЗОВАТЕЛИ</a>
+<a href="#rules" data-page="rules">▣ ПРАВИЛА</a>
+<a href="#support" data-page="support">✥ ПОДДЕРЖКА</a>
 </div>
+<div class="right">
+<input class="search" id="search" placeholder="⌕ Поиск...">
+<a class="profile" href="#login" data-page="login">♟ Алексей　⌄</a>
+</div>
+</nav>
+</header>
+<main class="wrap">
+<section id="home" class="page active">
+<div class="ads">
+<div class="track" id="track">
+<div class="group">
+<div class="banner" style="background-image:url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1000&q=85')">
+<div class="copy"><h2>Аккаунты и подписки</h2><p>Netflix, Spotify, YouTube и другие</p></div><a class="cta" href="#market" data-page="market">ПЕРЕЙТИ →</a>
+</div>
+<div class="banner" style="background-image:url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1000&q=85')">
+<div class="copy"><h2>Быстрые выплаты</h2><p>Надёжные сделки через FENIX</p></div><a class="cta" href="#reviews" data-page="reviews">УЗНАТЬ БОЛЬШЕ →</a>
+</div>
+<div class="banner" style="background-image:url('https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=1000&q=85')">
+<div class="copy"><h2>Игровые товары</h2><p>Скины, ключи, игровые аккаунты</p></div><a class="cta" href="#market" data-page="market">В МАРКЕТ →</a>
+</div>
+</div>
+<div class="group" aria-hidden="true">
+<div class="banner" style="background-image:url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1000&q=85')"><div class="copy"><h2>Аккаунты и подписки</h2><p>Netflix, Spotify, YouTube и другие</p></div><a class="cta" href="#market" data-page="market">ПЕРЕЙТИ →</a></div>
+<div class="banner" style="background-image:url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1000&q=85')"><div class="copy"><h2>Быстрые выплаты</h2><p>Надёжные сделки через FENIX</p></div><a class="cta" href="#reviews" data-page="reviews">УЗНАТЬ БОЛЬШЕ →</a></div>
+<div class="banner" style="background-image:url('https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=1000&q=85')"><div class="copy"><h2>Игровые товары</h2><p>Скины, ключи, игровые аккаунты</p></div><a class="cta" href="#market" data-page="market">В МАРКЕТ →</a></div>
+</div>
+</div>
+<div class="dots"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="stats">
+<div class="stat"><div class="ico">♟</div><div><b>12 487</b><small>ПОЛЬЗОВАТЕЛЕЙ</small></div></div>
+<div class="stat"><div class="ico">▣</div><div><b>3 421</b><small>ТЕМ</small></div></div>
+<div class="stat"><div class="ico">●</div><div><b>28 913</b><small>СООБЩЕНИЙ</small></div></div>
+<div class="stat online"><div class="ico">♟♟</div><div><b>1 203</b><small>СЕЙЧАС ОНЛАЙН</small></div></div>
+</div>
+<div class="layout">
+<section class="panel">
+<div class="title">Разделы форума</div>
+<div class="forum-row" data-search="аккаунты цифровые товары соцсети игры подписки софт">
+<div class="cover" style="background-image:url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=500&q=80')"></div>
+<div class="desc"><h3><a href="#forum" data-page="forum">Аккаунты и цифровые товары</a></h3><p>Обсуждение аккаунтов, подписок, ключей и цифровых товаров.</p><span class="tag">Соцсети</span><span class="tag">Игры</span><span class="tag">Подписки</span><span class="tag">Софт</span></div>
+<div class="count">1.2K<small>ТЕМ</small></div><div class="count">8.7K<small>СООБЩЕНИЙ</small></div>
+<div class="last"><div class="service-icon">N</div><div class="last-text"><strong>Netflix Premium | Гарантия сделки</strong><small>DarkSeller<br>Сегодня, 14:23</small></div></div>
+</div>
+<div class="forum-row" data-search="маркетплейс покупка продажа цифровые товары скидки">
+<div class="cover" style="background-image:url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=500&q=80')"></div>
+<div class="desc"><h3><a href="#market" data-page="market">Маркетплейс</a></h3><p>Покупка и продажа цифровых товаров. Размещение своих товаров и услуг.</p><span class="tag">Продажа</span><span class="tag">Покупка</span><span class="tag">Скидки</span><span class="tag">Проверенные</span></div>
+<div class="count">742<small>ТЕМ</small></div><div class="count">5.9K<small>СООБЩЕНИЙ</small></div>
+<div class="last"><div class="service-icon">◉</div><div class="last-text"><strong>Steam аккаунты | Большой выбор</strong><small>seller1337<br>Сегодня, 12:11</small></div></div>
+</div>
+<div class="forum-row" data-search="услуги разработка дизайн продвижение обучение">
+<div class="cover" style="background-image:url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=500&q=80')"></div>
+<div class="desc"><h3><a href="#market" data-page="market">Услуги</a></h3><p>Разработка, дизайн, настройка, обучение и другие услуги.</p><span class="tag">Разработка</span><span class="tag">Дизайн</span><span class="tag">Продвижение</span></div>
+<div class="count">631<small>ТЕМ</small></div><div class="count">4.2K<small>СООБЩЕНИЙ</small></div>
+<div class="last"><div class="service-icon">➤</div><div class="last-text"><strong>Настройка Telegram-бота</strong><small>coderhub<br>Сегодня, 10:37</small></div></div>
+</div>
+<div class="forum-row" data-search="обмен аккаунты ключи подписки">
+<div class="cover" style="background-image:url('https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=500&q=80')"></div>
+<div class="desc"><h3><a href="#forum" data-page="forum">Обмен</a></h3><p>Обмен аккаунтами, ключами, подписками и другими цифровыми товарами.</p><span class="tag">Аккаунты</span><span class="tag">Ключи</span><span class="tag">Подписки</span></div>
+<div class="count">284<small>ТЕМ</small></div><div class="count">1.9K<small>СООБЩЕНИЙ</small></div>
+<div class="last"><div class="service-icon">▣</div><div class="last-text"><strong>Обмен Fortnite на Roblox</strong><small>tradeuser<br>Сегодня, 09:18</small></div></div>
+</div>
+<div class="forum-row" data-search="отзывы гарантии черный список репутация">
+<div class="cover" style="background-image:url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=500&q=80')"></div>
+<div class="desc"><h3><a href="#reviews" data-page="reviews">Отзывы и гаранты</a></h3><p>Отзывы о продавцах и услугах. Гарант-сервис для сделок.</p><span class="tag">Отзывы</span><span class="tag">Чёрный список</span><span class="tag">Гарант</span></div>
+<div class="count">412<small>ТЕМ</small></div><div class="count">3.1K<small>СООБЩЕНИЙ</small></div>
+<div class="last"><div class="service-icon" style="color:#2bd88a">✓</div><div class="last-text"><strong>Отзыв на продавца @FastAcc</strong><small>realuser<br>Сегодня, 08:55</small></div></div>
+</div>
+<div class="forum-row" data-search="правила поддержка новости помощь жалобы">
+<div class="cover" style="background-image:url('https://images.unsplash.com/photo-1510511459019-5daa1f2fd8e5?auto=format&fit=crop&w=500&q=80')"></div>
+<div class="desc"><h3><a href="#rules" data-page="rules">Правила и поддержка</a></h3><p>Правила форума, новости, помощь пользователям и решение споров.</p><span class="tag">Правила</span><span class="tag">Новости</span><span class="tag">Помощь</span></div>
+<div class="count">98<small>ТЕМ</small></div><div class="count">962<small>СООБЩЕНИЙ</small></div>
+<div class="last"><div class="service-icon">⚑</div><div class="last-text"><strong>Важные обновления форума</strong><small>Support<br>Сегодня, 07:12</small></div></div>
+</div>
+</section>
+<aside>
+<a class="side-action" href="#forum" data-page="forum">➤　СОЗДАТЬ ТЕМУ</a>
+<a class="side-action secondary" href="#support" data-page="support">▣　НОВЫЕ СООБЩЕНИЯ</a>
+<section class="panel side">
+<div class="title">Популярные темы</div>
+<div class="topic"><span class="topic-icon" style="color:#18d77d">◉</span><div>Где выгоднее купить Spotify в 2026?<small>52 ответа</small></div></div>
+<div class="topic"><span class="topic-icon" style="color:#ff4b9a">◎</span><div>База аккаунтов Instagram 2026<small>37 ответов</small></div></div>
+<div class="topic"><span class="topic-icon">▤</span><div>Лучшие прокси для работы<small>28 ответов</small></div></div>
+<div class="topic"><span class="topic-icon" style="color:#f22">Ⓐ</span><div>Раздача ключей Adobe<small>21 ответ</small></div></div>
+<div class="topic"><span class="topic-icon">♢</span><div>Как защитить аккаунт от бана?<small>19 ответов</small></div></div>
+</section>
+<section class="panel side">
+<div class="title">Топ пользователей</div>
+<div class="tabs"><span>Неделя</span><span>Месяц</span><span>Все время</span></div>
+<div class="rank"><b class="rank-num">1</b><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80" alt=""><div>DarkSeller<small>322 сообщения</small></div></div>
+<div class="rank"><b class="rank-num">2</b><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf3776b5?auto=format&fit=crop&w=80&q=80" alt=""><div>coderhub<small>281 сообщение</small></div></div>
+<div class="rank"><b class="rank-num">3</b><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=80&q=80" alt=""><div>realuser<small>245 сообщений</small></div></div>
+<div class="rank"><b class="rank-num">4</b><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" alt=""><div>tradeuser<small>198 сообщений</small></div></div>
+<div class="rank"><b class="rank-num">5</b><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80" alt=""><div>Alexey<small>176 сообщений</small></div></div>
+</section>
+</aside>
+</div>
+</section>
 
+<section id="forum" class="page">
+<div class="panel"><div class="title">Форум · Все разделы</div>
+<div class="topic">Аккаунты и цифровые товары<small>Обсуждения, гайды и безопасность</small></div>
+<div class="topic">Услуги и инструменты<small>Разработка, дизайн и обучение</small></div>
+<div class="topic">Обмен и сотрудничество<small>Обмен опытом и цифровыми товарами</small></div></div>
+</section>
+<section id="market" class="page"><div class="panel"><div class="title">Маркетплейс</div>
+<div class="topic">Подборка цифровых сервисов недели<small>Обзоры · 21 ответ · сегодня</small></div>
+<div class="topic">Сравнение инструментов для работы<small>Инструменты · 14 ответов · вчера</small></div></div></section>
+<section id="reviews" class="page"><div class="panel"><div class="title">Отзывы и гаранты</div>
+<div class="topic">realuser — опыт использования цифровых сервисов<small>★★★★★ · Демонстрационный отзыв</small></div>
+<div class="topic">coderhub — отзыв о технической поддержке<small>★★★★☆ · Демонстрационный отзыв</small></div></div></section>
+<section id="users" class="page"><div class="panel"><div class="title">Пользователи</div><div class="topic">DarkSeller · coderhub · realuser · tradeuser · Alexey<small>Демонстрационный список участников</small></div></div></section>
+<section id="rules" class="page"><div class="panel"><div class="title">Правила сообщества FENIX</div>
+<div class="topic">1. Уважайте участников и администрацию.</div>
+<div class="topic">2. Запрещены мошенничество, угрозы, спам и публикация чужих личных данных.</div>
+<div class="topic">3. Не размещайте украденные аккаунты, вредоносные файлы или незаконные предложения.</div>
+<div class="topic">4. Проверяйте информацию и не доверяйте неподтверждённым обещаниям.</div></div></section>
+<section id="support" class="page"><div class="form"><h1>Поддержка FENIX</h1><p>Демонстрационная форма. Для реальной отправки сообщений нужен сервер.</p>
+<form id="supportForm"><label>Почта</label><input type="email" placeholder="you@example.com"><label>Сообщение</label><input id="supportMessage" required maxlength="500" placeholder="Чем помочь?"><button class="btn">Подготовить обращение</button></form><div id="supportResult" class="notice" hidden></div></div></section>
+<section id="register" class="page"><div class="form"><h1>Создать аккаунт</h1><p>Демо-форма: данные не отправляются и не сохраняются.</p>
+<form id="registerForm"><label>Имя пользователя</label><input required minlength="3" maxlength="24" placeholder="Твой никнейм"><label>Электронная почта</label><input type="email" required placeholder="you@example.com"><label>Пароль</label><input id="pass1" type="password" required minlength="8" placeholder="Не менее 8 символов"><label>Повтори пароль</label><input id="pass2" type="password" required minlength="8" placeholder="Повтори пароль"><button class="btn">Зарегистрироваться</button></form><div id="regResult" class="notice" hidden></div></div></section>
+<section id="login" class="page"><div class="form"><h1>Вход в FENIX</h1><p>Демо-форма без серверной авторизации.</p>
+<form id="loginForm"><label>Почта или никнейм</label><input required placeholder="Почта или никнейм"><label>Пароль</label><input type="password" required placeholder="Пароль"><button class="btn">Войти</button></form><div id="loginResult" class="notice" hidden></div></div></section>
+<footer class="footer"><span>© 2026 FENIX COMMUNITY · Демонстрационный форум</span><span><a href="#rules" data-page="rules">Правила</a> · <a href="#support" data-page="support">Поддержка</a> · <a href="#register" data-page="register">Регистрация</a></span></footer>
+</main>
 <script>
-const modal = document.getElementById("topicModal");
-
-function openModal() {
-  modal.classList.add("open");
-  document.getElementById("topicTitle").focus();
+const valid=['home','forum','market','reviews','users','rules','support','register','login'];
+function showPage(id,update=true){
+ if(!valid.includes(id))id='home';
+ document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));
+ document.querySelectorAll('[data-page]').forEach(a=>a.classList.toggle('active',a.dataset.page===id));
+ if(update&&location.hash!=='#'+id)history.pushState(null,'','#'+id);
+ window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function closeModal() {
-  modal.classList.remove("open");
-}
-
-modal.addEventListener("click", function(event) {
-  if (event.target === modal) closeModal();
+document.addEventListener('click',e=>{
+ const a=e.target.closest('[data-page]');
+ if(a){e.preventDefault();showPage(a.dataset.page);}
 });
-
-document.addEventListener("keydown", function(event) {
-  if (event.key === "Escape") closeModal();
+window.addEventListener('popstate',()=>showPage(location.hash.slice(1)||'home',false));
+if(location.hash)showPage(location.hash.slice(1),false);
+document.getElementById('search').addEventListener('input',e=>{
+ const q=e.target.value.toLowerCase().trim();
+ if(q)showPage('home');
+ document.querySelectorAll('#home .forum-row').forEach(r=>{
+  r.style.display=r.innerText.toLowerCase().includes(q)?'':'none';
+ });
 });
-
-// Поиск по разделам
-const searchInput = document.getElementById("search");
-const forumRows = [...document.querySelectorAll(".forum-row")];
-const emptyMessage = document.getElementById("empty");
-
-searchInput.addEventListener("input", function() {
-  const query = this.value.trim().toLowerCase();
-  let visible = 0;
-
-  forumRows.forEach(function(row) {
-    const text = (row.innerText + " " + row.dataset.search).toLowerCase();
-    const matches = text.includes(query);
-    row.style.display = matches ? "" : "none";
-    if (matches) visible++;
-  });
-
-  emptyMessage.style.display = visible ? "none" : "block";
+document.getElementById('registerForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const o=document.getElementById('regResult');o.hidden=false;
+ o.textContent=document.getElementById('pass1').value!==document.getElementById('pass2').value?'Пароли не совпадают.':'Это макет: для настоящей регистрации нужно подключить сервер и базу данных.';
 });
-
-// Демонстрация формы: ничего не отправляется на сервер
-document.getElementById("topicForm").addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  const title = document.getElementById("topicTitle").value.trim();
-  const section = document.getElementById("topicSection").value;
-  const body = document.getElementById("topicBody").value.trim();
-
-  if (!title || !body) return;
-
-  closeModal();
-
-  const preview = document.createElement("div");
-  preview.style.cssText =
-    "position:fixed;inset:0;z-index:200;background:#000d;display:grid;" +
-    "place-items:center;padding:20px;";
-
-  const box = document.createElement("div");
-  box.style.cssText =
-    "max-width:520px;width:100%;background:#111;border:1px solid #f0202b;" +
-    "border-radius:8px;padding:24px;";
-
-  const heading = document.createElement("h2");
-  heading.textContent = "Предпросмотр темы";
-
-  const category = document.createElement("p");
-  category.style.color = "#f0202b";
-  category.textContent = section;
-
-  const topicHeading = document.createElement("h3");
-  topicHeading.textContent = title;
-
-  const topicText = document.createElement("p");
-  topicText.style.cssText = "color:#bbb;white-space:pre-wrap;line-height:1.6;";
-  topicText.textContent = body;
-
-  const note = document.createElement("p");
-  note.style.cssText = "font-size:12px;color:#888;";
-  note.textContent =
-    "Это только предпросмотр. Чтобы темы сохранялись и были видны другим пользователям, нужно подключить сервер или базу данных.";
-
-  const closeButton = document.createElement("button");
-  closeButton.className = "btn";
-  closeButton.textContent = "Закрыть";
-  closeButton.onclick = function() { preview.remove(); };
-
-  box.append(heading, category, topicHeading, topicText, note, closeButton);
-  preview.appendChild(box);
-  document.body.appendChild(preview);
-
-  this.reset();
+document.getElementById('loginForm').addEventListener('submit',e=>{
+ e.preventDefault();const o=document.getElementById('loginResult');o.hidden=false;
+ o.textContent='Демо-форма. Реальный вход заработает после подключения сервера и авторизации.';
+});
+document.getElementById('supportForm').addEventListener('submit',e=>{
+ e.preventDefault();const o=document.getElementById('supportResult');o.hidden=false;
+ o.textContent='Обращение подготовлено, но не отправлено: нужна серверная часть.';
 });
 </script>
-
 </body>
 </html>
