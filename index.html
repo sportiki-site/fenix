@@ -604,6 +604,38 @@ footer nav{display:flex;gap:24px}
 #forumCategories .forum-category[data-forum-category="Торговая площадка — VIP"] {
   background-image: url("./forum-vip.png");
 }
+  
+/* Кнопка возврата к темам обсуждения */
+#forumDiscussion #forumBack {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  margin-bottom: 22px;
+
+  background: #151313;
+  color: #e8e5e5;
+  border: 1px solid #393030;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+#forumDiscussion #forumBack:hover {
+  background: #241719;
+  border-color: #a52b36;
+  color: #ffffff;
+}
+
+#forumDiscussion #forumBack:focus-visible {
+  outline: 2px solid #e63946;
+  outline-offset: 3px;
+}
+
 </style>
 </head>
 <body>
