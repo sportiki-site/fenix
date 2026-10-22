@@ -1604,34 +1604,6 @@ const forumTopicData = [
     pinned: false
   },
   {
-    id: 7,
-  title: "24/7 Razex - Миксер криптовалют с AML-проверкой от 0 до 25%.",
-    category: "Обменные сервисы",
-    type: "ОБСУЖДЕНИЕ",
-   
-description: "24/7 Razex — информация о сервисе, условиях обмена цифровых активов, комиссиях и AML-проверках.",
-
-content: `Добро пожаловать в 24/7 Razex.
-
-В этой теме собрана информация о сервисе, порядке проведения операций, условиях обмена и проверке транзакций.
-
-Перед началом работы уточняйте актуальные комиссии, сроки обработки, поддерживаемые сети и требования к подтверждению операций.
-
-Проверяйте реквизиты и итоговые условия до отправки средств.`,
-blocks: [
-  {
-    type: 'banner',
-    url: 'images/forum/power-world-banner.jpg',
-    alt: '24/7 Razex — баннер сервиса'
-  }
-],
-    author: "Member",
-    date: "2026-10-22",
-    replies: 7,
-    views: 143,
-    pinned: false
-  },
-  {
     id: 8,
     title: "Вопросы новичков",
     category: "Документы",
@@ -1954,6 +1926,7 @@ function forumSafe(value) {
 
 
 function forumReadData() {
+  try {
     const stored = JSON.parse(
       localStorage.getItem(FORUM_STORAGE_KEY) || 'null'
     );
@@ -2003,7 +1976,6 @@ function forumReadData() {
 
   return forumTopicData.map(topic => ({ ...topic }));
 }
-
 
 
 let forumTopics = forumReadData().map(topic => ({
