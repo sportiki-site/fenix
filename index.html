@@ -1140,90 +1140,572 @@ const forumTopicData = [
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-/* ===== ОТОБРАЖЕНИЕ ТЕМ ФОРУМА ===== */
+/* ===== ЛОГИКА ФОРУМА — ОСТАЛЬНЫЕ РАЗДЕЛЫ НЕ МЕНЯЕМ ===== */
+const FORUM_CATEGORIES = [
+  { name: 'Документы', icon: '01', description: 'Справочные материалы и общие вопросы.' },
+  { name: 'Обменные сервисы', icon: '02', description: 'Обсуждения обменных сервисов.' },
+  { name: 'Сервисы и услуги', icon: '03', description: 'Полезные сервисы и услуги.' },
+  { name: 'Продавцы и сервисы', icon: '04', description: 'Публикации и отзывы участников.' },
+  { name: 'Торговая площадка — VIP', icon: '05', description: 'Объявления и публикации площадки.' }
+];
+
+const FORUM_STORAGE_KEY = 'aegisForumDataV2';
+let forumExpanded = false;
+let activeForumCategory = 'Все темы';
+let activeTopicId = null;
+
+function forumSafe(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[char]);
+}
+
+function forumReadData() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(FORUM_STORAGE_KEY) || 'null');
+
+    if (stored && Array.isArray(stored.topics)) {
+      const ids = new Set(stored.topics.map(topic => String(topic.id)));
+
+      return [
+        ...stored.topics,
+        ...forumTopicData.filter(topic => !ids.has(String(topic.id)))
+      ];
+    }
+  } catch (error) {
+    console.warn('Не удалось прочитать темы форума:', error);
+  }
+
+  return forumTopicData.map(topic => ({ ...topic }));
+}
+
+let forumTopics = forumReadData().map(topic => ({
+  ...topic,
+  description: topic.description || topic.content || 'Открой тему, чтобы прочитать публикацию.',
+  comments: Array.isArray(topic.comments) ? topic.comments : [],
+  createdAt: topic.createdAt || topic.date || new Date().toISOString()
+}));
+
+function forumSaveData() {
+  try {
+    localStorage.setItem(
+      FORUM_STORAGE_KEY,
+      JSON.stringify({ topics: forumTopics })
+    );
+    return true;
+  } catch (error) {
+    console.warn('Не удалось сохранить темы форума:', error);
+    return false;
+  }
+}
+
+function forumCategoryName(name) {
+  return name === 'Сервисы' ? 'Сервисы и услуги' : name;
+}
+
+function forumGetCounts() {
+  return FORUM_CATEGORIES.map(category => {
+    const topics = forumTopics.filter(
+      topic => forumCategoryName(topic.category) === category.name
+    );
+
+    return {
+      ...category,
+      topicCount: topics.length,
+      postCount: topics.reduce(
+        (sum, topic) =>
+          sum + (Number(topic.replies) || 0) + topic.comments.length,
+        0
+      )
+    };
+  });
+}
+
+function forumUpdateStats() {
+  const topicCount = $('#forumTopicCount');
+  const categoryCount = $('#forumCategoryCount');
+
+  if (topicCount) {
+    topicCount.textContent = String(forumTopics.length).padStart(2, '0');
+  }
+
+  if (categoryCount) {
+    categoryCount.textContent = String(FORUM_CATEGORIES.length).padStart(2, '0');
+  }
+
+  forumGetCounts().forEach(category => {
+    const row = $$('.forum-row').find(
+      item => $('h4 a', item)?.textContent.trim() === category.name
+    );
+
+    if (!row) return;
+
+    const counts = $$('.count', row);
+
+    if (counts[0]) {
+      counts[0].innerHTML =
+        `${String(category.topicCount).padStart(2, '0')}<small>тем</small>`;
+    }
+
+    if (counts[1]) {
+      counts[1].innerHTML =
+        `${category.postCount}<small>постов</small>`;
+    }
+  });
+
+  const panelLabel = $('#forumPanel .panel-head span');
+
+  if (panelLabel) {
+    panelLabel.textContent = `${FORUM_CATEGORIES.length} разделов`;
+  }
+}
+
+function renderForumCategories() {
+  const container = $('#forumCategories');
+  if (!container) return;
+
+  container.innerHTML = `
+    <button
+      class="forum-category ${activeForumCategory === 'Все темы' ? 'active' : ''}"
+      type="button"
+      data-forum-category="Все темы"
+    >
+      <span class="forum-category-icon">ALL</span>
+      <span class="forum-category-info">
+        <h3>Все темы</h3>
+        <p>Все обсуждения сообщества.</p>
+        <span class="forum-category-meta">
+          ${forumTopics.length} тем · ${forumTopics.reduce(
+            (sum, topic) =>
+              sum + (Number(topic.replies) || 0) + topic.comments.length,
+            0
+          )} постов
+        </span>
+      </span>
+      <span class="forum-category-arrow" aria-hidden="true">→</span>
+    </button>
+  ` + forumGetCounts().map(category => `
+    <button
+      class="forum-category ${activeForumCategory === category.name ? 'active' : ''}"
+      type="button"
+      data-forum-category="${forumSafe(category.name)}"
+    >
+      <span class="forum-category-icon">${category.icon}</span>
+      <span class="forum-category-info">
+        <h3>${forumSafe(category.name)}</h3>
+        <p>${forumSafe(category.description)}</p>
+        <span class="forum-category-meta">
+          ${category.topicCount} тем · ${category.postCount} постов
+        </span>
+      </span>
+      <span class="forum-category-arrow" aria-hidden="true">→</span>
+    </button>
+  `).join('');
+}
+
+function getForumFilteredTopics() {
+  const query = ($('#forumSearch')?.value || '')
+    .trim()
+    .toLocaleLowerCase('ru');
+
+  const sort = $('#forumSort')?.value || 'new';
+
+  const filtered = forumTopics.filter(topic => {
+    const categoryMatch =
+      activeForumCategory === 'Все темы' ||
+      forumCategoryName(topic.category) === activeForumCategory;
+
+    const commentText = (topic.comments || [])
+      .map(comment => comment.text)
+      .join(' ');
+
+    const haystack = `
+      ${topic.title}
+      ${topic.description}
+      ${topic.content}
+      ${topic.author}
+      ${topic.category}
+      ${commentText}
+    `.toLocaleLowerCase('ru');
+
+    return categoryMatch && haystack.includes(query);
+  });
+
+  filtered.sort((a, b) => {
+    if (Boolean(a.pinned) !== Boolean(b.pinned)) {
+      return a.pinned ? -1 : 1;
+    }
+
+    if (sort === 'popular') {
+      return (Number(b.views) || 0) - (Number(a.views) || 0);
+    }
+
+    if (sort === 'replies') {
+      const repliesA = (Number(a.replies) || 0) + (a.comments || []).length;
+      const repliesB = (Number(b.replies) || 0) + (b.comments || []).length;
+      return repliesB - repliesA;
+    }
+
+    return (
+      new Date(b.createdAt || b.date || 0) -
+      new Date(a.createdAt || a.date || 0)
+    ) || Number(b.id) - Number(a.id);
+  });
+
+  return filtered;
+}
 
 function renderForumTopics() {
-  const container = document.querySelector('#forumTopics');
-  const categorySelect = document.querySelector('#forumNewCategory');
+  const container = $('#forumTopics');
+  const empty = $('#forumEmpty');
+  const expandButton = $('#forumExpandBtn');
 
   if (!container) return;
 
-  const categories = [
-    'Все темы',
-    'Документы',
-    'Обменные сервисы',
-    'Сервисы и услуги',
-    'Продавцы и сервисы',
-    'Торговая площадка — VIP'
-  ];
+  const topics = getForumFilteredTopics();
+  const visible = forumExpanded ? topics : topics.slice(0, 5);
 
-  // Заполняем фильтр категорий, если он существует
-  const categoryFilter = document.querySelector('#forumCategoryFilter');
+  container.innerHTML = visible.map(topic => `
+    <article
+      class="forum-topic"
+      role="button"
+      tabindex="0"
+      data-topic-id="${forumSafe(topic.id)}"
+      aria-label="Открыть тему ${forumSafe(topic.title)}"
+    >
+      <div class="forum-topic-icon" aria-hidden="true">
+        ${topic.pinned ? '★' : '↳'}
+      </div>
 
-  if (categoryFilter && !categoryFilter.dataset.ready) {
-    categoryFilter.innerHTML = categories.map(category =>
-      `<option value="${category}">${category}</option>`
-    ).join('');
-    categoryFilter.dataset.ready = 'true';
-  }
-
-  // Заполняем список категорий в форме создания темы
-  if (categorySelect && !categorySelect.dataset.ready) {
-    categorySelect.innerHTML = categories.slice(1).map(category =>
-      `<option value="${category}">${category}</option>`
-    ).join('');
-    categorySelect.dataset.ready = 'true';
-  }
-
-  const search = (document.querySelector('#forumSearch')?.value || '').toLowerCase();
-  const selectedCategory = categoryFilter?.value || 'Все темы';
-
-  const topics = forumTopicData.filter(topic => {
-    const matchesCategory =
-      selectedCategory === 'Все темы' || topic.category === selectedCategory;
-
-    const text = `${topic.title} ${topic.description} ${topic.content} ${topic.author}`.toLowerCase();
-    const matchesSearch = text.includes(search);
-
-    return matchesCategory && matchesSearch;
-  });
-
-  if (!topics.length) {
-    container.innerHTML = '<p>Тем пока нет.</p>';
-    return;
-  }
-
-  container.innerHTML = topics.map(topic => `
-    <article class="forum-topic">
       <div class="forum-topic-main">
         <div class="forum-topic-tags">
           ${topic.pinned ? '<span class="forum-tag">ЗАКРЕПЛЕНО</span>' : ''}
-          <span class="forum-tag">${topic.type}</span>
-          <span class="forum-tag">${topic.category}</span>
+          <span class="forum-tag">${forumSafe(topic.type || 'ОБСУЖДЕНИЕ')}</span>
+          <span class="forum-tag">${forumSafe(forumCategoryName(topic.category))}</span>
         </div>
-        <h3>${topic.title}</h3>
-        <p>${topic.description}</p>
+
+        <h3>${forumSafe(topic.title)}</h3>
+        <p>${forumSafe(topic.description)}</p>
+
         <div class="forum-topic-meta">
-          <span>${topic.author}</span>
-          <span>${topic.date}</span>
-          <span>Ответов: ${topic.replies}</span>
-          <span>Просмотров: ${topic.views}</span>
+          <span>${forumSafe(topic.author || 'Гость')}</span>
+          <span>${forumSafe(topic.date || '')}</span>
+          <span>Ответов: ${(Number(topic.replies) || 0) + topic.comments.length}</span>
+          <span>Просмотров: ${Number(topic.views) || 0}</span>
         </div>
       </div>
     </article>
   `).join('');
+
+  if (empty) {
+    empty.hidden = topics.length > 0;
+    empty.textContent =
+      'Ничего не найдено. Попробуй изменить поиск или категорию.';
+  }
+
+  if (expandButton) {
+    expandButton.hidden = topics.length <= 5;
+    expandButton.textContent = forumExpanded
+      ? 'Свернуть список ↑'
+      : `Показать все ${topics.length} тем ↓`;
+
+    expandButton.setAttribute('aria-expanded', String(forumExpanded));
+  }
+
+  const heading = $('#forumTopicsHeading');
+
+  if (heading) {
+    heading.textContent = activeForumCategory === 'Все темы'
+      ? 'Последние темы'
+      : activeForumCategory;
+  }
+
+  const allButton = $('#forumAllTopics');
+
+  if (allButton) {
+    allButton.textContent = activeForumCategory === 'Все темы'
+      ? 'Все темы'
+      : 'Сбросить фильтр';
+  }
 }
 
-// Запускаем после загрузки страницы
-document.addEventListener('DOMContentLoaded', renderForumTopics);
+function forumOpenDiscussion(id, updateUrl = true) {
+  const topic = forumTopics.find(item => String(item.id) === String(id));
+  if (!topic) return;
 
-document.addEventListener('input', event => {
-  if (event.target.matches('#forumSearch')) renderForumTopics();
-});
+  activeTopicId = topic.id;
+  topic.views = (Number(topic.views) || 0) + 1;
+  forumSaveData();
 
-document.addEventListener('change', event => {
-  if (event.target.matches('#forumCategoryFilter')) renderForumTopics();
-});
+  const discussion = $('#forumDiscussion');
+  const content = $('#forumDiscussionContent');
+
+  if (!discussion || !content) return;
+
+  const comments = topic.comments || [];
+
+  content.innerHTML = `
+    <article class="forum-preview-topic">
+      <div class="forum-topic-tags">
+        ${topic.pinned ? '<span class="forum-tag">ЗАКРЕПЛЕНО</span>' : ''}
+        <span class="forum-tag">${forumSafe(topic.type || 'ОБСУЖДЕНИЕ')}</span>
+        <span class="forum-tag">${forumSafe(forumCategoryName(topic.category))}</span>
+      </div>
+
+      <h3>${forumSafe(topic.title)}</h3>
+
+      <div class="forum-preview-meta">
+        Автор: <b>${forumSafe(topic.author || 'Гость')}</b>
+        · ${forumSafe(topic.date || '')}
+        · ${Number(topic.views)} просмотров
+      </div>
+
+      <p>${forumSafe(topic.content || topic.description || '')}</p>
+    </article>
+
+    <div class="forum-section-title" style="margin-top:24px">
+      <h2>Ответы (${comments.length})</h2>
+    </div>
+
+    <div class="forum-comments">
+      ${comments.length ? comments.map(comment => `
+        <article class="forum-comment-preview">
+          <div class="forum-avatar" aria-hidden="true">
+            ${forumSafe((comment.author || 'Г').slice(0, 1).toUpperCase())}
+          </div>
+          <div>
+            <b>${forumSafe(comment.author || 'Гость')}</b>
+            <span class="forum-comment-date"> · ${forumSafe(comment.date || '')}</span>
+            <p>${forumSafe(comment.text)}</p>
+          </div>
+        </article>
+      `).join('') : '<p class="forum-hint">Ответов пока нет.</p>'}
+    </div>
+
+    <form id="forumCommentForm">
+      <label for="forumCommentText">Твой ответ</label>
+      <textarea
+        id="forumCommentText"
+        rows="4"
+        maxlength="5000"
+        required
+        placeholder="Напиши ответ по теме..."
+      ></textarea>
+
+      <div class="forum-form-actions">
+        <button class="btn btn-primary" type="submit">Отправить ответ</button>
+      </div>
+
+      <p class="forum-hint">
+        Ответ сохраняется в этом браузере и не отправляется на сервер.
+      </p>
+    </form>
+  `;
+
+  if ($('#forumEditor')) {
+    $('#forumEditor').hidden = true;
+  }
+
+  discussion.hidden = false;
+
+  if (updateUrl) {
+    history.pushState({ page: 'forum', topicId: topic.id }, '', '#forum');
+  }
+
+  forumUpdateStats();
+  renderForumCategories();
+  renderForumTopics();
+
+  discussion.scrollIntoView({
+    behavior: reduce ? 'auto' : 'smooth',
+    block: 'start'
+  });
+}
+
+function forumCloseDiscussion() {
+  activeTopicId = null;
+
+  if ($('#forumDiscussion')) {
+    $('#forumDiscussion').hidden = true;
+  }
+
+  history.pushState({ page: 'forum' }, '', '#forum');
+
+  $('#forumTopics')?.scrollIntoView({
+    behavior: reduce ? 'auto' : 'smooth',
+    block: 'start'
+  });
+}
+
+function initForum() {
+  const categorySelect = $('#forumNewCategory');
+
+  if (categorySelect) {
+    categorySelect.innerHTML = FORUM_CATEGORIES.map(category => `
+      <option value="${forumSafe(category.name)}">
+        ${forumSafe(category.name)}
+      </option>
+    `).join('');
+  }
+
+  renderForumCategories();
+  renderForumTopics();
+  forumUpdateStats();
+
+  $('#forumExpandBtn')?.addEventListener('click', () => {
+    forumExpanded = !forumExpanded;
+    renderForumTopics();
+  });
+
+  $('#forumAllTopics')?.addEventListener('click', () => {
+    activeForumCategory = 'Все темы';
+    forumExpanded = false;
+    renderForumCategories();
+    renderForumTopics();
+  });
+
+  $('#forumCategories')?.addEventListener('click', event => {
+    const button = event.target.closest('[data-forum-category]');
+    if (!button) return;
+
+    activeForumCategory = button.dataset.forumCategory;
+    forumExpanded = false;
+
+    renderForumCategories();
+    renderForumTopics();
+
+    $('#forumTopics')?.scrollIntoView({
+      behavior: reduce ? 'auto' : 'smooth',
+      block: 'start'
+    });
+  });
+
+  $('#forumSearch')?.addEventListener('input', () => {
+    forumExpanded = false;
+    renderForumTopics();
+  });
+
+  $('#forumSort')?.addEventListener('change', () => {
+    forumExpanded = false;
+    renderForumTopics();
+  });
+
+  $('#forumTopics')?.addEventListener('click', event => {
+    const card = event.target.closest('[data-topic-id]');
+    if (card) {
+      forumOpenDiscussion(card.dataset.topicId);
+    }
+  });
+
+  $('#forumTopics')?.addEventListener('keydown', event => {
+    if (
+      (event.key === 'Enter' || event.key === ' ') &&
+      event.target.matches('[data-topic-id]')
+    ) {
+      event.preventDefault();
+      forumOpenDiscussion(event.target.dataset.topicId);
+    }
+  });
+
+  $('#forumCreateBtn')?.addEventListener('click', () => {
+    if ($('#forumDiscussion')) {
+      $('#forumDiscussion').hidden = true;
+    }
+
+    $('#forumEditor').hidden = false;
+
+    $('#forumEditor').scrollIntoView({
+      behavior: reduce ? 'auto' : 'smooth',
+      block: 'start'
+    });
+
+    $('#forumNewTitle')?.focus();
+  });
+
+  $('#forumCancelCreate')?.addEventListener('click', () => {
+    $('#forumEditor').hidden = true;
+    $('#forumCreateForm')?.reset();
+  });
+
+  $('#forumBack')?.addEventListener('click', forumCloseDiscussion);
+
+  $('#forumCreateForm')?.addEventListener('submit', event => {
+    event.preventDefault();
+
+    const title = $('#forumNewTitle').value.trim();
+    const category = $('#forumNewCategory').value;
+    const author = $('#forumNewAuthor').value.trim() || 'Гость';
+    const content = $('#forumNewText').value.trim();
+
+    if (!title || !category || !content) return;
+
+    const topic = {
+      id: `local-${Date.now()}`,
+      title,
+      category,
+      type: 'ОБСУЖДЕНИЕ',
+      description: content.length > 180
+        ? content.slice(0, 177) + '…'
+        : content,
+      content,
+      author,
+      date: new Date().toLocaleDateString('ru-RU'),
+      createdAt: new Date().toISOString(),
+      replies: 0,
+      views: 0,
+      pinned: false,
+      comments: []
+    };
+
+    forumTopics.unshift(topic);
+    forumSaveData();
+
+    $('#forumCreateForm').reset();
+    $('#forumEditor').hidden = true;
+
+    activeForumCategory = 'Все темы';
+    forumExpanded = false;
+
+    renderForumCategories();
+    renderForumTopics();
+    forumUpdateStats();
+    forumOpenDiscussion(topic.id);
+  });
+
+  $('#forumDiscussionContent')?.addEventListener('submit', event => {
+    if (event.target.id !== 'forumCommentForm') return;
+
+    event.preventDefault();
+
+    const topic = forumTopics.find(
+      item => String(item.id) === String(activeTopicId)
+    );
+
+    const text = $('#forumCommentText')?.value.trim();
+
+    if (!topic || !text) return;
+
+    topic.comments = Array.isArray(topic.comments) ? topic.comments : [];
+
+    topic.comments.push({
+      author: 'Гость',
+      text,
+      date: new Date().toLocaleString('ru-RU')
+    });
+
+    topic.replies = (Number(topic.replies) || 0) + 1;
+
+    forumSaveData();
+    forumOpenDiscussion(topic.id, false);
+    forumUpdateStats();
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initForum);
 /* НЕПРЕРЫВНАЯ БЕГУЩАЯ КАРУСЕЛЬ */
 const adTrack=$('#adTrack');
 
