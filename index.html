@@ -636,6 +636,188 @@ footer nav{display:flex;gap:24px}
   outline-offset: 3px;
 }
 
+/* AML GROUP — оформление отдельной темы */
+#forumDiscussion .aml-hero {
+  position: relative;
+  overflow: hidden;
+  margin: 24px 0;
+  padding: 38px 30px;
+  min-height: 190px;
+  border: 1px solid #493038;
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse at 85% 20%, #6e1d32 0, transparent 40%),
+    linear-gradient(125deg, #100e12, #251017 60%, #110e12);
+}
+
+#forumDiscussion .aml-hero::after {
+  content: "A";
+  position: absolute;
+  right: 22px;
+  bottom: -65px;
+  color: rgb(255 255 255 / 4%);
+  font-size: 250px;
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+}
+
+#forumDiscussion .aml-hero-label,
+#forumDiscussion .aml-section-kicker {
+  color: #ed657e;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+#forumDiscussion .aml-hero-title {
+  position: relative;
+  z-index: 1;
+  margin-top: 20px;
+  color: #fff;
+  font-size: clamp(36px, 7vw, 64px);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+#forumDiscussion .aml-hero-title span {
+  color: #f05270;
+}
+
+#forumDiscussion .aml-hero-subtitle {
+  position: relative;
+  z-index: 1;
+  margin: 15px 0 0;
+  color: #c5b5ba;
+  font-size: 11px;
+  letter-spacing: 1.4px;
+}
+
+#forumDiscussion .aml-intro {
+  margin: 28px 0;
+}
+
+#forumDiscussion .aml-intro h4 {
+  margin: 10px 0;
+  color: var(--text, #f5f5f5);
+  font-size: 24px;
+}
+
+#forumDiscussion .aml-intro p,
+#forumDiscussion .aml-service-card p,
+#forumDiscussion .aml-notice p {
+  color: var(--muted, #b6b3b7);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+#forumDiscussion .aml-service-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 24px 0;
+}
+
+#forumDiscussion .aml-service-card {
+  position: relative;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--line, #343036);
+  border-radius: 12px;
+  background: var(--panel, #171519);
+  transition: border-color .2s, transform .2s;
+}
+
+#forumDiscussion .aml-service-card:hover {
+  border-color: #a43b52;
+  transform: translateY(-2px);
+}
+
+#forumDiscussion .aml-card-number {
+  color: #e95a75;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+#forumDiscussion .aml-card-icon {
+  margin: 15px 0;
+  color: #f05270;
+  font-size: 30px;
+}
+
+#forumDiscussion .aml-service-card h4 {
+  margin: 0 0 8px;
+  color: var(--text, #fff);
+  font-size: 16px;
+}
+
+#forumDiscussion .aml-service-card p {
+  margin: 0;
+}
+
+#forumDiscussion .aml-notice {
+  display: flex;
+  gap: 14px;
+  margin: 26px 0;
+  padding: 20px;
+  border: 1px solid #59303b;
+  border-radius: 12px;
+  background: rgb(112 27 49 / 13%);
+}
+
+#forumDiscussion .aml-notice-mark {
+  display: grid;
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 50%;
+  background: #702239;
+  color: white;
+  font-weight: 900;
+}
+
+#forumDiscussion .aml-notice strong {
+  color: #ff8296;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+#forumDiscussion .aml-notice p {
+  margin: 8px 0 0;
+}
+
+#forumDiscussion .aml-footer-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 28px 0 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line, #343036);
+  color: var(--muted, #aaa);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 600px) {
+  #forumDiscussion .aml-hero {
+    padding: 28px 20px;
+  }
+
+  #forumDiscussion .aml-service-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #forumDiscussion .aml-service-card {
+    padding: 18px;
+  }
+
+  #forumDiscussion .aml-footer-line {
+    flex-wrap: wrap;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1538,8 +1720,64 @@ function forumOpenDiscussion(id, updateUrl = true) {
         · ${Number(topic.views)} просмотров
       </div>
 
-      <p>${forumSafe(topic.content || topic.description || '')}</p>
+   
+      ${String(topic.id) === '2' ? `
+        <div class="aml-hero">
+          <div class="aml-hero-label">AEGIS / PRIVATE SERVICES</div>
+          <div class="aml-hero-title">AML <span>GROUP</span></div>
+          <p class="aml-hero-subtitle">ОБЗОР СЕРВИСА · УСЛОВИЯ · ИНФОРМАЦИЯ</p>
+        </div>
+
+        <div class="aml-intro">
+          <div class="aml-section-kicker">01 / ВВЕДЕНИЕ</div>
+          <h4>Добро пожаловать в AML Group</h4>
+          <p>${forumSafe(topic.content || topic.description || '')}</p>
+        </div>
+
+        <div class="aml-service-grid">
+          <div class="aml-service-card">
+            <span class="aml-card-number">01</span>
+            <div class="aml-card-icon">↗</div>
+            <h4>Обменные операции</h4>
+            <p>Информация о доступных направлениях обмена и порядке проведения операций.</p>
+          </div>
+          <div class="aml-service-card">
+            <span class="aml-card-number">02</span>
+            <div class="aml-card-icon">◇</div>
+            <h4>Курсы и комиссии</h4>
+            <p>Курс может меняться в зависимости от рыночных котировок и выбранного направления.</p>
+          </div>
+          <div class="aml-service-card">
+            <span class="aml-card-number">03</span>
+            <div class="aml-card-icon">⌘</div>
+            <h4>Порядок работы</h4>
+            <p>Перед операцией уточняйте актуальные условия, лимиты и доступность услуги.</p>
+          </div>
+          <div class="aml-service-card">
+            <span class="aml-card-number">04</span>
+            <div class="aml-card-icon">◎</div>
+            <h4>Поддержка</h4>
+            <p>Используйте официальные контакты сервиса и проверяйте реквизиты перед отправкой средств.</p>
+          </div>
+        </div>
+
+        <div class="aml-notice">
+          <span class="aml-notice-mark">!</span>
+          <div>
+            <strong>ВАЖНО ПЕРЕД ОПЕРАЦИЕЙ</strong>
+            <p>Уточняйте итоговый курс, размер всех комиссий и условия сделки заранее. Не отправляйте средства, пока не проверили реквизиты и условия.</p>
+          </div>
+        </div>
+
+        <div class="aml-footer-line">
+          <span>AEGIS COMMUNITY</span>
+          <span>ТЕМА № ${forumSafe(String(topic.id))}</span>
+        </div>
+      ` : `
+        <p>${forumSafe(topic.content || topic.description || '')}</p>
+      `}
     </article>
+
 
     <div class="forum-section-title" style="margin-top:24px">
       <h2>Ответы (${comments.length})</h2>
