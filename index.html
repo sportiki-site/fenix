@@ -1606,11 +1606,26 @@ const forumTopicData = [
   },
   {
     id: 7,
-  title: "POWER WORLD SHOP║ОПТ║РОЗНИЦА║МСК║СПБ║СИБИРЬ║ГРУЗИЯ",
+  title: "24/7 Razex - Миксер криптовалют с AML-проверкой от 0 до 25%.",
     category: "Обменные сервисы",
     type: "ОБСУЖДЕНИЕ",
-    description: "Обсуждаем новые возможности и функции сервисов.",
-    content: "Добавьте информацию о сервисе и поделитесь своим мнением.",
+   
+description: "24/7 Razex — информация о сервисе, условиях обмена цифровых активов, комиссиях и AML-проверках.",
+
+content: `Добро пожаловать в 24/7 Razex.
+
+В этой теме собрана информация о сервисе, порядке проведения операций, условиях обмена и проверке транзакций.
+
+Перед началом работы уточняйте актуальные комиссии, сроки обработки, поддерживаемые сети и требования к подтверждению операций.
+
+Проверяйте реквизиты и итоговые условия до отправки средств.`,
+blocks: [
+  {
+    type: 'banner',
+    url: 'images/forum/power-world-banner.jpg',
+    alt: '24/7 Razex — баннер сервиса'
+  }
+],
     author: "Member",
     date: "2026-10-22",
     replies: 7,
@@ -2367,17 +2382,30 @@ function forumOpenDiscussion(id, updateUrl = true) {
     }
   };
 
-  let postBody = '';
+let postBody = '';
 
-  if (Array.isArray(topic.blocks) && topic.blocks.length) {
-    postBody = topic.blocks.map(renderBlock).join('');
-  } else {
-    postBody = `
-      <div class="ft-text">
-        ${forumSafe(topic.content || topic.description || '').replace(/\n/g, '<br>')}
-      </div>
-    `;
-  }
+const hasBlocks = Array.isArray(topic.blocks) && topic.blocks.length > 0;
+const hasContent = Boolean(
+  String(topic.content || topic.description || '').trim()
+);
+
+if (hasBlocks) {
+  postBody = topic.blocks.map(renderBlock).join('');
+}
+
+// Сохраняем основной текст даже при наличии баннеров.
+if (hasContent) {
+  postBody += `
+    <div class="ft-text">
+      ${forumSafe(topic.content || topic.description || '').replace(/\n/g, '<br>')}
+    </div>
+  `;
+}
+
+if (!hasBlocks && !hasContent) {
+  postBody = '<div class="ft-text">Содержание темы пока не добавлено.</div>';
+}
+
 
   const topicBanner = safeUrl(topic.banner)
     ? `<div class="ft-banner">${renderImage(topic.banner, topic.bannerAlt || topic.title || '')}</div>`
