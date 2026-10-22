@@ -551,6 +551,25 @@ footer nav{display:flex;gap:24px}
   }
 }
 
+.forum-expand-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+#forumExpandBtn {
+  min-width: 220px;
+  border-color: rgba(229, 50, 74, .45);
+  color: #efebe9;
+  background: #191615;
+  transition: background .2s, border-color .2s;
+}
+
+#forumExpandBtn:hover {
+  background: rgba(229, 50, 74, .12);
+  border-color: #e5324a;
+}
+
 </style>
 </head>
 <body>
@@ -666,15 +685,27 @@ footer nav{display:flex;gap:24px}
       </div>
     </section>
 
+  
     <!-- СПИСОК ТЕМ -->
     <section class="forum-section">
       <div class="forum-section-title">
-        <div><div class="eyebrow">LATEST ACTIVITY</div><h2 id="forumTopicsHeading">Последние темы</h2></div>
+        <div>
+          <div class="eyebrow">LATEST ACTIVITY</div>
+          <h2 id="forumTopicsHeading">Последние темы</h2>
+        </div>
         <button class="btn btn-ghost btn-sm" id="forumAllTopics">Все темы</button>
       </div>
+
       <div class="forum-topic-list" id="forumTopics">
-        <!-- Темы создаются из массива forumTopics в JavaScript -->
+        <!-- Темы создаются из массива forumTopicData в JavaScript -->
       </div>
+
+      <div class="forum-expand-wrap">
+        <button type="button" class="btn btn-ghost" id="forumExpandBtn">
+          Показать все 25 тем ↓
+        </button>
+      </div>
+
       <div class="forum-empty" id="forumEmpty" hidden>
         Ничего не найдено. Попробуй изменить поисковый запрос.
       </div>
