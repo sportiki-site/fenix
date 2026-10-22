@@ -1842,6 +1842,62 @@ const forumTopicData = [
   }
 ];
 
+/* ===== AEGIS: ДЕМО-ПРОФИЛИ АВТОРОВ ===== */
+
+const aegisDemoAuthors = [
+  { nickname: 'RavenNoir',  role: 'Проверенный участник', reputation: 96, deposit: '8,450 USDT', messages: 384, registered: '2024', avatar: 12 },
+  { nickname: 'MikaVoss',   role: 'Участник', reputation: 89, deposit: '2,180 USDT', messages: 157, registered: '2025', avatar: 47 },
+  { nickname: 'ZeroTrace',  role: 'Опытный участник', reputation: 94, deposit: '12,600 USDT', messages: 526, registered: '2023', avatar: 8 },
+  { nickname: 'VelvetHex',  role: 'Участник', reputation: 83, deposit: '760 USDT', messages: 92, registered: '2025', avatar: 32 },
+  { nickname: 'KiroNox',    role: 'Проверенный участник', reputation: 91, deposit: '4,320 USDT', messages: 241, registered: '2024', avatar: 59 },
+  { nickname: 'LunaCipher', role: 'Участник', reputation: 87, deposit: '1,950 USDT', messages: 134, registered: '2025', avatar: 24 },
+  { nickname: 'AshenWolf',  role: 'Опытный участник', reputation: 97, deposit: '18,200 USDT', messages: 718, registered: '2022', avatar: 5 },
+  { nickname: 'NikaVale',   role: 'Участник', reputation: 78, deposit: '540 USDT', messages: 63, registered: '2026', avatar: 41 },
+  { nickname: 'GhostMorrow',role: 'Проверенный участник', reputation: 93, deposit: '6,700 USDT', messages: 319, registered: '2024', avatar: 16 },
+  { nickname: 'TheoKross',  role: 'Участник', reputation: 85, deposit: '1,280 USDT', messages: 108, registered: '2025', avatar: 67 },
+  { nickname: 'IvyRaine',   role: 'Опытный участник', reputation: 90, deposit: '3,600 USDT', messages: 205, registered: '2024', avatar: 28 },
+  { nickname: 'OnyxDrift',  role: 'Участник', reputation: 82, deposit: '920 USDT', messages: 87, registered: '2025', avatar: 53 },
+  { nickname: 'MaximReed',  role: 'Проверенный участник', reputation: 95, deposit: '9,850 USDT', messages: 447, registered: '2023', avatar: 3 },
+  { nickname: 'SoraNite',   role: 'Участник', reputation: 88, deposit: '2,740 USDT', messages: 169, registered: '2025', avatar: 38 },
+  { nickname: 'DanteFlux',  role: 'Опытный участник', reputation: 92, deposit: '5,100 USDT', messages: 278, registered: '2024', avatar: 62 },
+  { nickname: 'MiraStone',  role: 'Участник', reputation: 76, deposit: '410 USDT', messages: 49, registered: '2026', avatar: 19 },
+  { nickname: 'ColdPixel',  role: 'Проверенный участник', reputation: 98, deposit: '21,400 USDT', messages: 863, registered: '2022', avatar: 44 },
+  { nickname: 'ArinWest',   role: 'Участник', reputation: 86, deposit: '1,670 USDT', messages: 121, registered: '2025', avatar: 10 },
+  { nickname: 'NyxHarbor',  role: 'Опытный участник', reputation: 93, deposit: '7,250 USDT', messages: 356, registered: '2023', avatar: 56 },
+  { nickname: 'FelixCrow',  role: 'Участник', reputation: 80, deposit: '680 USDT', messages: 72, registered: '2026', avatar: 35 },
+  { nickname: 'EchoMaven',  role: 'Проверенный участник', reputation: 91, deposit: '4,890 USDT', messages: 263, registered: '2024', avatar: 21 },
+  { nickname: 'JunoBlack',  role: 'Участник', reputation: 84, deposit: '1,090 USDT', messages: 96, registered: '2025', avatar: 64 },
+  { nickname: 'VexMorgan',  role: 'Опытный участник', reputation: 96, deposit: '14,300 USDT', messages: 592, registered: '2023', avatar: 7 },
+  { nickname: 'TaliaMoon',  role: 'Участник', reputation: 89, deposit: '2,350 USDT', messages: 148, registered: '2025', avatar: 49 }
+];
+
+let aegisAuthorIndex = 0;
+
+forumTopicData.forEach(topic => {
+  const title = String(topic.title || '').toLowerCase();
+  const author = String(topic.author || '').toLowerCase();
+
+  // Не меняем правила и официальные публикации сайта.
+  // Исключение: тема №2 — публикация сервиса AML Group.
+  const isRules = title.includes('правил');
+  const isOfficial = author === 'admin' && String(topic.id) !== '2';
+
+  if (isRules || isOfficial) return;
+
+  const person = aegisDemoAuthors[aegisAuthorIndex % aegisDemoAuthors.length];
+  aegisAuthorIndex++;
+
+  topic.author = person.nickname;
+  topic.profile = {
+    nickname: person.nickname,
+    role: person.role,
+    reputation: person.reputation,
+    deposit: person.deposit,
+    messages: person.messages,
+    registered: person.registered,
+    avatar: `https://i.pravatar.cc/160?img=${person.avatar}`
+  };
+});
 
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -1870,17 +1926,57 @@ function forumSafe(value) {
   })[char]);
 }
 
+
 function forumReadData() {
   try {
-    const stored = JSON.parse(localStorage.getItem(FORUM_STORAGE_KEY) || 'null');
+    const stored = JSON.parse(
+      localStorage.getItem(FORUM_STORAGE_KEY) || 'null'
+    );
 
     if (stored && Array.isArray(stored.topics)) {
-      const ids = new Set(stored.topics.map(topic => String(topic.id)));
+      const storedById = new Map(
+        stored.topics.map(topic => [String(topic.id), topic])
+      );
 
-      return [
-        ...stored.topics,
-        ...forumTopicData.filter(topic => !ids.has(String(topic.id)))
-      ];
+      return forumTopicData.map(baseTopic => {
+        const savedTopic = storedById.get(String(baseTopic.id));
+
+        if (!savedTopic) {
+          return { ...baseTopic };
+        }
+
+        return {
+          ...baseTopic,
+          ...savedTopic,
+
+          // Обновляем новые поля профиля из исходного массива.
+          profile: baseTopic.profile
+            ? {
+                ...(savedTopic.profile || {}),
+                ...baseTopic.profile
+              }
+            : savedTopic.profile,
+
+          // Сохраняем комментарии пользователя.
+          comments: Array.isArray(savedTopic.comments)
+            ? savedTopic.comments
+            : (baseTopic.comments || []),
+
+          // Сохраняем актуальное количество просмотров.
+          views: Math.max(
+            Number(baseTopic.views) || 0,
+            Number(savedTopic.views) || 0
+          )
+        };
+      }).concat(
+        stored.topics.filter(
+          savedTopic =>
+            !forumTopicData.some(
+              baseTopic =>
+                String(baseTopic.id) === String(savedTopic.id)
+            )
+        )
+      );
     }
   } catch (error) {
     console.warn('Не удалось прочитать темы форума:', error);
@@ -1888,6 +1984,7 @@ function forumReadData() {
 
   return forumTopicData.map(topic => ({ ...topic }));
 }
+
 
 let forumTopics = forumReadData().map(topic => ({
   ...topic,
