@@ -2016,9 +2016,9 @@ function forumReadData() {
           return { ...baseTopic };
         }
 
-        return {
-          ...baseTopic,
-          ...savedTopic,
+      return {
+  ...savedTopic,
+  ...baseTopic,
           profile: baseTopic.profile
             ? {
                 ...(savedTopic.profile || {}),
