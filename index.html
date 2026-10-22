@@ -725,7 +725,90 @@ const forumTopicData = [
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* ===== ОТОБРАЖЕНИЕ ТЕМ ФОРУМА ===== */
 
+function renderForumTopics() {
+  const container = document.querySelector('#forumTopics');
+  const categorySelect = document.querySelector('#forumNewCategory');
+
+  if (!container) return;
+
+  const categories = [
+    'Все темы',
+    'Документы',
+    'Обменные сервисы',
+    'Сервисы и услуги',
+    'Продавцы и сервисы',
+    'Торговая площадка — VIP'
+  ];
+
+  // Заполняем фильтр категорий, если он существует
+  const categoryFilter = document.querySelector('#forumCategoryFilter');
+
+  if (categoryFilter && !categoryFilter.dataset.ready) {
+    categoryFilter.innerHTML = categories.map(category =>
+      `<option value="${category}">${category}</option>`
+    ).join('');
+    categoryFilter.dataset.ready = 'true';
+  }
+
+  // Заполняем список категорий в форме создания темы
+  if (categorySelect && !categorySelect.dataset.ready) {
+    categorySelect.innerHTML = categories.slice(1).map(category =>
+      `<option value="${category}">${category}</option>`
+    ).join('');
+    categorySelect.dataset.ready = 'true';
+  }
+
+  const search = (document.querySelector('#forumSearch')?.value || '').toLowerCase();
+  const selectedCategory = categoryFilter?.value || 'Все темы';
+
+  const topics = forumTopicData.filter(topic => {
+    const matchesCategory =
+      selectedCategory === 'Все темы' || topic.category === selectedCategory;
+
+    const text = `${topic.title} ${topic.description} ${topic.content} ${topic.author}`.toLowerCase();
+    const matchesSearch = text.includes(search);
+
+    return matchesCategory && matchesSearch;
+  });
+
+  if (!topics.length) {
+    container.innerHTML = '<p>Тем пока нет.</p>';
+    return;
+  }
+
+  container.innerHTML = topics.map(topic => `
+    <article class="forum-topic">
+      <div class="forum-topic-main">
+        <div class="forum-topic-tags">
+          ${topic.pinned ? '<span class="forum-tag">ЗАКРЕПЛЕНО</span>' : ''}
+          <span class="forum-tag">${topic.type}</span>
+          <span class="forum-tag">${topic.category}</span>
+        </div>
+        <h3>${topic.title}</h3>
+        <p>${topic.description}</p>
+        <div class="forum-topic-meta">
+          <span>${topic.author}</span>
+          <span>${topic.date}</span>
+          <span>Ответов: ${topic.replies}</span>
+          <span>Просмотров: ${topic.views}</span>
+        </div>
+      </div>
+    </article>
+  `).join('');
+}
+
+// Запускаем после загрузки страницы
+document.addEventListener('DOMContentLoaded', renderForumTopics);
+
+document.addEventListener('input', event => {
+  if (event.target.matches('#forumSearch')) renderForumTopics();
+});
+
+document.addEventListener('change', event => {
+  if (event.target.matches('#forumCategoryFilter')) renderForumTopics();
+});
 /* НЕПРЕРЫВНАЯ БЕГУЩАЯ КАРУСЕЛЬ */
 const adTrack=$('#adTrack');
 
