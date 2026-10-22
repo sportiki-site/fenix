@@ -1535,7 +1535,16 @@ const forumTopicData = [
 
 Курс обмена динамический и основан на котировках ведущих бирж (Binance, OKX, MEXC и др.).
 Комиссия сервиса не включает затраты на комиссию сети и бирж при обмене.`,
+   
+    blocks: [
+      {
+        type: 'banner',
+        url: 'images/forum/aml-hero.jpg',
+        alt: 'AML Group — главный баннер'
+      }
+    ],
     author: "Admin",
+
     date: "2026-10-22",
     replies: 8,
     views: 176,
@@ -2261,15 +2270,33 @@ function forumOpenDiscussion(id, updateUrl = true) {
   const avatar = profile.avatar || '';
   const initial = forumSafe(String(author).slice(0, 1).toUpperCase());
 
-  // Разрешаем изображения и ссылки только с http/https.
+
+  // Разрешаем внешние ссылки и локальные изображения форума.
   const safeUrl = value => {
     const url = String(value || '').trim();
-    return /^https?:\/\/[^\s"'<>]+$/i.test(url) ? forumSafe(url) : '';
+
+    if (/^https?:\/\/[^\s"'<>]+$/i.test(url)) {
+      return forumSafe(url);
+    }
+
+    if (/^(?:\.\/)?images\/forum\/[A-Za-z0-9._/-]+$/i.test(url)) {
+      const path = url.replace(/^\.\//, '');
+      const parts = path.split('/');
+
+      if (parts.some(part => !part || part === '.' || part === '..')) {
+        return '';
+      }
+
+      return forumSafe(url);
+    }
+
+    return '';
   };
 
   const renderImage = (url, alt = '') => {
     const src = safeUrl(url);
     if (!src) return '';
+
     return `
       <figure class="ft-image-wrap">
         <img class="ft-image" src="${src}" alt="${forumSafe(alt)}" loading="lazy">
