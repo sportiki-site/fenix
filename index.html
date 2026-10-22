@@ -257,7 +257,143 @@ footer nav{display:flex;gap:24px}
 </div>
 </section>
 
-<section id="forum" class="page"><div class="subpage"><div class="eyebrow">01 · Discussions</div><h1>The <span>forum</span></h1><p>Разделы сообщества AEGIS</p><div class="subrow">Документы — вопросы участников</div><div class="subrow">Обменные сервисы — цифровые инструменты</div><div class="subrow">Сервисы и услуги</div><div class="subrow">Продавцы и сервисы</div><div class="subrow">Торговая площадка — VIP</div></div></section>
+
+<section id="forum" class="page">
+  <div class="forum-page">
+
+    <!-- ЗАГОЛОВОК ФОРУМА -->
+    <div class="forum-heading">
+      <div>
+        <div class="eyebrow">01 · COMMUNITY DISCUSSIONS</div>
+        <h1>The <span>forum</span></h1>
+        <p>Общайся, задавай вопросы и делись опытом.</p>
+      </div>
+      <button class="btn btn-primary" id="forumCreateBtn">+ Создать тему</button>
+    </div>
+
+    <!-- СТАТИСТИКА -->
+    <div class="forum-stats">
+      <div><strong id="forumCategoryCount">05</strong><span>Категорий</span></div>
+      <div><strong id="forumTopicCount">06</strong><span>Демо-тем</span></div>
+      <div><strong>24/7</strong><span>Доступ к форуму</span></div>
+    </div>
+
+    <!-- ПОИСК И СОРТИРОВКА -->
+    <div class="forum-toolbar">
+      <input id="forumSearch" type="search"
+        placeholder="Поиск по темам, авторам и тексту...">
+      <select id="forumSort" aria-label="Сортировка тем">
+        <option value="new">Сначала новые</option>
+        <option value="popular">Сначала популярные</option>
+        <option value="replies">По количеству ответов</option>
+      </select>
+    </div>
+
+    <!-- КАТЕГОРИИ -->
+    <section class="forum-section">
+      <div class="forum-section-title">
+        <div><div class="eyebrow">BROWSE</div><h2>Категории</h2></div>
+        <span>Выбери раздел</span>
+      </div>
+
+      <div class="forum-categories" id="forumCategories">
+        <!-- Категории создаются из массива forumCategories в JavaScript -->
+      </div>
+    </section>
+
+    <!-- СПИСОК ТЕМ -->
+    <section class="forum-section">
+      <div class="forum-section-title">
+        <div><div class="eyebrow">LATEST ACTIVITY</div><h2 id="forumTopicsHeading">Последние темы</h2></div>
+        <button class="btn btn-ghost btn-sm" id="forumAllTopics">Все темы</button>
+      </div>
+      <div class="forum-topic-list" id="forumTopics">
+        <!-- Темы создаются из массива forumTopics в JavaScript -->
+      </div>
+      <div class="forum-empty" id="forumEmpty" hidden>
+        Ничего не найдено. Попробуй изменить поисковый запрос.
+      </div>
+    </section>
+
+    <!-- ФОРМА СОЗДАНИЯ ТЕМЫ -->
+    <section class="forum-section forum-editor" id="forumEditor" hidden>
+      <div class="forum-section-title">
+        <div><div class="eyebrow">NEW DISCUSSION</div><h2>Создать тему</h2></div>
+      </div>
+      <form id="forumCreateForm">
+        <label for="forumNewTitle">Заголовок</label>
+        <input id="forumNewTitle" maxlength="120" required
+          placeholder="Кратко сформулируй тему">
+
+        <label for="forumNewCategory">Категория</label>
+        <select id="forumNewCategory" required></select>
+
+        <label for="forumNewAuthor">Автор</label>
+        <input id="forumNewAuthor" maxlength="32" required
+          value="Гость" placeholder="Твой никнейм">
+
+        <label for="forumNewText">Текст публикации</label>
+        <textarea id="forumNewText" rows="6" maxlength="10000" required
+          placeholder="Подробно опиши вопрос или тему..."></textarea>
+
+        <div class="forum-form-actions">
+          <button class="btn btn-primary" type="submit">Опубликовать тему</button>
+          <button class="btn btn-ghost" type="button" id="forumCancelCreate">Отмена</button>
+        </div>
+        <p class="forum-hint">Демонстрационный режим: публикации сохраняются в этом браузере.</p>
+      </form>
+    </section>
+
+    <!-- СТРАНИЦА ОБСУЖДЕНИЯ -->
+    <section class="forum-section forum-discussion" id="forumDiscussion" hidden>
+      <button class="btn btn-ghost btn-sm" id="forumBack">← Назад к темам</button>
+      <div id="forumDiscussionContent"></div>
+    </section>
+
+    <!-- ВИЗУАЛЬНЫЕ ШАБЛОНЫ -->
+    <section class="forum-section forum-templates">
+      <div class="forum-section-title">
+        <div><div class="eyebrow">DESIGN PREVIEW</div><h2>Шаблоны оформления</h2></div>
+        <span>Визуальные примеры</span>
+      </div>
+
+      <details class="forum-template" open>
+        <summary>Шаблон темы</summary>
+        <article class="forum-preview-topic">
+          <span class="forum-tag">ВОПРОС</span>
+          <h3>Здесь будет заголовок темы</h3>
+          <p>Здесь размещается основной текст публикации. Можно добавить описание, ссылки и полезные материалы.</p>
+          <div class="forum-preview-meta">Автор: <b>Имя участника</b> · Дата публикации · 0 ответов</div>
+        </article>
+        <p class="forum-hint">Редактируемые поля: заголовок, категория, автор, дата, текст и метки.</p>
+      </details>
+
+      <details class="forum-template">
+        <summary>Шаблон комментария</summary>
+        <article class="forum-comment-preview">
+          <div class="forum-avatar">U</div>
+          <div>
+            <b>Имя участника</b><span class="forum-comment-date"> · Дата и время</span>
+            <p>Здесь будет текст ответа на публикацию.</p>
+            <button class="forum-quote-demo" type="button">↳ Цитировать</button>
+          </div>
+        </article>
+        <p class="forum-hint">Редактируемые поля: аватар, никнейм, дата, текст и цитата.</p>
+      </details>
+
+      <details class="forum-template">
+        <summary>Шаблон объявления</summary>
+        <article class="forum-preview-topic">
+          <span class="forum-tag">ОБЪЯВЛЕНИЕ</span>
+          <h3>Название предложения</h3>
+          <p>Описание предложения, условия, стоимость и способ связи.</p>
+          <div class="forum-preview-meta">Автор: <b>Имя продавца</b> · Статус: пример</div>
+        </article>
+      </details>
+    </section>
+
+  </div>
+</section>
 <section id="market" class="page"><div class="subpage"><div class="eyebrow">02 · Marketplace</div><h1>The <span>market</span></h1><p>Каталог цифровых товаров, сервисов и профессиональных услуг.</p><div class="subrow">Digital — Цифровые сервисы и подписки</div><div class="subrow">Gaming — Игровые товары и инструменты</div><div class="subrow">Creative — Дизайн и разработка</div><div class="subrow">Tools — Рабочие инструменты</div></div></section>
 <section id="reviews" class="page"><div class="subpage"><div class="eyebrow">03 · Reputation</div><h1>Trust is <span>earned.</span></h1><p>Отзывы, опыт участников и репутация сервисов.</p><div class="subrow">Обзоры цифровых сервисов</div><div class="subrow">Истории сотрудничества</div><div class="subrow">Профили и репутация участников</div></div></section>
 <section id="users" class="page"><div class="subpage"><div class="eyebrow">04 · Members</div><h1>The <span>people.</span></h1><p>Знакомься с сообществом.</p><div class="subrow">DarkSeller — Community member</div><div class="subrow">coderhub — Development</div><div class="subrow">realuser — Community member</div><div class="subrow">tradeuser — Exchange</div></div></section>
