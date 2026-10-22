@@ -1952,7 +1952,8 @@ function forumSafe(value) {
 }
 
 
-id: 7,
+
+function forumReadData() {
   try {
     const stored = JSON.parse(
       localStorage.getItem(FORUM_STORAGE_KEY) || 'null'
@@ -1973,21 +1974,15 @@ id: 7,
         return {
           ...baseTopic,
           ...savedTopic,
-
-          // Обновляем новые поля профиля из исходного массива.
           profile: baseTopic.profile
             ? {
                 ...(savedTopic.profile || {}),
                 ...baseTopic.profile
               }
             : savedTopic.profile,
-
-          // Сохраняем комментарии пользователя.
           comments: Array.isArray(savedTopic.comments)
             ? savedTopic.comments
             : (baseTopic.comments || []),
-
-          // Сохраняем актуальное количество просмотров.
           views: Math.max(
             Number(baseTopic.views) || 0,
             Number(savedTopic.views) || 0
@@ -2009,6 +2004,7 @@ id: 7,
 
   return forumTopicData.map(topic => ({ ...topic }));
 }
+
 
 
 let forumTopics = forumReadData().map(topic => ({
