@@ -467,6 +467,90 @@ footer nav{display:flex;gap:24px}
   .forum-editor, .forum-discussion, .forum-templates { padding: 16px; }
 }
 
+/* ===== FIX: КАРТОЧКИ ФОРУМА ===== */
+
+#forumTopics {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+#forumTopics .forum-topic {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 22px 26px;
+  background: #121010;
+  border: 1px solid #292323;
+  border-radius: 8px;
+}
+
+#forumTopics .forum-topic-main {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+#forumTopics .forum-topic-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+#forumTopics .forum-topic h3 {
+  display: block;
+  width: 100%;
+  margin: 0 0 8px;
+  color: #f1eaea;
+  font-size: 23px;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+#forumTopics .forum-topic p {
+  display: block;
+  width: 100%;
+  margin: 0 0 16px;
+  color: #aaa0a0;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+#forumTopics .forum-topic-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  color: #817777;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+#forumTopics .forum-topic-meta span {
+  display: inline-block;
+}
+
+#forumTopics .forum-topic-tags .forum-tag {
+  display: inline-block;
+  width: fit-content;
+  padding: 6px 11px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  #forumTopics .forum-topic {
+    padding: 16px;
+  }
+
+  #forumTopics .forum-topic h3 {
+    font-size: 20px;
+  }
+}
+
 </style>
 </head>
 <body>
