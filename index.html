@@ -1,2796 +1,1735 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0b0a0a">
-<title>AEGIS — Underground Community</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0b0a0a;--surface:#121010;--surface-2:#191615;--line:rgba(255,255,255,.08);--line-strong:rgba(255,255,255,.16);--text:#efebe9;--text-2:#aaa2a0;--muted:#8a8381;--accent:#e5324a;--accent-hover:#f0465c;--accent-soft:rgba(229,50,74,.12);--green:#3fd29a;--s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--r:6px;--display:'Barlow Condensed','Arial Narrow',Impact,sans-serif;--body:'Inter',system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
-*{box-sizing:border-box}
-[hidden]{display:none!important}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font:400 15px/1.6 var(--body);-webkit-font-smoothing:antialiased}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(900px 500px at 8% -5%,rgba(229,50,74,.1),transparent 70%)}
-a{color:inherit;text-decoration:none}
-button,input,textarea{font:inherit;color:inherit}
-button{cursor:pointer}
-img{max-width:100%}
-h1,h2,h3,h4,p{margin:0}
-.shell{width:min(1240px,100%);margin:0 auto;padding:0 var(--s5)}
-.topbar{position:sticky;top:0;z-index:30;min-height:72px;background:rgba(11,10,10,.92);border-bottom:1px solid var(--line)}
-.nav{min-height:72px;display:flex;align-items:center;gap:24px}
-.brand{font:700 30px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
-.brand:before{content:"";display:inline-block;width:8px;height:8px;margin-right:8px;border-radius:50%;background:var(--accent)}
-.navlinks{display:flex;align-items:center;gap:8px;flex:1}
-.navlinks a{padding:8px;color:var(--text-2);font-size:14px;white-space:nowrap}
-.navlinks a:hover,.navlinks a.active{color:#fff}
-.navtools{display:flex;gap:12px;align-items:center}
-.search{width:160px;height:40px;padding:0 12px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 24px;border:1px solid transparent;border-radius:var(--r);font-size:14px;font-weight:600}
-.btn-primary{background:var(--accent);color:white}
-.btn-primary:hover{background:var(--accent-hover)}
-.btn-ghost{border-color:var(--line-strong)}
-.btn-sm{height:36px;padding:0 16px}
-.menu-btn{display:none;background:var(--surface);border:1px solid var(--line);padding:8px}
-
-/* НЕПРЕРЫВНАЯ КАРУСЕЛЬ */
-.ad-carousel{padding-top:16px;overflow:hidden}
-.ad-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.ad-heading strong{font:700 20px/1 var(--display);letter-spacing:.07em;text-transform:uppercase}
-.ad-heading span{font-size:11px;color:var(--muted);letter-spacing:.12em}
-.ad-window{overflow:hidden;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
-.ad-track{display:flex;width:max-content;gap:8px;padding:12px;animation:bannerMarquee 35s linear infinite;will-change:transform}
-.ad-window:hover .ad-track{animation-play-state:paused}
-.ad-slide{position:relative;display:block;flex:0 0 clamp(190px,18vw,230px);width:clamp(190px,18vw,230px);aspect-ratio:16/7;overflow:hidden;border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(135deg,#291117,#151212)}
-.ad-slide img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
-.ad-slide:hover img{transform:scale(1.06)}
-.ad-slide:after{content:"";position:absolute;inset:30% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.88));pointer-events:none}
-.ad-copy{position:absolute;z-index:1;left:12px;right:12px;bottom:8px}
-.ad-copy b{display:block;font:700 22px/1 var(--display);text-transform:uppercase}
-.ad-copy small{display:block;margin-top:5px;color:#d4cecc;font-size:10px;letter-spacing:.08em}
-@keyframes bannerMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media(max-width:860px){.ad-slide{flex-basis:36vw;width:36vw}}
-@media(max-width:520px){.ad-slide{flex-basis:70vw;width:70vw}}
-main{padding-top:32px}
-.eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
-.hero-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:32px;padding-top:24px}
-.hero-head h1{font:700 clamp(44px,7vw,92px)/.92 var(--display);text-transform:uppercase;margin-top:12px}
-.hero-head h1 span,.section-label h2 span,.subpage h1 span,.form h2 span{color:var(--accent)}
-.hero-note{font-size:13px;color:var(--text-2);max-width:260px}
-.hero-grid{display:grid;grid-template-columns:1.5fr 1fr;grid-template-rows:1fr 1fr;gap:16px}
-.hero-card{
-  position:relative;
-  isolation:isolate;
-  overflow:hidden;
-  border:1px solid var(--line);
-  border-radius:var(--r);
-  display:flex;
-  align-items:flex-end;
-  padding:24px;
-  min-height:210px;
-  background-color:#121010;
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-}
-
-.hero-card.featured{
-  grid-row:1/3;
-  min-height:440px;
-  padding:32px;
-  background-image:
-    linear-gradient(0deg,rgba(11,10,10,.94),rgba(11,10,10,.15)),
-    url('marketplace-bg.png');
-}
-.hero-card:nth-child(2){
-  background-image:
-    linear-gradient(0deg,rgba(11,10,10,.94),rgba(11,10,10,.15)),
-    url('market-bg.png');
-}
-
-.hero-card:nth-child(3){
-  background-image:
-    linear-gradient(0deg,rgba(11,10,10,.94),rgba(11,10,10,.15)),
-    url('guarantor.png');
-}
-.hero-card:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(11,10,10,.94),rgba(11,10,10,.15))}
-.badge{position:absolute;top:16px;left:16px;padding:4px 12px;border-radius:99px;background:rgba(11,10,10,.6);border:1px solid var(--line-strong);font-size:12px}
-.hero-content{max-width:440px}
-.hero-content h2{font:700 clamp(26px,3vw,32px)/1 var(--display);text-transform:uppercase;margin:8px 0 12px}
-.featured .hero-content h2{font-size:clamp(34px,4vw,48px)}
-.hero-content p{color:var(--text-2);font-size:14px}
-.hero-bottom{margin-top:24px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);margin:48px 0}
-.stat{padding:8px 24px;border-left:1px solid var(--line)}
-.stat:first-child{border-left:0;padding-left:0}
-.stat strong{display:block;font:700 clamp(32px,4vw,44px)/1 var(--display)}
-.stat small{display:block;margin-top:8px;color:var(--text-2)}
-.stat.online strong{color:var(--green)}
-.section-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px}
-.section-label h2{font:700 clamp(28px,3vw,36px)/1 var(--display);text-transform:uppercase}
-.link{font-size:14px;color:var(--text-2)}
-.columns{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:32px;align-items:start}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin-bottom:24px;overflow:hidden}
-.panel-head{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid var(--line)}
-.panel-head h3{font:700 20px/1 var(--display);text-transform:uppercase}
-.panel-head span{font-size:12px;color:var(--muted)}
-.forum-row{display:grid;grid-template-columns:130px minmax(0,1fr) 55px 55px;gap:16px;align-items:center;padding:24px;border-bottom:1px solid var(--line)}
-.forum-row:hover{background:var(--surface-2)}
-.cover{aspect-ratio:3/2;border-radius:var(--r);overflow:hidden;background:var(--surface-2)}
-.cover img{width:100%;height:100%;object-fit:cover;display:block}
-.desc h4{font-size:17px;margin-bottom:8px}
-.desc p{font-size:14px;color:var(--text-2);margin-bottom:12px}
-.tag{display:inline-block;font-size:12px;color:var(--text-2);padding:2px 12px;margin:0 4px 4px 0;border-radius:99px;background:rgba(255,255,255,.05)}
-.count{font:700 22px/1 var(--display)}
-.count small{display:block;margin-top:4px;font:400 12px/1.4 var(--body);color:var(--muted)}
-.empty{padding:48px 24px;text-align:center;color:var(--text-2)}
-.sidebar .cta{display:grid;gap:12px;margin-bottom:24px}
-.sidebar .btn{width:100%;justify-content:space-between}
-.topic{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;padding:16px 24px;border-bottom:1px solid var(--line)}
-.topic-icon{font:700 18px var(--display);color:var(--muted)}
-.topic b{display:block;font-size:14px;font-weight:500}
-.topic small{display:block;color:var(--muted);font-size:12px}
-.tabs{display:flex;gap:8px;padding:12px 24px;border-bottom:1px solid var(--line)}
-.tabs button{padding:4px 12px;border:0;border-radius:99px;background:none;color:var(--text-2)}
-.tabs button.active{background:rgba(255,255,255,.08);color:var(--text)}
-.rank{display:grid;grid-template-columns:24px 36px 1fr auto;gap:12px;align-items:center;padding:12px 24px}
-.rank img{width:36px;height:36px;object-fit:cover;border-radius:50%}
-.rank b{font-size:14px;font-weight:500}
-.rank small{display:block;color:var(--muted);font-size:12px}
-.rank em{font-style:normal;font-size:13px;color:var(--text-2)}
-.page{display:none;min-height:420px}
-.page.active{display:block;animation:pagein .5s var(--ease) both}
-@keyframes pagein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.subpage{max-width:820px;margin:0 auto;padding:32px 0}
-.subpage h1{font:700 clamp(40px,6vw,64px)/.95 var(--display);text-transform:uppercase;margin:12px 0 16px}
-.subpage p{color:var(--text-2);line-height:1.7;margin-bottom:24px}
-.subrow{padding:16px 0;border-bottom:1px solid var(--line)}
-.form{max-width:480px;margin:32px auto;padding:32px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
-.form h2{font:700 36px/1 var(--display);text-transform:uppercase;margin:12px 0}
-.form p{font-size:14px;color:var(--text-2)}
-.form label{display:block;margin:24px 0 8px;font-size:13px;color:var(--text-2)}
-.form input,.form textarea{display:block;width:100%;padding:12px;border-radius:var(--r);background:var(--bg);border:1px solid var(--line-strong)}
-.form .btn{width:100%;margin-top:24px}
-.notice{margin-top:12px;padding:12px 16px;border-radius:var(--r);background:var(--accent-soft);font-size:13px;color:#f0c4ca}
-footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:32px 0;margin-top:48px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
-footer nav{display:flex;gap:24px}
-@media(max-width:1100px){.nav{gap:12px}.navlinks a{padding:8px 4px}.search{width:120px}.columns{grid-template-columns:minmax(0,1fr) 280px}.forum-row{grid-template-columns:100px minmax(0,1fr) 48px 48px;gap:12px}.desc p{display:none}}
-@media(max-width:860px){.shell{padding:0 16px}.topbar{position:relative}.nav{flex-wrap:wrap;padding:12px 0}.menu-btn{display:block;margin-left:auto}.navlinks{display:none;order:5;flex-basis:100%;flex-direction:column;align-items:stretch}.navlinks.open{display:flex}.navtools{flex:1}.ad-carousel{padding-left:16px;padding-right:16px}.hero-head{flex-direction:column;align-items:flex-start}.hero-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}.hero-card.featured{grid-column:1/-1;grid-row:auto;min-height:340px}.stats{grid-template-columns:1fr 1fr;row-gap:24px}.columns{grid-template-columns:1fr}.forum-row{grid-template-columns:100px minmax(0,1fr) 48px}.forum-row .count:nth-of-type(4){display:none}}
-@media(max-width:520px){.navtools{flex-basis:100%;order:3}.search{width:100%}.hero-grid{grid-template-columns:1fr}.hero-card.featured{min-height:320px}.hero-card{min-height:200px}.stats{gap:16px}.stat{padding:8px 12px}.forum-row{grid-template-columns:76px minmax(0,1fr);gap:12px;padding:16px}.forum-row .count{display:none}.form{padding:24px}footer{flex-direction:column}}
-@media(prefers-reduced-motion:reduce){.ad-track{animation-play-state:paused}}
-
-/* AEGIS — GIF-баннеры 1164 × 142 */
-.ad-slide {
-  flex: 0 0 clamp(320px, 32vw, 460px) !important;
-  width: clamp(320px, 32vw, 460px) !important;
-  height: auto !important;
-  aspect-ratio: 1164 / 142 !important;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  background: #111;
-}
-
-.ad-slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain !important;
-  object-position: center;
-  display: block;
-}
-
-.ad-slide:after {
-  display: none !important;
-}
-}/* Убираем текст поверх GIF-баннеров */
-
-.ad-copy {
-  display: none !important;
-}
-
-/* ===== ОФОРМЛЕНИЕ ФОРУМА ===== */
-.forum-page {
-  padding: 32px 0;
-  color: var(--text);
-}
-
-.forum-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 24px;
-  margin-bottom: 32px;
-}
-
-.forum-heading h1 {
-  margin: 12px 0;
-  font: 700 clamp(44px, 6vw, 72px)/.95 var(--display);
-  text-transform: uppercase;
-}
-
-.forum-heading h1 span { color: var(--accent); }
-.forum-heading p { color: var(--text-2); }
-
-.forum-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.forum-stats > div {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 22px 24px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-}
-
-.forum-stats strong {
-  font: 700 32px/1 var(--display);
-  color: var(--accent);
-}
-
-.forum-stats span,
-.forum-section-title > span {
-  color: var(--text-2);
-  font-size: 13px;
-}
-
-.forum-toolbar {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 240px;
-  gap: 12px;
-  margin-bottom: 40px;
-}
-
-.forum-toolbar input,
-.forum-toolbar select,
-#forumCreateForm input,
-#forumCreateForm select,
-#forumCreateForm textarea {
-  width: 100%;
-  min-width: 0;
-  padding: 13px 16px;
-  background: var(--surface);
-  color: var(--text);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--r);
-}
-
-.forum-section { margin-bottom: 40px; }
-
-.forum-section-title {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.forum-section-title h2 {
-  margin-top: 6px;
-  font: 700 clamp(28px, 4vw, 36px)/1 var(--display);
-  text-transform: uppercase;
-}
-
-.forum-categories {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.forum-category {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 22px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  cursor: pointer;
-  transition: .2s;
-}
-
-.forum-category:hover {
-  background: var(--surface-2);
-  border-color: var(--accent);
-}
-
-.forum-category-icon {
-  display: grid;
-  place-items: center;
-  flex: 0 0 58px;
-  height: 58px;
-  background: var(--accent-soft);
-  border-radius: var(--r);
-  color: var(--accent);
-  font: 700 26px var(--display);
-}
-
-.forum-category-info { flex: 1; min-width: 0; }
-.forum-category h3 { margin-bottom: 6px; font-size: 17px; }
-.forum-category p { color: var(--text-2); font-size: 13px; }
-.forum-category-meta { margin-top: 10px; color: var(--muted); font-size: 12px; }
-.forum-category-arrow { color: var(--accent); font-size: 22px; }
-
-.forum-topic-list {
-  overflow: hidden;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-}
-
-.forum-topic {
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 16px;
-  padding: 20px 24px;
-  border-bottom: 1px solid var(--line);
-  cursor: pointer;
-}
-
-.forum-topic:hover { background: var(--surface-2); }
-
-.forum-topic-icon {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  background: var(--surface-2);
-  border-radius: var(--r);
-  color: var(--accent);
-}
-
-.forum-topic h3 { margin: 7px 0; font-size: 16px; }
-.forum-topic p { color: var(--text-2); font-size: 13px; }
-.forum-topic-meta, .forum-topic-numbers { color: var(--muted); font-size: 12px; }
-
-.forum-tag {
-  display: inline-block;
-  padding: 3px 9px;
-  color: var(--accent);
-  background: var(--accent-soft);
-  border: 1px solid rgba(229,50,74,.2);
-  border-radius: 3px;
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.forum-empty { padding: 32px; text-align: center; color: var(--text-2); }
-
-.forum-editor,
-.forum-discussion,
-.forum-templates {
-  padding: 24px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-}
-
-#forumCreateForm label {
-  display: block;
-  margin: 20px 0 8px;
-  color: var(--text-2);
-  font-size: 13px;
-}
-
-#forumCreateForm textarea { resize: vertical; }
-
-.forum-form-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-.forum-hint { margin-top: 14px; color: var(--muted); font-size: 12px; }
-
-.forum-template {
-  margin-top: 12px;
-  padding: 18px;
-  background: var(--bg);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-}
-
-.forum-template summary { cursor: pointer; font-weight: 600; }
-.forum-template summary:hover { color: var(--accent); }
-
-.forum-preview-topic {
-  margin-top: 18px;
-  padding: 22px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-}
-
-.forum-preview-topic h3 { margin: 14px 0 10px; font-size: 19px; }
-.forum-preview-topic p,
-.forum-comment-preview p { margin-top: 10px; color: var(--text-2); line-height: 1.7; }
-
-.forum-preview-meta {
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.forum-comment-preview {
-  display: flex;
-  gap: 14px;
-  margin-top: 18px;
-  padding: 20px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-}
-
-.forum-avatar {
-  display: grid;
-  place-items: center;
-  flex: 0 0 42px;
-  height: 42px;
-  background: var(--accent-soft);
-  border-radius: 50%;
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.forum-comment-date { color: var(--muted); font-size: 12px; }
-
-.forum-quote-demo {
-  margin-top: 12px;
-  padding: 6px 10px;
-  background: transparent;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--r);
-}
-
-@media (max-width: 700px) {
-  .forum-heading { align-items: flex-start; flex-direction: column; }
-  .forum-stats { gap: 8px; }
-  .forum-stats > div { padding: 14px; }
-  .forum-stats strong { font-size: 25px; }
-  .forum-toolbar, .forum-categories { grid-template-columns: 1fr; }
-  .forum-category { padding: 16px; }
-  .forum-topic { grid-template-columns: 36px minmax(0,1fr); padding: 16px; gap: 12px; }
-  .forum-topic-numbers { grid-column: 2; }
-  .forum-editor, .forum-discussion, .forum-templates { padding: 16px; }
-}
-
-/* ===== FIX: КАРТОЧКИ ФОРУМА ===== */
-
-#forumTopics {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-}
-
-#forumTopics .forum-topic {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  padding: 22px 26px;
-  background: #121010;
-  border: 1px solid #292323;
-  border-radius: 8px;
-}
-
-#forumTopics .forum-topic-main {
-  display: block;
-  width: 100%;
-  min-width: 0;
-}
-
-#forumTopics .forum-topic-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 12px;
-}
-
-#forumTopics .forum-topic h3 {
-  display: block;
-  width: 100%;
-  margin: 0 0 8px;
-  color: #f1eaea;
-  font-size: 23px;
-  line-height: 1.3;
-  overflow-wrap: anywhere;
-}
-
-#forumTopics .forum-topic p {
-  display: block;
-  width: 100%;
-  margin: 0 0 16px;
-  color: #aaa0a0;
-  font-size: 15px;
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-}
-
-#forumTopics .forum-topic-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 22px;
-  color: #817777;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-#forumTopics .forum-topic-meta span {
-  display: inline-block;
-}
-
-#forumTopics .forum-topic-tags .forum-tag {
-  display: inline-block;
-  width: fit-content;
-  padding: 6px 11px;
-  border-radius: 4px;
-  font-size: 12px;
-}
-
-@media (max-width: 600px) {
-  #forumTopics .forum-topic {
-    padding: 16px;
-  }
-
-  #forumTopics .forum-topic h3 {
-    font-size: 20px;
-  }
-}
-
-.forum-expand-wrap {
-  display: flex;
-  justify-content: center;
-  margin-top: 18px;
-}
-
-#forumExpandBtn {
-  min-width: 220px;
-  border-color: rgba(229, 50, 74, .45);
-  color: #efebe9;
-  background: #191615;
-  transition: background .2s, border-color .2s;
-}
-
-#forumExpandBtn:hover {
-  background: rgba(229, 50, 74, .12);
-  border-color: #e5324a;
-}
-/* ===== ФОНЫ КАТЕГОРИЙ ФОРУМА AEGIS ===== */
-
-#forumCategories .forum-category {
-  position: relative;
-  overflow: hidden;
-  background-color: #111;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-/* Документы */
-#forumCategories .forum-category[data-forum-category="Документы"] {
-  background-image: url("./forum-documents.png");
-}
-
-/* Обменные сервисы */
-#forumCategories .forum-category[data-forum-category="Обменные сервисы"] {
-  background-image: url("./forum-exchange.png");
-}
-
-/* Сервисы и услуги */
-#forumCategories .forum-category[data-forum-category="Сервисы и услуги"] {
-  background-image: url("./forum-services.png");
-}
-
-/* Продавцы и сервисы */
-#forumCategories .forum-category[data-forum-category="Продавцы и сервисы"] {
-  background-image: url("./forum-sellers.png");
-}
-
-/* VIP */
-#forumCategories .forum-category[data-forum-category="Торговая площадка — VIP"] {
-  background-image: url("./forum-vip.png");
-}
-  
-/* Кнопка возврата к темам обсуждения */
-#forumDiscussion #forumBack {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 20px;
-  margin-bottom: 22px;
-
-  background: #151313;
-  color: #e8e5e5;
-  border: 1px solid #393030;
-  border-radius: 8px;
-
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-
-  transition: all 0.2s ease;
-}
-
-#forumDiscussion #forumBack:hover {
-  background: #241719;
-  border-color: #a52b36;
-  color: #ffffff;
-}
-
-#forumDiscussion #forumBack:focus-visible {
-  outline: 2px solid #e63946;
-  outline-offset: 3px;
-}
-
-/* AML GROUP — оформление отдельной темы */
-#forumDiscussion .aml-hero {
-  position: relative;
-  overflow: hidden;
-  margin: 24px 0;
-  padding: 38px 30px;
-  min-height: 190px;
-  border: 1px solid #493038;
-  border-radius: 14px;
-  background:
-    radial-gradient(ellipse at 85% 20%, #6e1d32 0, transparent 40%),
-    linear-gradient(125deg, #100e12, #251017 60%, #110e12);
-}
-
-#forumDiscussion .aml-hero::after {
-  content: "A";
-  position: absolute;
-  right: 22px;
-  bottom: -65px;
-  color: rgb(255 255 255 / 4%);
-  font-size: 250px;
-  font-weight: 900;
-  line-height: 1;
-  pointer-events: none;
-}
-
-#forumDiscussion .aml-hero-label,
-#forumDiscussion .aml-section-kicker {
-  color: #ed657e;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 2px;
-}
-
-#forumDiscussion .aml-hero-title {
-  position: relative;
-  z-index: 1;
-  margin-top: 20px;
-  color: #fff;
-  font-size: clamp(36px, 7vw, 64px);
-  font-weight: 900;
-  letter-spacing: -2px;
-  line-height: 1;
-}
-
-#forumDiscussion .aml-hero-title span {
-  color: #f05270;
-}
-
-#forumDiscussion .aml-hero-subtitle {
-  position: relative;
-  z-index: 1;
-  margin: 15px 0 0;
-  color: #c5b5ba;
-  font-size: 11px;
-  letter-spacing: 1.4px;
-}
-
-#forumDiscussion .aml-intro {
-  margin: 28px 0;
-}
-
-#forumDiscussion .aml-intro h4 {
-  margin: 10px 0;
-  color: var(--text, #f5f5f5);
-  font-size: 24px;
-}
-
-#forumDiscussion .aml-intro p,
-#forumDiscussion .aml-service-card p,
-#forumDiscussion .aml-notice p {
-  color: var(--muted, #b6b3b7);
-  font-size: 14px;
-  line-height: 1.8;
-}
-
-#forumDiscussion .aml-service-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  margin: 24px 0;
-}
-
-#forumDiscussion .aml-service-card {
-  position: relative;
-  min-width: 0;
-  padding: 22px;
-  border: 1px solid var(--line, #343036);
-  border-radius: 12px;
-  background: var(--panel, #171519);
-  transition: border-color .2s, transform .2s;
-}
-
-#forumDiscussion .aml-service-card:hover {
-  border-color: #a43b52;
-  transform: translateY(-2px);
-}
-
-#forumDiscussion .aml-card-number {
-  color: #e95a75;
-  font-size: 11px;
-  letter-spacing: 1px;
-}
-
-#forumDiscussion .aml-card-icon {
-  margin: 15px 0;
-  color: #f05270;
-  font-size: 30px;
-}
-
-#forumDiscussion .aml-service-card h4 {
-  margin: 0 0 8px;
-  color: var(--text, #fff);
-  font-size: 16px;
-}
-
-#forumDiscussion .aml-service-card p {
-  margin: 0;
-}
-
-#forumDiscussion .aml-notice {
-  display: flex;
-  gap: 14px;
-  margin: 26px 0;
-  padding: 20px;
-  border: 1px solid #59303b;
-  border-radius: 12px;
-  background: rgb(112 27 49 / 13%);
-}
-
-#forumDiscussion .aml-notice-mark {
-  display: grid;
-  flex: 0 0 30px;
-  width: 30px;
-  height: 30px;
-  place-items: center;
-  border-radius: 50%;
-  background: #702239;
-  color: white;
-  font-weight: 900;
-}
-
-#forumDiscussion .aml-notice strong {
-  color: #ff8296;
-  font-size: 11px;
-  letter-spacing: 1px;
-}
-
-#forumDiscussion .aml-notice p {
-  margin: 8px 0 0;
-}
-
-#forumDiscussion .aml-footer-line {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 28px 0 8px;
-  padding-top: 16px;
-  border-top: 1px solid var(--line, #343036);
-  color: var(--muted, #aaa);
-  font-size: 10px;
-  letter-spacing: 1px;
-}
-
-@media (max-width: 600px) {
-  #forumDiscussion .aml-hero {
-    padding: 28px 20px;
-  }
-
-  #forumDiscussion .aml-service-grid {
-    grid-template-columns: 1fr;
-  }
-
-  #forumDiscussion .aml-service-card {
-    padding: 18px;
-  }
-
-  #forumDiscussion .aml-footer-line {
-    flex-wrap: wrap;
-  }
-}
-profile: {
-  nickname: 'ShadowFox',
-  role: 'Участник',
-  reputation: 248,
-  deposit: '$1,500',
-  messages: 126,
-  registered: '2025',
-  avatar: ''
-},
-
-banner: 'https://example.com/banner.jpg',
-
-blocks: [
-  {
-    type: 'heading',
-    text: '01 / ВВЕДЕНИЕ'
-  },
-  {
-    type: 'text',
-    text: 'Первый абзац публикации.\nВторой абзац публикации.'
-  },
-  {
-    type: 'banner',
-    url: 'https://example.com/another-banner.jpg',
-    alt: 'Баннер публикации'
-  },
-  {
-    type: 'heading',
-    text: '02 / ОСНОВНЫЕ РАЗДЕЛЫ'
-  },
-  {
-    type: 'cards',
-    items: [
-      {
-        number: '01',
-        icon: '↗',
-        title: 'Первый раздел',
-        text: 'Описание первого раздела.'
-      },
-      {
-        number: '02',
-        icon: '◇',
-        title: 'Второй раздел',
-        text: 'Описание второго раздела.'
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0a0a" />
+  <title>AEGIS — Underground Community</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0a0a;
+      --surface:#121010;
+      --surface-2:#191615;
+      --line:rgba(255,255,255,.08);
+      --line-strong:rgba(255,255,255,.16);
+      --text:#efebe9;
+      --text-2:#aaa2a0;
+      --muted:#8a8381;
+      --accent:#e5324a;
+      --accent-hover:#ff4a5f;
+      --accent-soft:rgba(229,50,74,.12);
+      --green:#7ad68d;
+      --r:18px;
+      --display:"Barlow Condensed","Inter",sans-serif;
+      --body:"Inter","Segoe UI",sans-serif;
+      --ease:cubic-bezier(.2,.8,.2,1);
+      --s5:20px;
+    }
+
+    *{box-sizing:border-box}
+    [hidden]{display:none!important}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font:400 15px/1.6 var(--body);
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+    body:before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:-1;
+      background:radial-gradient(900px 500px at 8% -5%,rgba(229,50,74,.12),transparent 70%);
+    }
+    a{color:inherit;text-decoration:none}
+    button,input,textarea{font:inherit;color:inherit}
+    button{cursor:pointer}
+    img{max-width:100%;display:block}
+    h1,h2,h3,h4,p{margin:0}
+    .shell{
+      width:min(1240px,100%);
+      margin:0 auto;
+      padding:0 var(--s5);
+    }
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:30;
+      min-height:72px;
+      background:rgba(11,10,10,.92);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      min-height:72px;
+      display:flex;
+      align-items:center;
+      gap:24px;
+    }
+    .brand{
+      font:700 30px/1 var(--display);
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+    .brand:before{
+      content:"";
+      display:inline-block;
+      width:8px;height:8px;
+      margin-right:8px;
+      border-radius:50%;
+      background:var(--accent);
+      vertical-align:middle;
+    }
+    .navlinks{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex:1;
+    }
+    .navlinks a{
+      padding:8px;
+      color:var(--text-2);
+      font-size:14px;
+      white-space:nowrap;
+      transition:color .2s ease;
+    }
+    .navlinks a:hover,.navlinks a.active{color:#fff}
+    .navtools{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .search{
+      width:160px;
+      height:40px;
+      padding:0 12px;
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      background:var(--surface);
+      color:var(--text);
+      outline:none;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      height:44px;
+      padding:0 24px;
+      border:1px solid transparent;
+      border-radius:var(--r);
+      font-size:14px;
+      font-weight:600;
+      transition:all .2s ease;
+    }
+    .btn-primary{
+      background:var(--accent);
+      color:#fff;
+    }
+    .btn-primary:hover{
+      background:var(--accent-hover);
+    }
+    .btn-ghost{
+      border-color:var(--line-strong);
+      background:transparent;
+    }
+    .btn-sm{
+      height:36px;
+      padding:0 16px;
+    }
+    .menu-btn{
+      display:none;
+      background:var(--surface);
+      border:1px solid var(--line);
+      padding:8px 10px;
+      border-radius:10px;
+      color:var(--text);
+    }
+
+    .ad-carousel{
+      padding-top:16px;
+      overflow:hidden;
+    }
+    .ad-heading{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:12px;
+    }
+    .ad-heading strong{
+      font:700 20px/1 var(--display);
+      letter-spacing:.07em;
+      text-transform:uppercase;
+    }
+    .ad-heading span{
+      font-size:11px;
+      color:var(--muted);
+      letter-spacing:.12em;
+    }
+    .ad-window{
+      overflow:hidden;
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      background:var(--surface);
+    }
+    .ad-track{
+      display:flex;
+      width:max-content;
+      gap:8px;
+      padding:12px;
+      animation:bannerMarquee 35s linear infinite;
+      will-change:transform;
+    }
+    .ad-window:hover .ad-track{
+      animation-play-state:paused;
+    }
+    .ad-slide{
+      position:relative;
+      display:block;
+      flex:0 0 clamp(320px,32vw,460px);
+      width:clamp(320px,32vw,460px);
+      aspect-ratio:1164/142;
+      overflow:hidden;
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      background:#111;
+    }
+    .ad-slide img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      object-position:center;
+      display:block;
+    }
+    .ad-slide:after{
+      display:none!important;
+    }
+    .ad-copy{
+      display:none!important;
+    }
+    @keyframes bannerMarquee{
+      from{transform:translateX(0)}
+      to{transform:translateX(-50%)}
+    }
+
+    main{padding-top:32px}
+    .eyebrow{
+      font-size:12px;
+      font-weight:600;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--accent);
+    }
+    .hero-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:32px;
+      margin-bottom:32px;
+      padding-top:24px;
+    }
+    .hero-head h1{
+      font:700 clamp(44px,7vw,92px)/.92 var(--display);
+      text-transform:uppercase;
+      margin-top:12px;
+    }
+    .hero-head h1 span,
+    .section-label h2 span,
+    .subpage h1 span,
+    .form h2 span{
+      color:var(--accent);
+    }
+    .hero-note{
+      font-size:13px;
+      color:var(--text-2);
+      max-width:260px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.5fr 1fr;
+      grid-template-rows:1fr 1fr;
+      gap:16px;
+    }
+    .hero-card{
+      position:relative;
+      isolation:isolate;
+      overflow:hidden;
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      display:flex;
+      align-items:flex-end;
+      padding:24px;
+      min-height:210px;
+      background-color:#121010;
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+    }
+    .hero-card.featured{
+      grid-row:1/3;
+      min-height:440px;
+      padding:32px;
+      background-image:
+        linear-gradient(0deg,rgba(11,10,10,.94),rgba(11,10,10,.15)),
+        url('marketplace-bg.png');
+    }
+    .hero-card:nth-child(2){
+      background-image:
+        linear-gradient(0deg,rgba(11,10,10,.94),rgba(11,10,10,.15)),
+        url('market-bg.png');
+    }
+    .hero-card:nth-child(3){
+      background-image:
+        linear-gradient(0deg,rgba(11,10,10,.94),rgba(11,10,10,.15)),
+        url('guarantor.png');
+    }
+    .hero-card:after{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:-1;
+      background:linear-gradient(0deg,rgba(11,10,10,.94),rgba(11,10,10,.15));
+    }
+    .badge{
+      position:absolute;
+      top:16px;left:16px;
+      padding:4px 12px;
+      border-radius:99px;
+      background:rgba(11,10,10,.6);
+      border:1px solid var(--line-strong);
+      font-size:12px;
+    }
+    .hero-content{max-width:440px}
+    .hero-content h2{
+      font:700 clamp(26px,3vw,32px)/1 var(--display);
+      text-transform:uppercase;
+      margin:8px 0 12px;
+    }
+    .featured .hero-content h2{
+      font-size:clamp(34px,4vw,48px);
+    }
+    .hero-content p{
+      color:var(--text-2);
+      font-size:14px;
+    }
+    .hero-bottom{margin-top:24px}
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      margin:48px 0;
+    }
+    .stat{
+      padding:8px 24px;
+      border-left:1px solid var(--line);
+    }
+    .stat:first-child{
+      border-left:0;
+      padding-left:0;
+    }
+    .stat strong{
+      display:block;
+      font:700 clamp(32px,4vw,44px)/1 var(--display);
+    }
+    .stat small{
+      display:block;
+      margin-top:8px;
+      color:var(--text-2);
+    }
+    .stat.online strong{color:var(--green)}
+
+    .section-label{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      margin-bottom:24px;
+    }
+    .section-label h2{
+      font:700 clamp(28px,3vw,36px)/1 var(--display);
+      text-transform:uppercase;
+    }
+    .link{
+      font-size:14px;
+      color:var(--text-2);
+    }
+
+    .columns{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 320px;
+      gap:32px;
+      align-items:start;
+    }
+    .panel{
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      margin-bottom:24px;
+      overflow:hidden;
+    }
+    .panel-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 24px;
+      border-bottom:1px solid var(--line);
+    }
+    .panel-head h3{
+      font:700 20px/1 var(--display);
+      text-transform:uppercase;
+    }
+    .panel-head span{
+      font-size:12px;
+      color:var(--muted);
+    }
+    .forum-row{
+      display:grid;
+      grid-template-columns:130px minmax(0,1fr) 55px 55px;
+      gap:16px;
+      align-items:center;
+      padding:24px;
+      border-bottom:1px solid var(--line);
+    }
+    .forum-row:hover{background:var(--surface-2)}
+    .cover{
+      aspect-ratio:3/2;
+      border-radius:var(--r);
+      overflow:hidden;
+      background:var(--surface-2);
+    }
+    .cover img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .desc h4{font-size:17px;margin-bottom:8px}
+    .desc p{
+      font-size:14px;
+      color:var(--text-2);
+      margin-bottom:12px;
+    }
+    .tag{
+      display:inline-block;
+      font-size:12px;
+      color:var(--text-2);
+      padding:2px 12px;
+      margin:0 4px 4px 0;
+      border-radius:99px;
+      background:rgba(255,255,255,.05);
+    }
+    .count{
+      font:700 22px/1 var(--display);
+    }
+    .count small{
+      display:block;
+      margin-top:4px;
+      font:400 12px/1.4 var(--body);
+      color:var(--muted);
+    }
+    .empty{
+      padding:48px 24px;
+      text-align:center;
+      color:var(--text-2);
+    }
+    .sidebar .cta{
+      display:grid;
+      gap:12px;
+      margin-bottom:24px;
+    }
+    .sidebar .btn{
+      width:100%;
+      justify-content:space-between;
+    }
+    .topic{
+      display:grid;
+      grid-template-columns:28px minmax(0,1fr);
+      gap:12px;
+      padding:16px 24px;
+      border-bottom:1px solid var(--line);
+    }
+    .topic-icon{
+      font:700 18px var(--display);
+      color:var(--muted);
+    }
+    .topic b{
+      display:block;
+      font-size:14px;
+      font-weight:500;
+    }
+    .topic small{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .tabs{
+      display:flex;
+      gap:8px;
+      padding:12px 24px;
+      border-bottom:1px solid var(--line);
+    }
+    .tabs button{
+      padding:4px 12px;
+      border:0;
+      border-radius:99px;
+      background:none;
+      color:var(--text-2);
+    }
+    .tabs button.active{
+      background:rgba(255,255,255,.08);
+      color:var(--text);
+    }
+    .rank{
+      display:grid;
+      grid-template-columns:24px 36px 1fr auto;
+      gap:12px;
+      align-items:center;
+      padding:12px 24px;
+    }
+    .rank img{
+      width:36px;height:36px;
+      object-fit:cover;
+      border-radius:50%;
+    }
+    .rank b{font-size:14px;font-weight:500}
+    .rank small{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .rank em{
+      font-style:normal;
+      font-size:13px;
+      color:var(--text-2);
+    }
+    .page{
+      display:none;
+      min-height:420px;
+    }
+    .page.active{
+      display:block;
+      animation:pagein .5s var(--ease) both;
+    }
+    @keyframes pagein{
+      from{opacity:0;transform:translateY(10px)}
+      to{opacity:1;transform:none}
+    }
+
+    .subpage{
+      max-width:820px;
+      margin:0 auto;
+      padding:32px 0;
+    }
+    .subpage h1{
+      font:700 clamp(40px,6vw,64px)/.95 var(--display);
+      text-transform:uppercase;
+      margin:12px 0 16px;
+    }
+    .subpage p{
+      color:var(--text-2);
+      line-height:1.7;
+      margin-bottom:24px;
+    }
+    .subrow{
+      padding:16px 0;
+      border-bottom:1px solid var(--line);
+    }
+    .form{
+      max-width:480px;
+      margin:32px auto;
+      padding:32px;
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      background:var(--surface);
+    }
+    .form h2{
+      font:700 36px/1 var(--display);
+      text-transform:uppercase;
+      margin:12px 0;
+    }
+    .form p{font-size:14px;color:var(--text-2)}
+    .form label{
+      display:block;
+      margin:24px 0 8px;
+      font-size:13px;
+      color:var(--text-2);
+    }
+    .form input,.form textarea{
+      display:block;
+      width:100%;
+      padding:12px;
+      border-radius:var(--r);
+      background:var(--bg);
+      border:1px solid var(--line-strong);
+      color:var(--text);
+    }
+    .form .btn{width:100%;margin-top:24px}
+    .notice{
+      margin-top:12px;
+      padding:12px 16px;
+      border-radius:var(--r);
+      background:var(--accent-soft);
+      font-size:13px;
+      color:#f0c4ca;
+    }
+
+    footer{
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
+      padding:32px 0;
+      margin-top:48px;
+      border-top:1px solid var(--line);
+      font-size:13px;
+      color:var(--muted);
+    }
+    footer nav{
+      display:flex;
+      gap:24px;
+    }
+
+    @media(max-width:1100px){
+      .nav{gap:12px}
+      .navlinks a{padding:8px 4px}
+      .search{width:120px}
+      .columns{grid-template-columns:minmax(0,1fr) 280px}
+      .forum-row{grid-template-columns:100px minmax(0,1fr) 48px 48px}
+    }
+
+    @media(max-width:860px){
+      .shell{padding:0 16px}
+      .topbar{position:relative}
+      .nav{flex-wrap:wrap;padding:12px 0}
+      .menu-btn{display:block;margin-left:auto}
+      .navlinks{
+        display:none;
+        order:5;
+        flex-basis:100%;
+        flex-direction:column;
+        align-items:flex-start;
+        width:100%;
+        padding-top:8px;
       }
-    ]
-  },
-  {
-    type: 'notice',
-    title: 'ВАЖНО',
-    text: 'Текст предупреждения.'
-  },
-  {
-    type: 'quote',
-    text: 'Текст цитаты.',
-    author: 'Автор цитаты'
-  },
-  {
-    type: 'image',
-    url: 'https://example.com/photo.jpg',
-    alt: 'Иллюстрация'
-  }
-],
+      .navlinks.open{display:flex}
+      .navtools{flex:1;justify-content:flex-end}
+      .search{width:140px}
+      .columns{grid-template-columns:1fr}
+      .forum-row{
+        grid-template-columns:100px minmax(0,1fr) 48px 48px;
+      }
+    }
 
-/* ===== AEGIS FORUM — TOPIC DESIGN FIX ===== */
+    @media(max-width:520px){
+      .navtools{
+        flex-basis:100%;
+        justify-content:space-between;
+        order:3;
+      }
+      .search{width:100%}
+      .hero-grid{grid-template-columns:1fr}
+      .hero-card.featured{min-height:320px}
+      .hero-card{min-height:200px}
+      .stats{
+        grid-template-columns:repeat(2,1fr);
+        gap:16px;
+      }
+      .stat{padding:8px 12px;border-left:none}
+      .stat:first-child{padding-left:12px}
+      .forum-row{
+        grid-template-columns:1fr;
+        gap:8px;
+      }
+    }
 
-#forumDiscussionContent {
-  color: #e8e8eb;
-  font-size: 14px;
-}
+    @media(prefers-reduced-motion:reduce){
+      .ad-track{animation-play-state:paused}
+    }
 
-#forumDiscussionContent .ft-topic-layout {
-  display: grid !important;
-  grid-template-columns: 220px minmax(0, 1fr) !important;
-  align-items: start;
-  gap: 18px;
-  width: 100%;
-  margin: 0 0 28px;
-}
+    /* Forum page */
+    .forum-page{
+      padding:32px 0;
+      color:var(--text);
+    }
+    .forum-heading{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:24px;
+      margin-bottom:32px;
+    }
+    .forum-heading h1{
+      margin:12px 0;
+      font:700 clamp(44px,6vw,72px)/.95 var(--display);
+      text-transform:uppercase;
+    }
+    .forum-heading h1 span{color:var(--accent)}
+    .forum-heading p{color:var(--text-2)}
+    .forum-stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+      margin-bottom:24px;
+    }
+    .forum-stats > div{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      padding:22px 24px;
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+    }
+    .forum-stats strong{
+      font:700 32px/1 var(--display);
+      color:var(--accent);
+    }
+    .forum-stats span,
+    .forum-section-title > span{
+      color:var(--text-2);
+      font-size:13px;
+    }
+    .forum-toolbar{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 240px;
+      gap:12px;
+      margin-bottom:40px;
+    }
+    .forum-toolbar input,
+    .forum-toolbar select,
+    #forumCreateForm input,
+    #forumCreateForm select,
+    #forumCreateForm textarea{
+      width:100%;
+      min-width:0;
+      padding:13px 16px;
+      background:var(--surface);
+      color:var(--text);
+      border:1px solid var(--line-strong);
+      border-radius:var(--r);
+      outline:none;
+    }
+    .forum-section{margin-bottom:40px}
+    .forum-section-title{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:20px;
+    }
+    .forum-section-title h2{
+      margin-top:6px;
+      font:700 clamp(28px,4vw,36px)/1 var(--display);
+      text-transform:uppercase;
+    }
+    .forum-categories{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:16px;
+    }
+    .forum-category{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      padding:22px;
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      cursor:pointer;
+      transition:.2s ease;
+      position:relative;
+      overflow:hidden;
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+    }
+    .forum-category:hover{
+      background:var(--surface-2);
+      border-color:var(--accent);
+    }
+    .forum-category-icon{
+      display:grid;
+      place-items:center;
+      flex:0 0 58px;
+      height:58px;
+      background:var(--accent-soft);
+      border-radius:var(--r);
+      color:var(--accent);
+      font:700 26px var(--display);
+    }
+    .forum-category-info{flex:1;min-width:0}
+    .forum-category h3{margin-bottom:6px;font-size:17px}
+    .forum-category p{color:var(--text-2);font-size:13px}
+    .forum-category-meta{margin-top:10px;color:var(--muted);font-size:12px}
+    .forum-category-arrow{color:var(--accent);font-size:22px}
+    #forumCategories .forum-category[data-forum-category="Документы"]{background-image:url("./forum-documents.png")}
+    #forumCategories .forum-category[data-forum-category="Обменные сервисы"]{background-image:url("./forum-exchange.png")}
+    #forumCategories .forum-category[data-forum-category="Сервисы и услуги"]{background-image:url("./forum-services.png")}
+    #forumCategories .forum-category[data-forum-category="Продавцы и сервисы"]{background-image:url("./forum-sellers.png")}
+    #forumCategories .forum-category[data-forum-category="Торговая площадка — VIP"]{background-image:url("./forum-vip.png")}
 
-#forumDiscussionContent .ft-author,
-#forumDiscussionContent .ft-post {
-  display: block;
-  min-width: 0;
-  box-sizing: border-box;
-  color: #e8e8eb;
-  background: #151518;
-  border: 1px solid #303036;
-  border-radius: 8px;
-  overflow: hidden;
-}
+    .forum-topic-list{
+      overflow:hidden;
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+    }
+    .forum-topic{
+      display:grid;
+      grid-template-columns:44px minmax(0,1fr) auto;
+      align-items:center;
+      gap:16px;
+      padding:20px 24px;
+      border-bottom:1px solid var(--line);
+      cursor:pointer;
+    }
+    .forum-topic:hover{background:var(--surface-2)}
+    .forum-topic-icon{
+      display:grid;
+      place-items:center;
+      width:44px;
+      height:44px;
+      background:var(--surface-2);
+      border-radius:var(--r);
+      color:var(--accent);
+    }
+    .forum-topic h3{margin:7px 0;font-size:16px}
+    .forum-topic p{color:var(--text-2);font-size:13px}
+    .forum-topic-meta, .forum-topic-numbers{color:var(--muted);font-size:12px}
+    .forum-tag{
+      display:inline-block;
+      padding:3px 9px;
+      color:var(--accent);
+      background:var(--accent-soft);
+      border:1px solid rgba(229,50,74,.2);
+      border-radius:3px;
+      font-size:10px;
+      font-weight:600;
+    }
+    .forum-empty{
+      padding:32px;
+      text-align:center;
+      color:var(--text-2);
+    }
 
-#forumDiscussionContent .ft-author {
-  padding: 20px 16px;
-  text-align: center;
-}
+    .forum-editor,
+    .forum-discussion,
+    .forum-templates{
+      padding:24px;
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+    }
+    #forumCreateForm label{
+      display:block;
+      margin:20px 0 8px;
+      color:var(--text-2);
+      font-size:13px;
+    }
+    #forumCreateForm textarea{resize:vertical}
+    .forum-form-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:20px;
+    }
+    .forum-hint{
+      margin-top:14px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .forum-template{
+      margin-top:12px;
+      padding:18px;
+      background:var(--bg);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+    }
+    .forum-template summary{cursor:pointer;font-weight:600}
+    .forum-template summary:hover{color:var(--accent)}
 
-#forumDiscussionContent .ft-author-label {
-  margin-bottom: 18px;
-  color: #96969f;
-  font-size: 10px;
-  letter-spacing: 1.5px;
-}
+    .forum-preview-topic{
+      margin-top:18px;
+      padding:22px;
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+    }
+    .forum-preview-topic h3{margin:14px 0 10px;font-size:19px}
+    .forum-preview-topic p,
+    .forum-comment-preview p{margin-top:10px;color:var(--text-2);line-height:1.7}
+    .forum-preview-meta{
+      margin-top:18px;
+      padding-top:14px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+    }
+    .forum-comment-preview{
+      display:flex;
+      gap:14px;
+      margin-top:18px;
+      padding:20px;
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+    }
+    .forum-avatar{
+      display:grid;
+      place-items:center;
+      flex:0 0 42px;
+      height:42px;
+      background:var(--accent-soft);
+      border-radius:50%;
+      color:var(--accent);
+      font-weight:700;
+    }
+    .forum-comment-date{color:var(--muted);font-size:12px}
+    .forum-quote-demo{
+      margin-top:12px;
+      padding:6px 10px;
+      background:transparent;
+      border:1px solid var(--line-strong);
+      border-radius:var(--r);
+    }
 
-#forumDiscussionContent .ft-avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 76px;
-  height: 76px;
-  margin: 0 auto 14px;
-  overflow: hidden;
-  border: 1px solid #48484f;
-  border-radius: 8px;
-  background: #202025;
-  color: #f04454;
-  font-size: 28px;
-  font-weight: 800;
-}
+    #forumTopics{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      width:100%;
+    }
+    #forumTopics .forum-topic{
+      display:block;
+      width:100%;
+      min-width:0;
+      box-sizing:border-box;
+      padding:22px 26px;
+      background:#121010;
+      border:1px solid #292323;
+      border-radius:8px;
+    }
+    #forumTopics .forum-topic-main{
+      display:block;
+      width:100%;
+      min-width:0;
+    }
+    #forumTopics .forum-topic-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-bottom:12px;
+    }
+    #forumTopics .forum-topic h3{
+      display:block;
+      width:100%;
+      margin:0 0 8px;
+      color:#f1eaea;
+      font-size:23px;
+      line-height:1.3;
+      overflow-wrap:anywhere;
+    }
+    #forumTopics .forum-topic p{
+      display:block;
+      width:100%;
+      margin:0 0 16px;
+      color:#aaa0a0;
+      font-size:15px;
+      line-height:1.6;
+      overflow-wrap:anywhere;
+    }
+    #forumTopics .forum-topic-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 22px;
+      color:#817777;
+      font-size:12px;
+      line-height:1.5;
+    }
+    #forumTopics .forum-topic-meta span{display:inline-block}
+    #forumTopics .forum-topic-tags .forum-tag{
+      display:inline-block;
+      width:fit-content;
+      padding:6px 11px;
+      border-radius:4px;
+      font-size:12px;
+    }
+    .forum-expand-wrap{
+      display:flex;
+      justify-content:center;
+      margin-top:18px;
+    }
+    #forumExpandBtn{
+      min-width:220px;
+      border-color:rgba(229,50,74,.45);
+      color:#efebe9;
+      background:#191615;
+      transition:background .2s,border-color .2s;
+    }
+    #forumExpandBtn:hover{
+      background:rgba(229,50,74,.12);
+      border-color:#e5324a;
+    }
 
-#forumDiscussionContent .ft-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+    #forumDiscussion #forumBack{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 20px;
+      margin-bottom:22px;
+      background:#151313;
+      color:#e8e5e5;
+      border:1px solid #393030;
+      border-radius:8px;
+      font-size:14px;
+      font-weight:600;
+      cursor:pointer;
+      transition:all .2s ease;
+    }
+    #forumDiscussion #forumBack:hover{
+      background:#241719;
+      border-color:#a52b36;
+      color:#fff;
+    }
+    #forumDiscussion #forumBack:focus-visible{
+      outline:2px solid #e63946;
+      outline-offset:3px;
+    }
 
-#forumDiscussionContent .ft-author-name {
-  margin: 0 0 5px;
-  font-size: 17px;
-  overflow-wrap: anywhere;
-}
+    #forumDiscussion .aml-hero{
+      position:relative;
+      overflow:hidden;
+      margin:24px 0;
+      padding:38px 30px;
+      min-height:190px;
+      border:1px solid #493038;
+      border-radius:14px;
+      background:
+        radial-gradient(ellipse at 85% 20%, #6e1d32 0, transparent 40%),
+        linear-gradient(125deg, #100e12, #251017 60%, #110e12);
+    }
+    #forumDiscussion .aml-hero::after{
+      content:"A";
+      position:absolute;
+      right:22px;
+      bottom:-65px;
+      color:rgb(255 255 255 / 4%);
+      font-size:250px;
+      font-weight:900;
+      line-height:1;
+      pointer-events:none;
+    }
+    #forumDiscussion .aml-hero-label,
+    #forumDiscussion .aml-section-kicker{
+      color:#ed657e;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:2px;
+    }
+    #forumDiscussion .aml-hero-title{
+      position:relative;
+      z-index:1;
+      margin-top:20px;
+      color:#fff;
+      font-size:clamp(36px,7vw,64px);
+      font-weight:900;
+      letter-spacing:-2px;
+      line-height:1;
+    }
+    #forumDiscussion .aml-hero-title span{color:#f05270}
+    #forumDiscussion .aml-hero-subtitle{
+      position:relative;
+      z-index:1;
+      margin:15px 0 0;
+      color:#c5b5ba;
+      font-size:11px;
+      letter-spacing:1.4px;
+    }
+    #forumDiscussion .aml-intro{margin:28px 0}
+    #forumDiscussion .aml-intro h4{
+      margin:10px 0;
+      color:var(--text,#f5f5f5);
+      font-size:24px;
+    }
+    #forumDiscussion .aml-intro p,
+    #forumDiscussion .aml-service-card p,
+    #forumDiscussion .aml-notice p{
+      color:var(--muted,#b6b3b7);
+      font-size:14px;
+      line-height:1.8;
+    }
+    #forumDiscussion .aml-service-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+      margin:24px 0;
+    }
+    #forumDiscussion .aml-service-card{
+      position:relative;
+      min-width:0;
+      padding:22px;
+      border:1px solid var(--line,#343036);
+      border-radius:12px;
+      background:var(--panel,#171519);
+      transition:border-color .2s, transform .2s;
+    }
+    #forumDiscussion .aml-service-card:hover{
+      border-color:#a43b52;
+      transform:translateY(-2px);
+    }
+    #forumDiscussion .aml-card-number{
+      color:#e95a75;
+      font-size:11px;
+      letter-spacing:1px;
+    }
+    #forumDiscussion .aml-card-icon{
+      margin:15px 0;
+      color:#f05270;
+      font-size:30px;
+    }
+    #forumDiscussion .aml-service-card h4{
+      margin:0 0 8px;
+      color:var(--text,#fff);
+      font-size:16px;
+    }
+    #forumDiscussion .aml-service-card p{margin:0}
+    #forumDiscussion .aml-notice{
+      display:flex;
+      gap:14px;
+      margin:26px 0;
+      padding:20px;
+      border:1px solid #59303b;
+      border-radius:12px;
+      background:rgb(112 27 49 / 13%);
+    }
+    #forumDiscussion .aml-notice-mark{
+      display:grid;
+      flex:0 0 30px;
+      width:30px;
+      height:30px;
+      place-items:center;
+      border-radius:50%;
+      background:#702239;
+      color:#fff;
+      font-weight:900;
+    }
+    #forumDiscussion .aml-notice strong{
+      color:#ff8296;
+      font-size:11px;
+      letter-spacing:1px;
+    }
+    #forumDiscussion .aml-notice p{
+      margin:8px 0 0;
+    }
+    #forumDiscussion .aml-footer-line{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin:28px 0 8px;
+      padding-top:16px;
+      border-top:1px solid var(--line,#343036);
+      color:var(--muted,#aaa);
+      font-size:10px;
+      letter-spacing:1px;
+    }
 
-#forumDiscussionContent .ft-author-role {
-  color: #a2a2ab;
-  font-size: 12px;
-}
+    #forumDiscussionContent{
+      color:#e8e8eb;
+      font-size:14px;
+    }
+    #forumDiscussionContent .ft-topic-layout{
+      display:grid !important;
+      grid-template-columns:220px minmax(0,1fr) !important;
+      align-items:start;
+      gap:18px;
+      width:100%;
+      margin:0 0 28px;
+    }
+    #forumDiscussionContent .ft-author,
+    #forumDiscussionContent .ft-post{
+      display:block;
+      min-width:0;
+      box-sizing:border-box;
+      color:#e8e8eb;
+      background:#151518;
+      border:1px solid #303036;
+      border-radius:8px;
+      overflow:hidden;
+    }
+    #forumDiscussionContent .ft-author{
+      padding:20px 16px;
+      text-align:center;
+    }
+    #forumDiscussionContent .ft-author-label{
+      margin-bottom:18px;
+      color:#96969f;
+      font-size:10px;
+      letter-spacing:1.5px;
+    }
+    #forumDiscussionContent .ft-avatar{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:76px;
+      height:76px;
+      margin:0 auto 14px;
+      overflow:hidden;
+      border:1px solid #48484f;
+      border-radius:8px;
+      background:#202025;
+      color:#f04454;
+      font-size:28px;
+      font-weight:800;
+    }
+    #forumDiscussionContent .ft-avatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    #forumDiscussionContent .ft-author-name{
+      margin:0 0 5px;
+      font-size:17px;
+      overflow-wrap:anywhere;
+    }
+    #forumDiscussionContent .ft-author-role{
+      color:#a2a2ab;
+      font-size:12px;
+    }
+    #forumDiscussionContent .ft-author-stats{
+      margin-top:20px;
+      border-top:1px solid #303036;
+      text-align:left;
+    }
+    #forumDiscussionContent .ft-author-stats > div{
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      padding:11px 0;
+      border-bottom:1px solid #29292f;
+      font-size:11px;
+    }
+    #forumDiscussionContent .ft-author-stats span{
+      color:#a2a2ab;
+    }
+    #forumDiscussionContent .ft-author-stats strong{
+      max-width:58%;
+      text-align:right;
+      overflow-wrap:anywhere;
+    }
+    #forumDiscussionContent .ft-author-status{
+      margin-top:16px;
+      color:#aaaab2;
+      font-size:9px;
+      letter-spacing:1px;
+    }
+    #forumDiscussionContent .ft-status-dot{
+      display:inline-block;
+      width:6px;
+      height:6px;
+      margin-right:5px;
+      border-radius:50%;
+      background:#77bd8b;
+    }
 
-#forumDiscussionContent .ft-author-stats {
-  margin-top: 20px;
-  border-top: 1px solid #303036;
-  text-align: left;
-}
-
-#forumDiscussionContent .ft-author-stats > div {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 11px 0;
-  border-bottom: 1px solid #29292f;
-  font-size: 11px;
-}
-
-#forumDiscussionContent .ft-author-stats span {
-  color: #a2a2ab;
-}
-
-#forumDiscussionContent .ft-author-stats strong {
-  max-width: 58%;
-  text-align: right;
-  overflow-wrap: anywhere;
-}
-
-#forumDiscussionContent .ft-author-status {
-  margin-top: 16px;
-  color: #aaaab2;
-  font-size: 9px;
-  letter-spacing: 1px;
-}
-
-#forumDiscussionContent .ft-status-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-right: 5px;
-  border-radius: 50%;
-  background: #77bd8b;
-}
-
-#forumDiscussionContent .ft-post-topline {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 16px 20px;
-  background: #19191d;
-  border-bottom: 1px solid #303036;
-}
-
-#forumDiscussionContent .ft-topic-number {
-  color: #a2a2ab;
-  font-size: 10px;
-  letter-spacing: 1px;
-}
-
-#forumDiscussionContent .ft-post-title {
-  margin: 0;
-  padding: 24px 22px 12px;
-  color: #f2f2f4;
-  font-size: clamp(22px, 2.5vw, 30px);
-  line-height: 1.25;
-  overflow-wrap: anywhere;
-}
-
-#forumDiscussionContent .ft-post-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 18px;
-  padding: 0 22px 20px;
-  color: #9999a3;
-  font-size: 11px;
-}
-
-#forumDiscussionContent .ft-post-body {
-  min-width: 0;
-  padding: 0 22px 24px;
-  overflow-wrap: anywhere;
-}
-
-#forumDiscussionContent .ft-text {
-  margin: 12px 0 20px;
-  color: #d0d0d6;
-  font-size: 14px;
-  line-height: 1.85;
-}
-
-#forumDiscussionContent .ft-heading {
-  margin: 28px 0 12px;
-  padding-left: 12px;
-  border-left: 2px solid #e23c4b;
-  color: #f0f0f2;
-  font-size: 18px;
-}
-
-#forumDiscussionContent .ft-banner {
-  margin: 16px 0 24px;
-  overflow: hidden;
-  border: 1px solid #35353c;
-  border-radius: 6px;
-  background: #101013;
-}
-
-
-#forumDiscussionContent .ft-banner .ft-image-wrap {
-  margin: 0;
-}
-
-#forumDiscussionContent .ft-banner .ft-image {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: none;
-  object-fit: contain;
-}
-
-#forumDiscussionContent .ft-image-wrap {
-  margin: 20px 0;
-}
-
-#forumDiscussionContent .ft-image {
-  display: block;
-  max-width: 100%;
-  max-height: 620px;
-  height: auto;
-  margin: 0 auto;
-  border-radius: 5px;
-}
-
-#forumDiscussionContent .ft-image-wrap figcaption {
-  margin-top: 8px;
-  color: #9999a3;
-  text-align: center;
-  font-size: 11px;
-}
-
-#forumDiscussionContent .ft-cards {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin: 22px 0;
-}
-
-#forumDiscussionContent .ft-card {
-  min-width: 0;
-  padding: 18px;
-  border: 1px solid #34343b;
-  border-radius: 6px;
-  background: #1b1b20;
-}
-
-#forumDiscussionContent .ft-card-number {
-  color: #e34a58;
-  font-size: 11px;
-  letter-spacing: 1px;
-}
-
-#forumDiscussionContent .ft-card-icon {
-  display: block;
-  margin: 10px 0;
-  font-size: 22px;
-}
-
-#forumDiscussionContent .ft-card h4 {
-  margin: 8px 0;
-  color: #f0f0f2;
-  font-size: 15px;
-}
-
-#forumDiscussionContent .ft-card p {
-  color: #b7b7c0;
-  font-size: 12px;
-  line-height: 1.75;
-}
-
-#forumDiscussionContent .ft-card a {
-  display: inline-block;
-  margin-top: 12px;
-  color: #ff6875;
-  font-size: 12px;
-}
-
-#forumDiscussionContent .ft-notice {
-  margin: 22px 0;
-  padding: 16px 18px;
-  border: 1px solid #493037;
-  border-left: 3px solid #e04453;
-  border-radius: 5px;
-  background: #21181c;
-  color: #ded4d7;
-  font-size: 13px;
-  line-height: 1.75;
-}
-
-#forumDiscussionContent .ft-notice strong {
-  display: block;
-  margin-bottom: 7px;
-  color: #ff6875;
-  font-size: 11px;
-  letter-spacing: 1px;
-}
-
-#forumDiscussionContent .ft-quote {
-  margin: 22px 0;
-  padding: 16px 20px;
-  border-left: 2px solid #e04453;
-  background: #1b1b20;
-  line-height: 1.8;
-}
-
-#forumDiscussionContent .ft-quote cite {
-  display: block;
-  margin-top: 10px;
-  color: #9999a3;
-  font-size: 12px;
-  font-style: normal;
-}
-
-#forumDiscussionContent .ft-post-footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 14px 20px;
-  border-top: 1px solid #303036;
-  background: #19191d;
-  color: #85858f;
-  font-size: 9px;
-  letter-spacing: 1.2px;
-}
-
-/* Ответы и форма */
-
-#forumDiscussionContent .forum-section-title {
-  padding-bottom: 12px;
-  border-bottom: 1px solid #303036;
-}
-
-#forumDiscussionContent #forumCommentForm {
-  margin-top: 20px;
-  padding: 20px;
-  border: 1px solid #303036;
-  border-radius: 8px;
-  background: #151518;
-}
-
-#forumDiscussionContent #forumCommentText {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  min-height: 120px;
-  margin-top: 10px;
-  padding: 12px;
-  border: 1px solid #393940;
-  border-radius: 5px;
-  background: #101013;
-  color: #eeeef1;
-  font: inherit;
-  resize: vertical;
-}
-
-#forumDiscussionContent #forumCommentText:focus {
-  outline: 1px solid #e04453;
-  border-color: #e04453;
-}
-
-#forumDiscussionContent #forumCommentForm button {
-  margin-top: 14px;
-}
-
-@media (max-width: 700px) {
-  #forumDiscussionContent .ft-topic-layout {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
-
-  #forumDiscussionContent .ft-author {
-    display: grid;
-    grid-template-columns: 64px minmax(0, 1fr);
-    column-gap: 14px;
-    align-items: center;
-    text-align: left;
-  }
-
-  #forumDiscussionContent .ft-author-label,
-  #forumDiscussionContent .ft-author-stats,
-  #forumDiscussionContent .ft-author-status {
-    grid-column: 1 / -1;
-  }
-
-  #forumDiscussionContent .ft-avatar {
-    grid-column: 1;
-    grid-row: 2 / span 2;
-    width: 64px;
-    height: 64px;
-    margin: 0;
-  }
-
-  #forumDiscussionContent .ft-cards {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  #forumDiscussionContent .ft-post-title {
-    padding: 20px 15px 10px;
-  }
-
-  #forumDiscussionContent .ft-post-meta {
-    padding: 0 15px 16px;
-  }
-
-  #forumDiscussionContent .ft-post-body {
-    padding: 0 15px 20px;
-  }
-}
-
-</style>
+    @media (max-width: 700px){
+      .forum-heading{align-items:flex-start;flex-direction:column}
+      .forum-stats{gap:8px}
+      .forum-stats > div{padding:14px}
+      .forum-stats strong{font-size:25px}
+      .forum-toolbar, .forum-categories{grid-template-columns:1fr}
+      .forum-category{padding:16px}
+      .forum-topic{grid-template-columns:36px minmax(0,1fr);padding:16px;gap:12px}
+      .forum-topic-numbers{grid-column:2}
+      .forum-editor,.forum-discussion,.forum-templates{padding:16px}
+      #forumDiscussion .aml-service-grid{grid-template-columns:1fr}
+      #forumDiscussion .aml-hero{padding:28px 20px}
+      #forumDiscussion .aml-footer-line{flex-wrap:wrap}
+      #forumTopics .forum-topic{padding:16px}
+      #forumTopics .forum-topic h3{font-size:20px}
+    }
+  </style>
 </head>
 <body>
+  <header class="topbar">
+    <div class="shell nav">
+      <a href="#" class="brand">AEGIS</a>
 
-</head>
-<body>
-<header class="topbar" id="topbar">
-<div class="shell nav">
-<a class="brand" href="#home" data-page="home">AEGIS</a>
-<nav class="navlinks" id="navlinks">
-<a class="active" href="#home" data-page="home">Главная</a>
-<a href="#forum" data-page="forum">Форум</a>
-<a href="#market" data-page="market">Маркет</a>
-<a href="#reviews" data-page="reviews">Гарант</a>
-<a href="#users" data-page="users">Пользователи</a>
-<a href="#rules" data-page="rules">Правила</a>
-<a href="#support" data-page="support">Поддержка</a>
-</nav>
-<div class="navtools">
-<input class="search" id="search" type="search" placeholder="Поиск по форуму" aria-label="Поиск по форуму">
-<a class="btn btn-ghost btn-sm" href="#login" data-page="login">Войти</a>
-</div>
-<button class="menu-btn" id="menuBtn" aria-label="Открыть меню">☰</button>
-</div>
-</header>
+      <nav class="navlinks" id="navLinks">
+        <a href="#" class="active">Главная</a>
+        <a href="#">Форум</a>
+        <a href="#">Площадка</a>
+        <a href="#">Сервисы</a>
+        <a href="#">Гаранты</a>
+        <a href="#">Поддержка</a>
+      </nav>
 
-<section class="ad-carousel" aria-label="Рекламные баннеры">
-<div class="ad-heading shell"><strong>AEGIS / Media</strong><span>FEATURED CONTENT</span></div>
-<div class="ad-window shell"><div class="ad-track" id="adTrack"></div></div>
-</section>
-
-<main class="shell">
-<section id="home" class="page active">
-<div class="hero-head"><div><div class="eyebrow">Independent digital community · 2026</div><h1>Enter the <span>AEGIS</span><br>underground.</h1></div><p class="hero-note">Основано в 2026. Сообщество строят его участники.</p></div>
-<div class="hero-grid">
-<article class="hero-card featured"><span class="badge">Выбор сообщества</span><div class="hero-content"><div class="eyebrow">Цифровая культура</div><h2>Торговая площадка №1.</h2><p>Аккаунты, подписки и цифровые сервисы в одном месте.</p><div class="hero-bottom"><a class="btn btn-primary" href="#market" data-page="market">Открыть маркет →</a></div></div></article>
-<article class="hero-card"><div class="hero-content"><h2>Центр дискуссий</h2><p>Обмен опытом и цифровыми товарами.</p><div class="hero-bottom"><a class="btn btn-ghost btn-sm" href="#forum" data-page="forum">В форум →</a></div></div></article>
-<article class="hero-card"><div class="hero-content"><h2>Гарант</h2><p>Надёжное сопровождение сделок от начала до завершения.</p><div class="hero-bottom"><a class="btn btn-ghost btn-sm" href="#reviews" data-page="reviews">Отзывы →</a></div></div></article>
-</div>
-<div class="stats">
-<div class="stat"><strong>12 487</strong><small>участников</small></div><div class="stat"><strong>3 421</strong><small>тем на форуме</small></div><div class="stat"><strong>28 913</strong><small>сообщений</small></div><div class="stat online"><strong>1 203</strong><small>сейчас онлайн</small></div>
-</div>
-<div class="section-label"><h2>The <span>community</span></h2><a class="link" href="#forum" data-page="forum">Все разделы →</a></div>
-<div class="columns">
-<section class="panel" id="forumPanel">
-<div class="panel-head"><h3>Разделы форума</h3><span>5 разделов</span></div>
-<article class="forum-row" data-search="документы загранпаспорт визы"><div class="cover"><img src="documents.jpeg" alt="Документы"></div><div class="desc"><h4><a href="#forum" data-page="forum">Документы</a></h4><p>Документы, удостоверения личности и тематические вопросы участников.</p><span class="tag">Документы</span><span class="tag">Визы</span></div><div class="count">06<small>тем</small></div><div class="count">120<small>постов</small></div></article>
-<article class="forum-row" data-search="обменные сервисы обмен валют"><div class="cover"><img src="exchange.jpeg" alt="Обмен"></div><div class="desc"><h4><a href="#forum" data-page="forum">Обменные сервисы</a></h4><p>Обменные операции, сервисы и цифровые инструменты.</p><span class="tag">Обмен</span><span class="tag">Сервисы</span></div><div class="count">05<small>тем</small></div><div class="count">96<small>постов</small></div></article>
-<article class="forum-row" data-search="сервисы услуги"><div class="cover"><img src="services.jpeg" alt="Услуги"></div><div class="desc"><h4><a href="#forum" data-page="forum">Сервисы и услуги</a></h4><p>Публикации участников о сервисах и различных услугах.</p><span class="tag">Сервисы</span><span class="tag">Услуги</span></div><div class="count">03<small>тем</small></div><div class="count">64<small>постов</small></div></article>
-<article class="forum-row" data-search="продавцы техника электроника"><div class="cover"><img src="sellers.jpeg" alt="Продавцы"></div><div class="desc"><h4><a href="#forum" data-page="forum">Продавцы и сервисы</a></h4><p>Каталог тематических публикаций продавцов и сервисов.</p><span class="tag">Продавцы</span><span class="tag">Техника</span></div><div class="count">03<small>темы</small></div><div class="count">78<small>постов</small></div></article>
-<article class="forum-row" data-search="vip торговая площадка бизнес"><div class="cover"><img src="vip.jpeg" alt="VIP"></div><div class="desc"><h4><a href="#forum" data-page="forum">Торговая площадка — VIP</a></h4><p>Бизнес-темы, цифровые сервисы и продвижение.</p><span class="tag">VIP</span><span class="tag">Бизнес</span></div><div class="count">07<small>тем</small></div><div class="count">142<small>поста</small></div></article>
-<div class="empty" id="searchEmpty" hidden>Ничего не найдено.</div>
-</section>
-<aside class="sidebar">
-<div class="cta"><a class="btn btn-primary" href="#register" data-page="register">Присоединиться →</a><a class="btn btn-ghost" href="#support" data-page="support">Центр поддержки →</a></div>
-<section class="panel"><div class="panel-head"><h3>В тренде</h3></div>
-<a class="topic" href="#forum" data-page="forum"><div class="topic-icon">01</div><div><b>Документы</b><small>Тематический раздел</small></div></a>
-<a class="topic" href="#forum" data-page="forum"><div class="topic-icon">02</div><div><b>Обменные сервисы</b><small>Обсуждения сообщества</small></div></a>
-<a class="topic" href="#forum" data-page="forum"><div class="topic-icon">03</div><div><b>Продавцы и услуги</b><small>Каталог публикаций</small></div></a>
-<a class="topic" href="#forum" data-page="forum"><div class="topic-icon">04</div><div><b>VIP-площадка</b><small>Тематические публикации</small></div></a>
-</section>
-<section class="panel"><div class="panel-head"><h3>Участники</h3></div><div class="tabs"><button class="active" data-rank="week">Неделя</button><button data-rank="month">Месяц</button><button data-rank="all">Всё время</button></div><div id="ranking">
-<div class="rank"><span>01</span><img src="https://placehold.co/80x80/3a1a1e/e5324a?text=D" alt=""><div><b>DarkSeller</b><small>Активный участник</small></div><em>322</em></div>
-<div class="rank"><span>02</span><img src="https://placehold.co/80x80/1a2a3a/6ea8d8?text=C" alt=""><div><b>coderhub</b><small>Разработка</small></div><em>281</em></div>
-<div class="rank"><span>03</span><img src="https://placehold.co/80x80/2a2a1a/d8b86e?text=R" alt=""><div><b>realuser</b><small>Участник</small></div><em>245</em></div>
-<div class="rank"><span>04</span><img src="https://placehold.co/80x80/1a3a2a/6ed8a0?text=T" alt=""><div><b>tradeuser</b><small>Обмен</small></div><em>198</em></div>
-</div></section>
-</aside>
-</div>
-</section>
-
-
-<section id="forum" class="page">
-  <div class="forum-page">
-
-    <!-- ЗАГОЛОВОК ФОРУМА -->
-    <div class="forum-heading">
-      <div>
-        <div class="eyebrow">01 · COMMUNITY DISCUSSIONS</div>
-        <h1>The <span>forum</span></h1>
-        <p>Общайся, задавай вопросы и делись опытом.</p>
+      <div class="navtools">
+        <input class="search" type="text" placeholder="Поиск" aria-label="Поиск">
+        <button class="btn btn-ghost btn-sm">Войти</button>
+        <button class="btn btn-primary btn-sm">Регистрация</button>
+        <button class="menu-btn" id="menuBtn" aria-label="Открыть меню">☰</button>
       </div>
-      <button class="btn btn-primary" id="forumCreateBtn">+ Создать тему</button>
     </div>
+  </header>
 
-    <!-- СТАТИСТИКА -->
-    <div class="forum-stats">
-      <div><strong id="forumCategoryCount">05</strong><span>Категорий</span></div>
-      <div><strong id="forumTopicCount">06</strong><span>Демо-тем</span></div>
-      <div><strong>24/7</strong><span>Доступ к форуму</span></div>
-    </div>
+  <main>
+    <div class="shell">
+      <section class="ad-carousel">
+        <div class="ad-heading">
+          <strong>Featured</strong>
+          <span>COMMUNITY FEED</span>
+        </div>
+        <div class="ad-window">
+          <div class="ad-track">
+            <a class="ad-slide" href="#">
+              <img src="https://images.unsplash.com/photo-1541534401786-2077eed87a74?auto=format&fit=crop&w=1200&q=80" alt="banner">
+            </a>
+            <a class="ad-slide" href="#">
+              <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=80" alt="banner">
+            </a>
+            <a class="ad-slide" href="#">
+              <img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?auto=format&fit=crop&w=1200&q=80" alt="banner">
+            </a>
+            <a class="ad-slide" href="#">
+              <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=80" alt="banner">
+            </a>
+            <a class="ad-slide" href="#">
+              <img src="https://images.unsplash.com/photo-1541534401786-2077eed87a74?auto=format&fit=crop&w=1200&q=80" alt="banner">
+            </a>
+            <a class="ad-slide" href="#">
+              <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=80" alt="banner">
+            </a>
+          </div>
+        </div>
+      </section>
 
-    <!-- ПОИСК И СОРТИРОВКА -->
-    <div class="forum-toolbar">
-      <input id="forumSearch" type="search"
-        placeholder="Поиск по темам, авторам и тексту...">
-      <select id="forumSort" aria-label="Сортировка тем">
-        <option value="new">Сначала новые</option>
-        <option value="popular">Сначала популярные</option>
-        <option value="replies">По количеству ответов</option>
-      </select>
-    </div>
-
-    <!-- КАТЕГОРИИ -->
-    <section class="forum-section">
-      <div class="forum-section-title">
-        <div><div class="eyebrow">BROWSE</div><h2>Категории</h2></div>
-        <span>Выбери раздел</span>
-      </div>
-
-      <div class="forum-categories" id="forumCategories">
-        <!-- Категории создаются из массива forumCategories в JavaScript -->
-      </div>
-    </section>
-
-  
-    <!-- СПИСОК ТЕМ -->
-    <section class="forum-section">
-      <div class="forum-section-title">
+      <section class="hero-head">
         <div>
-          <div class="eyebrow">LATEST ACTIVITY</div>
-          <h2 id="forumTopicsHeading">Последние темы</h2>
+          <div class="eyebrow">Underground community</div>
+          <h1>AEGIS <span>Marketplace</span></h1>
         </div>
+        <div class="hero-note">
+          Безопасные сделки, проверенные участники и закрытая экосистема для торговых операций.
         </div>
+      </section>
 
-      <div class="forum-topic-list" id="forumTopics">
-        <!-- Темы создаются из массива forumTopicData в JavaScript -->
-      </div>
-
-      <div class="forum-expand-wrap">
-        <button type="button" class="btn btn-ghost" id="forumExpandBtn">
-          Показать все 25 тем ↓
-        </button>
-      </div>
-
-      <div class="forum-empty" id="forumEmpty" hidden>
-        Ничего не найдено. Попробуй изменить поисковый запрос.
-      </div>
-    </section>
-
-    <!-- ФОРМА СОЗДАНИЯ ТЕМЫ -->
-    <section class="forum-section forum-editor" id="forumEditor" hidden>
-      <div class="forum-section-title">
-        <div><div class="eyebrow">NEW DISCUSSION</div><h2>Создать тему</h2></div>
-      </div>
-      <form id="forumCreateForm">
-        <label for="forumNewTitle">Заголовок</label>
-        <input id="forumNewTitle" maxlength="120" required
-          placeholder="Кратко сформулируй тему">
-
-        <label for="forumNewCategory">Категория</label>
-        <select id="forumNewCategory" required></select>
-
-        <label for="forumNewAuthor">Автор</label>
-        <input id="forumNewAuthor" maxlength="32" required
-          value="Гость" placeholder="Твой никнейм">
-
-        <label for="forumNewText">Текст публикации</label>
-        <textarea id="forumNewText" rows="6" maxlength="10000" required
-          placeholder="Подробно опиши вопрос или тему..."></textarea>
-
-        <div class="forum-form-actions">
-          <button class="btn btn-primary" type="submit">Опубликовать тему</button>
-          <button class="btn btn-ghost" type="button" id="forumCancelCreate">Отмена</button>
-        </div>
-        <p class="forum-hint">Демонстрационный режим: публикации сохраняются в этом браузере.</p>
-      </form>
-    </section>
-
-    <!-- СТРАНИЦА ОБСУЖДЕНИЯ -->
-    <section class="forum-section forum-discussion" id="forumDiscussion" hidden>
-      <button class="btn btn-ghost btn-sm" id="forumBack">← Назад к темам</button>
-      <div id="forumDiscussionContent"></div>
-    </section>
-
-    <!-- ВИЗУАЛЬНЫЕ ШАБЛОНЫ -->
-    <section class="forum-section forum-templates">
-      <div class="forum-section-title">
-        <div><div class="eyebrow">DESIGN PREVIEW</div><h2>Шаблоны оформления</h2></div>
-        <span>Визуальные примеры</span>
-      </div>
-
-      <details class="forum-template" open>
-        <summary>Шаблон темы</summary>
-        <article class="forum-preview-topic">
-          <span class="forum-tag">ВОПРОС</span>
-          <h3>Здесь будет заголовок темы</h3>
-          <p>Здесь размещается основной текст публикации. Можно добавить описание, ссылки и полезные материалы.</p>
-          <div class="forum-preview-meta">Автор: <b>Имя участника</b> · Дата публикации · 0 ответов</div>
-        </article>
-        <p class="forum-hint">Редактируемые поля: заголовок, категория, автор, дата, текст и метки.</p>
-      </details>
-
-      <details class="forum-template">
-        <summary>Шаблон комментария</summary>
-        <article class="forum-comment-preview">
-          <div class="forum-avatar">U</div>
-          <div>
-            <b>Имя участника</b><span class="forum-comment-date"> · Дата и время</span>
-            <p>Здесь будет текст ответа на публикацию.</p>
-            <button class="forum-quote-demo" type="button">↳ Цитировать</button>
+      <section class="hero-grid">
+        <article class="hero-card featured">
+          <span class="badge">TOP DEAL</span>
+          <div class="hero-content">
+            <div class="eyebrow">Marketplace</div>
+            <h2>Торговая площадка<br>закрытого уровня</h2>
+            <p>Гарантированные сделки, отдельные категории, быстрый поиск и высокий уровень доверия между участниками.</p>
           </div>
         </article>
-        <p class="forum-hint">Редактируемые поля: аватар, никнейм, дата, текст и цитата.</p>
-      </details>
 
-      <details class="forum-template">
-        <summary>Шаблон объявления</summary>
-        <article class="forum-preview-topic">
-          <span class="forum-tag">ОБЪЯВЛЕНИЕ</span>
-          <h3>Название предложения</h3>
-          <p>Описание предложения, условия, стоимость и способ связи.</p>
-          <div class="forum-preview-meta">Автор: <b>Имя продавца</b> · Статус: пример</div>
+        <article class="hero-card">
+          <span class="badge">Hot</span>
+          <div class="hero-content">
+            <div class="eyebrow">Market</div>
+            <h2>Обменные сервисы</h2>
+            <p>Платформы для оперативных сделок и проверенных участников.</p>
+          </div>
         </article>
-      </details>
-    </section>
 
-  </div>
-</section>
-<section id="market" class="page"><div class="subpage"><div class="eyebrow">02 · Marketplace</div><h1>The <span>market</span></h1><p>Каталог цифровых товаров, сервисов и профессиональных услуг.</p><div class="subrow">Digital — Цифровые сервисы и подписки</div><div class="subrow">Gaming — Игровые товары и инструменты</div><div class="subrow">Creative — Дизайн и разработка</div><div class="subrow">Tools — Рабочие инструменты</div></div></section>
-<section id="reviews" class="page"><div class="subpage"><div class="eyebrow">03 · Reputation</div><h1>Trust is <span>earned.</span></h1><p>Отзывы, опыт участников и репутация сервисов.</p><div class="subrow">Обзоры цифровых сервисов</div><div class="subrow">Истории сотрудничества</div><div class="subrow">Профили и репутация участников</div></div></section>
-<section id="users" class="page"><div class="subpage"><div class="eyebrow">04 · Members</div><h1>The <span>people.</span></h1><p>Знакомься с сообществом.</p><div class="subrow">DarkSeller — Community member</div><div class="subrow">coderhub — Development</div><div class="subrow">realuser — Community member</div><div class="subrow">tradeuser — Exchange</div></div></section>
-<section id="rules" class="page"><div class="subpage"><div class="eyebrow">05 · Community standards</div><h1>Know the <span>rules.</span></h1><div class="subrow">Уважайте других участников.</div><div class="subrow">Запрещены мошенничество, угрозы и спам.</div><div class="subrow">Не публикуйте вредоносные файлы и незаконные предложения.</div><div class="subrow">Сообщайте модераторам о нарушениях.</div></div></section>
-<section id="support" class="page"><form class="form" id="supportForm"><div class="eyebrow">06 · Help desk</div><h2>Need <span>backup?</span></h2><p>Демонстрационная форма поддержки.</p><label for="supportEmail">Email</label><input id="supportEmail" type="email" required><label for="supportMessage">Сообщение</label><textarea id="supportMessage" rows="4" required></textarea><button class="btn btn-primary" type="submit">Подготовить обращение →</button><div class="notice" id="supportResult" hidden></div></form></section>
-<section id="register" class="page"><form class="form" id="registerForm"><div class="eyebrow">Join the community</div><h2>Create your <span>identity.</span></h2><p>Демонстрационная форма регистрации.</p><label for="regName">Никнейм</label><input id="regName" minlength="3" required><label for="regEmail">Email</label><input id="regEmail" type="email" required><label for="regPass">Пароль</label><input id="regPass" type="password" minlength="8" required><label for="regPass2">Повторите пароль</label><input id="regPass2" type="password" minlength="8" required><button class="btn btn-primary" type="submit">Создать аккаунт →</button><div class="notice" id="regResult" hidden></div></form></section>
-<section id="login" class="page"><form class="form" id="loginForm"><div class="eyebrow">Member access</div><h2>Welcome <span>back.</span></h2><label for="loginName">Email или никнейм</label><input id="loginName" required><label for="loginPass">Пароль</label><input id="loginPass" type="password" required><button class="btn btn-primary" type="submit">Войти в AEGIS →</button><div class="notice" id="loginResult" hidden></div></form></section>
-<footer><span>© 2026 AEGIS Community — independent digital culture</span><nav><a href="#rules" data-page="rules">Правила</a><a href="#support" data-page="support">Поддержка</a><a href="#register" data-page="register">Регистрация</a></nav></footer>
-</main>
-
-<script>
-const adBanners=[
-{title:'AEGIS / MEDIA',label:'РЕКЛАМНЫЙ БАННЕР 01',image:'banner1.gif',url:'#market'},
-{title:'DIGITAL COMMUNITY',label:'РЕКЛАМНЫЙ БАННЕР 02',image:'banner2.gif',url:'#forum'},
-{title:'NIGHT SIGNAL',label:'РЕКЛАМНЫЙ БАННЕР 03',image:'banner3.gif',url:'#reviews'},
-{title:'CREATIVE NETWORK',label:'РЕКЛАМНЫЙ БАННЕР 04',image:'banner4.gif',url:'#users'},
-];
-  /* ===== СПИСОК 25 ТЕМ ФОРУМА ===== */
-
-const forumTopicData = [
-  {
-    id: 1,
-    title: "Документы: вопросы и ответы",
-    category: "Документы",
-    type: "ВОПРОС",
-    description: "Обсуждение документов и общих вопросов по их оформлению.",
-    content: "Здесь размещается полная информация по теме.",
-    author: "Admin",
-    date: "2026-10-22",
-    replies: 12,
-    views: 248,
-    pinned: true
-  },
- 
-  {
-    id: 2,
-    title: "AML Group Миксер + Разрыв связей + Обмен от 1.5%",
-    category: "Обменные сервисы",
-    type: "ОБСУЖДЕНИЕ",
-    description: "Описание сервиса и условия обмена.",
-    content: `Доброго времени суток.
-
-Начну без громких слов и ярких топиков.
-
-Здесь размещается информация о сервисе, условиях обмена, комиссиях и порядке проведения операций.
-
-Курс обмена динамический и основан на котировках ведущих бирж (Binance, OKX, MEXC и др.).
-Комиссия сервиса не включает затраты на комиссию сети и бирж при обмене.`,
-   
-    blocks: [
-      {
-        type: 'banner',
-        url: 'images/forum/aml-hero.jpg',
-        alt: 'AML Group — главный баннер'
-      }
-    ],
-    author: "Admin",
-
-    date: "2026-10-22",
-    replies: 8,
-    views: 176,
-    pinned: false
-  },
- {
-    id: 3,
-    title: "NETSY ОБМЕН/ОБНАЛ!QR!Клады налички!MIXER!Анонимно!",
-    category: "Сервисы и услуги",
-    type: "ОБСУЖДЕНИЕ",
-    description: "Подборка полезных ресурсов и инструментов.",
-    content: "Добавляйте описание ресурсов и делитесь впечатлениями.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 5,
-    views: 112,
-    pinned: false
-  },
-  {
-    id: 4,
-    title: "VOL.STORE - ОПТ&РОЗНИЦА A-PVP (НАБОР В КОМАНДУ)",
-    category: "Продавцы и сервисы",
-    type: "ОТЗЫВЫ",
-    description: "Обмен мнениями о качестве обслуживания.",
-    content: "Публикуйте конструктивные отзывы о своём опыте.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 14,
-    views: 320,
-    pinned: false
-  },
-  {
-    id: 5,
-    title: "Правила VIP-раздела",
-    category: "Торговая площадка — VIP",
-    type: "ПРАВИЛА",
-    description: "Основные правила и рекомендации раздела.",
-    content: "Перед публикацией ознакомьтесь с правилами площадки.",
-    author: "Admin",
-    date: "2026-10-22",
-    replies: 3,
-    views: 95,
-    pinned: true
-  },
-  {
-    id: 6,
-    title: "Как правильно оформить тему",
-    category: "Документы",
-    type: "ИНСТРУКЦИЯ",
-    description: "Рекомендации по оформлению публикаций.",
-    content: "Укажите понятный заголовок, описание и необходимую информацию.",
-    author: "Admin",
-    date: "2026-10-22",
-    replies: 4,
-    views: 86,
-    pinned: false
-  },
-  {
-    id: 7,
-  title: "24/7 Razex - Миксер криптовалют с AML-проверкой от 0 до 25%.",
-    category: "Обменные сервисы",
-    type: "ОБСУЖДЕНИЕ",
-   
-description: "24/7 Razex — информация о сервисе, условиях обмена цифровых активов, комиссиях и AML-проверках.",
-
-content: `Добро пожаловать в 24/7 Razex.
-
-В этой теме собрана информация о сервисе, порядке проведения операций, условиях обмена и проверке транзакций.
-
-Перед началом работы уточняйте актуальные комиссии, сроки обработки, поддерживаемые сети и требования к подтверждению операций.
-
-Проверяйте реквизиты и итоговые условия до отправки средств.`,
-blocks: [
-  {
-    type: 'banner',
-    url: 'images/forum/power-world-banner.jpg',
-    alt: '24/7 Razex — баннер сервиса'
-  }
-],
-    author: "Member",
-    date: "2026-10-22",
-    replies: 7,
-    views: 143,
-    pinned: false
-  },
-  {
-    id: 8,
-    title: "Вопросы новичков",
-    category: "Документы",
-    type: "ВОПРОС",
-    description: "Ответы на часто задаваемые вопросы участников.",
-    content: "Задавайте вопросы по работе форума.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 11,
-    views: 205,
-    pinned: false
-  },
-  {
-    id: 9,
-    title: "Обратная связь по форуму",
-    category: "Сервисы и услуги",
-    type: "ОБРАТНАЯ СВЯЗЬ",
-    description: "Предложения по улучшению сообщества.",
-    content: "Опишите, что можно улучшить или добавить.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 9,
-    views: 167,
-    pinned: false
-  },
-  {
-    id: 10,
-    title: "Рекомендации участников",
-    category: "Продавцы и сервисы",
-    type: "ОБСУЖДЕНИЕ",
-    description: "Полезные рекомендации и личный опыт.",
-    content: "Поделитесь полезной информацией с сообществом.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 6,
-    views: 124,
-    pinned: false
-  },
-  {
-    id: 11,
-    title: "Обновления площадки",
-    category: "Торговая площадка — VIP",
-    type: "НОВОСТИ",
-    description: "Обсуждение обновлений и изменений площадки.",
-    content: "Здесь публикуется информация об изменениях.",
-    author: "Admin",
-    date: "2026-10-22",
-    replies: 2,
-    views: 78,
-    pinned: false
-  },
-  {
-    id: 12,
-    title: "Полезные инструкции",
-    category: "Документы",
-    type: "ИНСТРУКЦИЯ",
-    description: "Сборник инструкций и справочных материалов.",
-    content: "Добавляйте инструкции с понятным описанием.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 4,
-    views: 101,
-    pinned: false
-  },
-  {
-    id: 13,
-    title: "Ассоциация гроверов от WeedEx⭐️Выкуп⭐️Франшиза",
-    category: "Сервисы",
-    type: "Площадка",
-    description: "Обсуждение услуг",
-    content: "Укажите критерии сравнения и аргументы.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 13,
-    views: 286,
-    pinned: false
-  },
-  {
-    id: 14,
-    title: "Идеи для сообщества",
-    category: "Сервисы и услуги",
-    type: "ИДЕИ",
-    description: "Предложения по развитию проекта.",
-    content: "Опишите идею и ожидаемую пользу.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 5,
-    views: 118,
-    pinned: false
-  },
-  {
-    id: 15,
-    title: "Обсуждение качества сервиса",
-    category: "Продавцы и сервисы",
-    type: "ОБСУЖДЕНИЕ",
-    description: "Обсуждаем качество обслуживания и поддержку.",
-    content: "Опишите свой опыт и предложения.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 10,
-    views: 231,
-    pinned: false
-  },
-  {
-    id: 16,
-    title: "Правила публикации объявлений",
-    category: "Торговая площадка — VIP",
-    type: "ПРАВИЛА",
-    description: "Рекомендации по оформлению объявлений.",
-    content: "Перед публикацией проверьте корректность описания.",
-    author: "Admin",
-    date: "2026-10-22",
-    replies: 3,
-    views: 92,
-    pinned: false
-  },
-  {
-    id: 17,
-    title: "Частые вопросы по документам",
-    category: "Документы",
-    type: "FAQ",
-    description: "Ответы на популярные вопросы участников.",
-    content: "Добавляйте вопросы и полезные ответы.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 15,
-    views: 342,
-    pinned: false
-  },
-  {
-    id: 18,
-    title: "Обмен опытом участников",
-    category: "Обменные сервисы",
-    type: "ОБМЕН ОПЫТОМ",
-    description: "Практический опыт использования сервисов.",
-    content: "Опишите свой опыт и полезные наблюдения.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 6,
-    views: 151,
-    pinned: false
-  },
-  {
-    id: 19,
-    title: "Предложения по дизайну",
-    category: "Сервисы и услуги",
-    type: "ИДЕИ",
-    description: "Обсуждение внешнего вида и удобства сайта.",
-    content: "Предлагайте изменения интерфейса.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 4,
-    views: 109,
-    pinned: false
-  },
-  {
-    id: 20,
-    title: "Вопросы по обслуживанию",
-    category: "Продавцы и сервисы",
-    type: "ВОПРОС",
-    description: "Вопросы о качестве и условиях обслуживания.",
-    content: "Опишите вопрос максимально подробно.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 8,
-    views: 184,
-    pinned: false
-  },
-  {
-    id: 21,
-    title: "Объявления участников",
-    category: "Торговая площадка — VIP",
-    type: "ОБЪЯВЛЕНИЯ",
-    description: "Раздел для публикации разрешённых объявлений.",
-    content: "Указывайте точные сведения и соблюдайте правила.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 7,
-    views: 196,
-    pinned: false
-  },
-  {
-    id: 22,
-    title: "Справочные материалы",
-    category: "Документы",
-    type: "МАТЕРИАЛЫ",
-    description: "Полезные материалы для участников сообщества.",
-    content: "Добавляйте описание и источник материала.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 3,
-    views: 89,
-    pinned: false
-  },
-  {
-    id: 23,
-    title: "Новости сервисов",
-    category: "Обменные сервисы",
-    type: "НОВОСТИ",
-    description: "Обновления и изменения в работе сервисов.",
-    content: "Публикуйте проверенную информацию об обновлениях.",
-    author: "Admin",
-    date: "2026-10-22",
-    replies: 5,
-    views: 133,
-    pinned: false
-  },
-  {
-    id: 24,
-    title: "Общие вопросы сообщества",
-    category: "Сервисы и услуги",
-    type: "ВОПРОС",
-    description: "Обсуждение вопросов, не вошедших в другие разделы.",
-    content: "Создайте понятное описание своей темы.",
-    author: "Member",
-    date: "2026-10-22",
-    replies: 6,
-    views: 147,
-    pinned: false
-  },
-  {
-    id: 25,
-    title: "Важная информация площадки",
-    category: "Торговая площадка — VIP",
-    type: "ВАЖНО",
-    description: "Основные новости и важные сообщения раздела.",
-    content: "Здесь размещается актуальная информация для участников.",
-    author: "Admin",
-    date: "2026-10-22",
-    replies: 1,
-    views: 64,
-    pinned: true
-  }
-];
-
-/* ===== AEGIS: ДЕМО-ПРОФИЛИ АВТОРОВ ===== */
-
-const aegisDemoAuthors = [
-  { nickname: 'RavenNoir',  role: 'Проверенный участник', reputation: 96, deposit: '8,450 USDT', messages: 384, registered: '2024', avatar: 12 },
-  { nickname: 'MikaVoss',   role: 'Участник', reputation: 89, deposit: '2,180 USDT', messages: 157, registered: '2025', avatar: 47 },
-  { nickname: 'ZeroTrace',  role: 'Опытный участник', reputation: 94, deposit: '12,600 USDT', messages: 526, registered: '2023', avatar: 8 },
-  { nickname: 'VelvetHex',  role: 'Участник', reputation: 83, deposit: '760 USDT', messages: 92, registered: '2025', avatar: 32 },
-  { nickname: 'KiroNox',    role: 'Проверенный участник', reputation: 91, deposit: '4,320 USDT', messages: 241, registered: '2024', avatar: 59 },
-  { nickname: 'LunaCipher', role: 'Участник', reputation: 87, deposit: '1,950 USDT', messages: 134, registered: '2025', avatar: 24 },
-  { nickname: 'AshenWolf',  role: 'Опытный участник', reputation: 97, deposit: '18,200 USDT', messages: 718, registered: '2022', avatar: 5 },
-  { nickname: 'NikaVale',   role: 'Участник', reputation: 78, deposit: '540 USDT', messages: 63, registered: '2026', avatar: 41 },
-  { nickname: 'GhostMorrow',role: 'Проверенный участник', reputation: 93, deposit: '6,700 USDT', messages: 319, registered: '2024', avatar: 16 },
-  { nickname: 'TheoKross',  role: 'Участник', reputation: 85, deposit: '1,280 USDT', messages: 108, registered: '2025', avatar: 67 },
-  { nickname: 'IvyRaine',   role: 'Опытный участник', reputation: 90, deposit: '3,600 USDT', messages: 205, registered: '2024', avatar: 28 },
-  { nickname: 'OnyxDrift',  role: 'Участник', reputation: 82, deposit: '920 USDT', messages: 87, registered: '2025', avatar: 53 },
-  { nickname: 'MaximReed',  role: 'Проверенный участник', reputation: 95, deposit: '9,850 USDT', messages: 447, registered: '2023', avatar: 3 },
-  { nickname: 'SoraNite',   role: 'Участник', reputation: 88, deposit: '2,740 USDT', messages: 169, registered: '2025', avatar: 38 },
-  { nickname: 'DanteFlux',  role: 'Опытный участник', reputation: 92, deposit: '5,100 USDT', messages: 278, registered: '2024', avatar: 62 },
-  { nickname: 'MiraStone',  role: 'Участник', reputation: 76, deposit: '410 USDT', messages: 49, registered: '2026', avatar: 19 },
-  { nickname: 'ColdPixel',  role: 'Проверенный участник', reputation: 98, deposit: '21,400 USDT', messages: 863, registered: '2022', avatar: 44 },
-  { nickname: 'ArinWest',   role: 'Участник', reputation: 86, deposit: '1,670 USDT', messages: 121, registered: '2025', avatar: 10 },
-  { nickname: 'NyxHarbor',  role: 'Опытный участник', reputation: 93, deposit: '7,250 USDT', messages: 356, registered: '2023', avatar: 56 },
-  { nickname: 'FelixCrow',  role: 'Участник', reputation: 80, deposit: '680 USDT', messages: 72, registered: '2026', avatar: 35 },
-  { nickname: 'EchoMaven',  role: 'Проверенный участник', reputation: 91, deposit: '4,890 USDT', messages: 263, registered: '2024', avatar: 21 },
-  { nickname: 'JunoBlack',  role: 'Участник', reputation: 84, deposit: '1,090 USDT', messages: 96, registered: '2025', avatar: 64 },
-  { nickname: 'VexMorgan',  role: 'Опытный участник', reputation: 96, deposit: '14,300 USDT', messages: 592, registered: '2023', avatar: 7 },
-  { nickname: 'TaliaMoon',  role: 'Участник', reputation: 89, deposit: '2,350 USDT', messages: 148, registered: '2025', avatar: 49 }
-];
-
-let aegisAuthorIndex = 0;
-
-forumTopicData.forEach(topic => {
-  const title = String(topic.title || '').toLowerCase();
-  const author = String(topic.author || '').toLowerCase();
-
-  // Не меняем правила и официальные публикации сайта.
-  // Исключение: тема №2 — публикация сервиса AML Group.
-  const isRules = title.includes('правил');
-  const isOfficial = author === 'admin' && String(topic.id) !== '2';
-
-  if (isRules || isOfficial) return;
-
-  const person = aegisDemoAuthors[aegisAuthorIndex % aegisDemoAuthors.length];
-  aegisAuthorIndex++;
-
-  topic.author = person.nickname;
-  topic.profile = {
-    nickname: person.nickname,
-    role: person.role,
-    reputation: person.reputation,
-    deposit: person.deposit,
-    messages: person.messages,
-    registered: person.registered,
-    avatar: `https://i.pravatar.cc/160?img=${person.avatar}`
-  };
-});
-
-const $=(s,r=document)=>r.querySelector(s);
-const $$=(s,r=document)=>[...r.querySelectorAll(s)];
-const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-/* ===== ЛОГИКА ФОРУМА — ОСТАЛЬНЫЕ РАЗДЕЛЫ НЕ МЕНЯЕМ ===== */
-const FORUM_CATEGORIES = [
-  { name: 'Документы', icon: '01', description: 'Справочные материалы и общие вопросы.' },
-  { name: 'Обменные сервисы', icon: '02', description: 'Обсуждения обменных сервисов.' },
-  { name: 'Сервисы и услуги', icon: '03', description: 'Полезные сервисы и услуги.' },
-  { name: 'Продавцы и сервисы', icon: '04', description: 'Публикации и отзывы участников.' },
-  { name: 'Торговая площадка — VIP', icon: '05', description: 'Объявления и публикации площадки.' }
-];
-
-const FORUM_STORAGE_KEY = 'aegisForumDataV2';
-let forumExpanded = false;
-let activeForumCategory = 'Все темы';
-let activeTopicId = null;
-
-function forumSafe(value) {
-  return String(value ?? '').replace(/[&<>"']/g, char => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;'
-  })[char]);
-}
-
-
-id: 7,
-  try {
-    const stored = JSON.parse(
-      localStorage.getItem(FORUM_STORAGE_KEY) || 'null'
-    );
-
-    if (stored && Array.isArray(stored.topics)) {
-      const storedById = new Map(
-        stored.topics.map(topic => [String(topic.id), topic])
-      );
-
-      return forumTopicData.map(baseTopic => {
-        const savedTopic = storedById.get(String(baseTopic.id));
-
-        if (!savedTopic) {
-          return { ...baseTopic };
-        }
-
-        return {
-          ...baseTopic,
-          ...savedTopic,
-
-          // Обновляем новые поля профиля из исходного массива.
-          profile: baseTopic.profile
-            ? {
-                ...(savedTopic.profile || {}),
-                ...baseTopic.profile
-              }
-            : savedTopic.profile,
-
-          // Сохраняем комментарии пользователя.
-          comments: Array.isArray(savedTopic.comments)
-            ? savedTopic.comments
-            : (baseTopic.comments || []),
-
-          // Сохраняем актуальное количество просмотров.
-          views: Math.max(
-            Number(baseTopic.views) || 0,
-            Number(savedTopic.views) || 0
-          )
-        };
-      }).concat(
-        stored.topics.filter(
-          savedTopic =>
-            !forumTopicData.some(
-              baseTopic =>
-                String(baseTopic.id) === String(savedTopic.id)
-            )
-        )
-      );
-    }
-  } catch (error) {
-    console.warn('Не удалось прочитать темы форума:', error);
-  }
-
-  return forumTopicData.map(topic => ({ ...topic }));
-}
-
-
-let forumTopics = forumReadData().map(topic => ({
-  ...topic,
-  description: topic.description || topic.content || 'Открой тему, чтобы прочитать публикацию.',
-  comments: Array.isArray(topic.comments) ? topic.comments : [],
-  createdAt: topic.createdAt || topic.date || new Date().toISOString()
-}));
-
-function forumSaveData() {
-  try {
-    localStorage.setItem(
-      FORUM_STORAGE_KEY,
-      JSON.stringify({ topics: forumTopics })
-    );
-    return true;
-  } catch (error) {
-    console.warn('Не удалось сохранить темы форума:', error);
-    return false;
-  }
-}
-
-function forumCategoryName(name) {
-  return name === 'Сервисы' ? 'Сервисы и услуги' : name;
-}
-
-function forumGetCounts() {
-  return FORUM_CATEGORIES.map(category => {
-    const topics = forumTopics.filter(
-      topic => forumCategoryName(topic.category) === category.name
-    );
-
-    return {
-      ...category,
-      topicCount: topics.length,
-      postCount: topics.reduce(
-        (sum, topic) =>
-          sum + (Number(topic.replies) || 0) + topic.comments.length,
-        0
-      )
-    };
-  });
-}
-
-function forumUpdateStats() {
-  const topicCount = $('#forumTopicCount');
-  const categoryCount = $('#forumCategoryCount');
-
-  if (topicCount) {
-    topicCount.textContent = String(forumTopics.length).padStart(2, '0');
-  }
-
-  if (categoryCount) {
-    categoryCount.textContent = String(FORUM_CATEGORIES.length).padStart(2, '0');
-  }
-
-  forumGetCounts().forEach(category => {
-    const row = $$('.forum-row').find(
-      item => $('h4 a', item)?.textContent.trim() === category.name
-    );
-
-    if (!row) return;
-
-    const counts = $$('.count', row);
-
-    if (counts[0]) {
-      counts[0].innerHTML =
-        `${String(category.topicCount).padStart(2, '0')}<small>тем</small>`;
-    }
-
-    if (counts[1]) {
-      counts[1].innerHTML =
-        `${category.postCount}<small>постов</small>`;
-    }
-  });
-
-  const panelLabel = $('#forumPanel .panel-head span');
-
-  if (panelLabel) {
-    panelLabel.textContent = `${FORUM_CATEGORIES.length} разделов`;
-  }
-}
-
-function renderForumCategories() {
-  const container = $('#forumCategories');
-  if (!container) return;
-
-  container.innerHTML = `
-    <button
-      class="forum-category ${activeForumCategory === 'Все темы' ? 'active' : ''}"
-      type="button"
-      data-forum-category="Все темы"
-    >
-      <span class="forum-category-icon">ALL</span>
-      <span class="forum-category-info">
-        <h3>Все темы</h3>
-        <p>Все обсуждения сообщества.</p>
-        <span class="forum-category-meta">
-          ${forumTopics.length} тем · ${forumTopics.reduce(
-            (sum, topic) =>
-              sum + (Number(topic.replies) || 0) + topic.comments.length,
-            0
-          )} постов
-        </span>
-      </span>
-      <span class="forum-category-arrow" aria-hidden="true">→</span>
-    </button>
-  ` + forumGetCounts().map(category => `
-    <button
-      class="forum-category ${activeForumCategory === category.name ? 'active' : ''}"
-      type="button"
-      data-forum-category="${forumSafe(category.name)}"
-    >
-      <span class="forum-category-icon">${category.icon}</span>
-      <span class="forum-category-info">
-        <h3>${forumSafe(category.name)}</h3>
-        <p>${forumSafe(category.description)}</p>
-        <span class="forum-category-meta">
-          ${category.topicCount} тем · ${category.postCount} постов
-        </span>
-      </span>
-      <span class="forum-category-arrow" aria-hidden="true">→</span>
-    </button>
-  `).join('');
-}
-
-function getForumFilteredTopics() {
-  const query = ($('#forumSearch')?.value || '')
-    .trim()
-    .toLocaleLowerCase('ru');
-
-  const sort = $('#forumSort')?.value || 'new';
-
-  const filtered = forumTopics.filter(topic => {
-    const categoryMatch =
-      activeForumCategory === 'Все темы' ||
-      forumCategoryName(topic.category) === activeForumCategory;
-
-    const commentText = (topic.comments || [])
-      .map(comment => comment.text)
-      .join(' ');
-
-    const haystack = `
-      ${topic.title}
-      ${topic.description}
-      ${topic.content}
-      ${topic.author}
-      ${topic.category}
-      ${commentText}
-    `.toLocaleLowerCase('ru');
-
-    return categoryMatch && haystack.includes(query);
-  });
-
-  filtered.sort((a, b) => {
-    if (Boolean(a.pinned) !== Boolean(b.pinned)) {
-      return a.pinned ? -1 : 1;
-    }
-
-    if (sort === 'popular') {
-      return (Number(b.views) || 0) - (Number(a.views) || 0);
-    }
-
-    if (sort === 'replies') {
-      const repliesA = (Number(a.replies) || 0) + (a.comments || []).length;
-      const repliesB = (Number(b.replies) || 0) + (b.comments || []).length;
-      return repliesB - repliesA;
-    }
-
-    return (
-      new Date(b.createdAt || b.date || 0) -
-      new Date(a.createdAt || a.date || 0)
-    ) || Number(b.id) - Number(a.id);
-  });
-
-  return filtered;
-}
-
-function renderForumTopics() {
-  const container = $('#forumTopics');
-  const empty = $('#forumEmpty');
-  const expandButton = $('#forumExpandBtn');
-
-  if (!container) return;
-
-  const topics = getForumFilteredTopics();
-  const visible = forumExpanded ? topics : topics.slice(0, 5);
-
-  container.innerHTML = visible.map(topic => `
-    <article
-      class="forum-topic"
-      role="button"
-      tabindex="0"
-      data-topic-id="${forumSafe(topic.id)}"
-      aria-label="Открыть тему ${forumSafe(topic.title)}"
-    >
-      <div class="forum-topic-icon" aria-hidden="true">
-        ${topic.pinned ? '★' : '↳'}
+        <article class="hero-card">
+          <span class="badge">Verified</span>
+          <div class="hero-content">
+            <div class="eyebrow">Security</div>
+            <h2>Гарантированный обмен</h2>
+            <p>Система контроля, подтверждения и минимизации риска.</p>
+          </div>
+        </article>
+      </section>
+
+      <div class="stats">
+        <div class="stat">
+          <strong>12.8K</strong>
+          <small>Пользователей</small>
+        </div>
+        <div class="stat">
+          <strong>4.9K</strong>
+          <small>Сделок</small>
+        </div>
+        <div class="stat">
+          <strong>96%</strong>
+          <small>Удовлетворённость</small>
+        </div>
+        <div class="stat online">
+          <strong>24/7</strong>
+          <small>Онлайн-режим</small>
+        </div>
       </div>
 
-      <div class="forum-topic-main">
-        <div class="forum-topic-tags">
-          ${topic.pinned ? '<span class="forum-tag">ЗАКРЕПЛЕНО</span>' : ''}
-          <span class="forum-tag">${forumSafe(topic.type || 'ОБСУЖДЕНИЕ')}</span>
-          <span class="forum-tag">${forumSafe(forumCategoryName(topic.category))}</span>
-        </div>
-
-        <h3>${forumSafe(topic.title)}</h3>
-        <p>${forumSafe(topic.description)}</p>
-
-        <div class="forum-topic-meta">
-          <span>${forumSafe(topic.author || 'Гость')}</span>
-          <span>${forumSafe(topic.date || '')}</span>
-          <span>Ответов: ${(Number(topic.replies) || 0) + topic.comments.length}</span>
-          <span>Просмотров: ${Number(topic.views) || 0}</span>
-        </div>
+      <div class="section-label">
+        <h2>Форум <span>секции</span></h2>
+        <a class="link" href="#">Все темы →</a>
       </div>
-    </article>
-  `).join('');
 
-  if (empty) {
-    empty.hidden = topics.length > 0;
-    empty.textContent =
-      'Ничего не найдено. Попробуй изменить поиск или категорию.';
-  }
+      <div class="columns">
+        <div>
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Топ обсуждения</h3>
+              <span>Сегодня</span>
+            </div>
 
-  if (expandButton) {
-    expandButton.hidden = topics.length <= 5;
-    expandButton.textContent = forumExpanded
-      ? 'Свернуть список ↑'
-      : `Показать все ${topics.length} тем ↓`;
+            <div class="forum-row">
+              <div class="cover">
+                <img src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=900&q=80" alt="">
+              </div>
+              <div class="desc">
+                <h4>Лучшие практики для безопасных сделок</h4>
+                <p>Разбор основных критериев, проверок и правил в закрытой торговой среде.</p>
+                <span class="tag">Безопасность</span>
+                <span class="tag">Тактика</span>
+              </div>
+              <div class="count">84<small>репосты</small></div>
+              <div class="count">41<small>коммент</small></div>
+            </div>
 
-    expandButton.setAttribute('aria-expanded', String(forumExpanded));
-  }
+            <div class="forum-row">
+              <div class="cover">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80" alt="">
+              </div>
+              <div class="desc">
+                <h4>Как выбирать проверенного продавца</h4>
+                <p>Основные сигналы, риск-метрики и проверка статуса участника.</p>
+                <span class="tag">Проверка</span>
+                <span class="tag">Участники</span>
+              </div>
+              <div class="count">57<small>репосты</small></div>
+              <div class="count">29<small>коммент</small></div>
+            </div>
 
-  const heading = $('#forumTopicsHeading');
-
-  if (heading) {
-    heading.textContent = activeForumCategory === 'Все темы'
-      ? 'Последние темы'
-      : activeForumCategory;
-  }
-
-  const allButton = $('#forumAllTopics');
-
-  if (allButton) {
-    allButton.textContent = activeForumCategory === 'Все темы'
-      ? 'Все темы'
-      : 'Сбросить фильтр';
-  }
-}
-
-function forumOpenDiscussion(id, updateUrl = true) {
-  const topic = forumTopics.find(item => String(item.id) === String(id));
-  if (!topic) return;
-
-  activeTopicId = topic.id;
-  topic.views = (Number(topic.views) || 0) + 1;
-  forumSaveData();
-
-  const discussion = $('#forumDiscussion');
-  const content = $('#forumDiscussionContent');
-  if (!discussion || !content) return;
-
-  const comments = topic.comments || [];
-
-  // Данные профиля автора. Настраиваются отдельно для каждой темы.
-  const profile = topic.profile || {};
-  const author = profile.nickname || topic.author || 'Гость';
-  const role = profile.role || 'Участник';
-  const reputation = profile.reputation ?? 0;
-  const deposit = profile.deposit || 'Не указан';
-  const messages = profile.messages ?? 0;
-  const registered = profile.registered || 'Не указана';
-  const avatar = profile.avatar || '';
-  const initial = forumSafe(String(author).slice(0, 1).toUpperCase());
-
-
-  // Разрешаем внешние ссылки и локальные изображения форума.
-  const safeUrl = value => {
-    const url = String(value || '').trim();
-
-    if (/^https?:\/\/[^\s"'<>]+$/i.test(url)) {
-      return forumSafe(url);
-    }
-
-    if (/^(?:\.\/)?images\/forum\/[A-Za-z0-9._/-]+$/i.test(url)) {
-      const path = url.replace(/^\.\//, '');
-      const parts = path.split('/');
-
-      if (parts.some(part => !part || part === '.' || part === '..')) {
-        return '';
-      }
-
-      return forumSafe(url);
-    }
-
-    return '';
-  };
-
-  const renderImage = (url, alt = '') => {
-    const src = safeUrl(url);
-    if (!src) return '';
-
-    return `
-      <figure class="ft-image-wrap">
-        <img class="ft-image" src="${src}" alt="${forumSafe(alt)}" loading="lazy">
-        ${alt ? `<figcaption>${forumSafe(alt)}</figcaption>` : ''}
-      </figure>
-    `;
-  };
-
-  // Универсальные блоки публикации.
-  const renderBlock = block => {
-    if (!block || !block.type) return '';
-
-    switch (block.type) {
-      case 'heading':
-        return `<h4 class="ft-heading">${forumSafe(block.text || '')}</h4>`;
-
-      case 'text':
-        return `<div class="ft-text">${forumSafe(block.text || '').replace(/\n/g, '<br>')}</div>`;
-
-      case 'banner': {
-        const image = renderImage(block.url, block.alt || '');
-        if (!image) return '';
-        const link = safeUrl(block.link);
-        return link
-          ? `<a class="ft-banner-link" href="${link}" target="_blank" rel="noopener noreferrer">${image}</a>`
-          : `<div class="ft-banner">${image}</div>`;
-      }
-
-      case 'image':
-        return renderImage(block.url, block.alt || '');
-
-      case 'notice':
-        return `
-          <aside class="ft-notice">
-            ${block.title ? `<strong>${forumSafe(block.title)}</strong>` : ''}
-            <div>${forumSafe(block.text || '').replace(/\n/g, '<br>')}</div>
-          </aside>
-        `;
-
-      case 'quote':
-        return `
-          <blockquote class="ft-quote">
-            <div>${forumSafe(block.text || '').replace(/\n/g, '<br>')}</div>
-            ${block.author ? `<cite>— ${forumSafe(block.author)}</cite>` : ''}
-          </blockquote>
-        `;
-
-      case 'cards':
-        if (!Array.isArray(block.items)) return '';
-        return `
-          <div class="ft-cards">
-            ${block.items.map(item => `
-              <article class="ft-card">
-                ${item.number ? `<span class="ft-card-number">${forumSafe(item.number)}</span>` : ''}
-                ${item.icon ? `<span class="ft-card-icon">${forumSafe(item.icon)}</span>` : ''}
-                ${item.title ? `<h4>${forumSafe(item.title)}</h4>` : ''}
-                ${item.text ? `<p>${forumSafe(item.text).replace(/\n/g, '<br>')}</p>` : ''}
-                ${safeUrl(item.url) ? `<a href="${safeUrl(item.url)}" target="_blank" rel="noopener noreferrer">Подробнее ↗</a>` : ''}
-              </article>
-            `).join('')}
+            <div class="forum-row">
+              <div class="cover">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80" alt="">
+              </div>
+              <div class="desc">
+                <h4>Правила общения в экосистеме AEGIS</h4>
+                <p>Условия участия и требования к качеству публикаций и договорённостей.</p>
+                <span class="tag">Контент</span>
+                <span class="tag">Правила</span>
+              </div>
+              <div class="count">63<small>репосты</small></div>
+              <div class="count">35<small>коммент</small></div>
+            </div>
           </div>
-        `;
-
-      default:
-        return '';
-    }
-  };
-
-let postBody = '';
-
-const hasBlocks = Array.isArray(topic.blocks) && topic.blocks.length > 0;
-const hasContent = Boolean(
-  String(topic.content || topic.description || '').trim()
-);
-
-if (hasBlocks) {
-  postBody = topic.blocks.map(renderBlock).join('');
-}
-
-// Сохраняем основной текст даже при наличии баннеров.
-if (hasContent) {
-  postBody += `
-    <div class="ft-text">
-      ${forumSafe(topic.content || topic.description || '').replace(/\n/g, '<br>')}
-    </div>
-  `;
-}
-
-if (!hasBlocks && !hasContent) {
-  postBody = '<div class="ft-text">Содержание темы пока не добавлено.</div>';
-}
-
-
-  const topicBanner = safeUrl(topic.banner)
-    ? `<div class="ft-banner">${renderImage(topic.banner, topic.bannerAlt || topic.title || '')}</div>`
-    : '';
-
-  content.innerHTML = `
-    <div class="ft-topic-layout">
-
-      <aside class="ft-author">
-        <div class="ft-author-label">АВТОР ПУБЛИКАЦИИ</div>
-
-        <div class="ft-avatar">
-          ${safeUrl(avatar)
-            ? `<img src="${safeUrl(avatar)}" alt="${forumSafe(author)}" loading="lazy">`
-            : initial}
         </div>
 
-        <h3 class="ft-author-name">${forumSafe(author)}</h3>
-        <div class="ft-author-role">${forumSafe(role)}</div>
-
-        <div class="ft-author-stats">
-          <div>
-            <span>Репутация</span>
-            <strong>${forumSafe(String(reputation))}</strong>
+        <aside class="sidebar">
+          <div class="cta">
+            <button class="btn btn-primary">Присоединиться к сообществу</button>
+            <button class="btn btn-ghost">Смотреть правила</button>
           </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Топик-баннер</h3>
+              <span>NEW</span>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">01</div>
+              <div>
+                <b>Безопасные сделки</b>
+                <small>52 новых сообщения</small>
+              </div>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">02</div>
+              <div>
+                <b>Гарант-проверка</b>
+                <small>19 новых сообщений</small>
+              </div>
+            </div>
+            <div class="topic">
+              <div class="topic-icon">03</div>
+              <div>
+                <b>Рекомендации для участников</b>
+                <small>8 новых сообщений</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Топ участников</h3>
+              <span>Лидеры</span>
+            </div>
+            <div class="rank">
+              <span>01</span>
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt="">
+              <div>
+                <b>ShadowFox</b>
+                <small>Сделки: 136</small>
+              </div>
+              <em>+420</em>
+            </div>
+            <div class="rank">
+              <span>02</span>
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80" alt="">
+              <div>
+                <b>NightVault</b>
+                <small>Сделки: 118</small>
+              </div>
+              <em>+310</em>
+            </div>
+            <div class="rank">
+              <span>03</span>
+              <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80" alt="">
+              <div>
+                <b>Raven</b>
+                <small>Сделки: 99</small>
+              </div>
+              <em>+280</em>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <section class="forum-page">
+        <div class="forum-heading">
           <div>
-            <span>Депозит</span>
-            <strong>${forumSafe(String(deposit))}</strong>
+            <div class="eyebrow">Forum</div>
+            <h1>AEGIS <span>DISCUSSION</span></h1>
+          </div>
+          <p>Архив тем, обсуждений и торговых разделов сообщества.</p>
+        </div>
+
+        <div class="forum-stats">
+          <div>
+            <span>Темы</span>
+            <strong>2,418</strong>
           </div>
           <div>
             <span>Сообщения</span>
-            <strong>${forumSafe(String(messages))}</strong>
+            <strong>38,742</strong>
           </div>
           <div>
-            <span>Регистрация</span>
-            <strong>${forumSafe(String(registered))}</strong>
+            <span>Онлайн</span>
+            <strong>892</strong>
           </div>
         </div>
 
-        <div class="ft-author-status">
-          <span class="ft-status-dot"></span> ПРОФИЛЬ УЧАСТНИКА
+        <div class="forum-toolbar">
+          <input type="text" placeholder="Поиск по темам, участникам, ключам..." />
+          <select aria-label="Выберите раздел">
+            <option>Все разделы</option>
+            <option>Документы</option>
+            <option>Обменные сервисы</option>
+            <option>Сервисы и услуги</option>
+            <option>Продавцы и сервисы</option>
+            <option>VIP</option>
+          </select>
         </div>
-      </aside>
 
-      <article class="ft-post">
-        <div class="ft-post-topline">
-          <div class="forum-topic-tags">
-            ${topic.pinned ? '<span class="forum-tag">ЗАКРЕПЛЕНО</span>' : ''}
-            <span class="forum-tag">${forumSafe(topic.type || 'ОБСУЖДЕНИЕ')}</span>
-            <span class="forum-tag">${forumSafe(forumCategoryName(topic.category))}</span>
+        <div class="forum-section">
+          <div class="forum-section-title">
+            <div>
+              <div class="eyebrow">Sections</div>
+              <h2>Категории</h2>
+            </div>
+            <span>Выберите форум</span>
           </div>
-          <span class="ft-topic-number">ТЕМА № ${forumSafe(String(topic.id))}</span>
+
+          <div class="forum-categories" id="forumCategories">
+            <div class="forum-category" data-forum-category="Документы">
+              <div class="forum-category-icon">D</div>
+              <div class="forum-category-info">
+                <h3>Документы</h3>
+                <p>Правила, инструкции, соглашения и документы участников.</p>
+                <div class="forum-category-meta">124 темы · 1.2K сообщений</div>
+              </div>
+              <div class="forum-category-arrow">→</div>
+            </div>
+
+            <div class="forum-category" data-forum-category="Обменные сервисы">
+              <div class="forum-category-icon">S</div>
+              <div class="forum-category-info">
+                <h3>Обменные сервисы</h3>
+                <p>Сервисы обмена, рекомендации, отзывы и проверки.</p>
+                <div class="forum-category-meta">214 темы · 3.1K сообщений</div>
+              </div>
+              <div class="forum-category-arrow">→</div>
+            </div>
+
+            <div class="forum-category" data-forum-category="Сервисы и услуги">
+              <div class="forum-category-icon">U</div>
+              <div class="forum-category-info">
+                <h3>Сервисы и услуги</h3>
+                <p>Поиск и обсуждение услуг внутри сообщества.</p>
+                <div class="forum-category-meta">168 темы · 2.6K сообщений</div>
+              </div>
+              <div class="forum-category-arrow">→</div>
+            </div>
+
+            <div class="forum-category" data-forum-category="Продавцы и сервисы">
+              <div class="forum-category-icon">V</div>
+              <div class="forum-category-info">
+                <h3>Продавцы и сервисы</h3>
+                <p>Отзывы, рейтинг и профили продавцов в закрытой среде.</p>
+                <div class="forum-category-meta">407 темы · 5.4K сообщений</div>
+              </div>
+              <div class="forum-category-arrow">→</div>
+            </div>
+
+            <div class="forum-category" data-forum-category="Торговая площадка — VIP">
+              <div class="forum-category-icon">VIP</div>
+              <div class="forum-category-info">
+                <h3>Торговая площадка — VIP</h3>
+                <p>Эксклюзивный раздел для участников с повышенным статусом.</p>
+                <div class="forum-category-meta">84 темы · 980 сообщений</div>
+              </div>
+              <div class="forum-category-arrow">→</div>
+            </div>
+          </div>
         </div>
 
-        <h2 class="ft-post-title">${forumSafe(topic.title || 'Без названия')}</h2>
+        <div class="forum-section">
+          <div class="forum-section-title">
+            <div>
+              <div class="eyebrow">Hot</div>
+              <h2>Активные темы</h2>
+            </div>
+            <span>Последние 7 дней</span>
+          </div>
 
-        <div class="ft-post-meta">
-          <span>${forumSafe(topic.date || '')}</span>
-          <span>${Number(topic.views) || 0} просмотров</span>
+          <div id="forumTopics">
+            <article class="forum-topic">
+              <div class="forum-topic-main">
+                <div class="forum-topic-tags">
+                  <span class="forum-tag">Сделки</span>
+                  <span class="forum-tag">Безопасность</span>
+                </div>
+                <h3>Новые правила проверки продавцов и гарантий</h3>
+                <p>Разбираем изменения в системе статусов и обновления в модерации сделок... </p>
+                <div class="forum-topic-meta">
+                  <span>Автор: ShadowFox</span>
+                  <span>7 минут назад</span>
+                  <span>128 ответов</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="forum-topic">
+              <div class="forum-topic-main">
+                <div class="forum-topic-tags">
+                  <span class="forum-tag">Обмен</span>
+                  <span class="forum-tag">Рекомендации</span>
+                </div>
+                <h3>Лучшая стратегия для безопасного обмена между участниками</h3>
+                <p>Собрали практические рекомендации по уменьшению риска и улучшению качества сделок.</p>
+                <div class="forum-topic-meta">
+                  <span>Автор: NightVault</span>
+                  <span>21 минут назад</span>
+                  <span>84 ответа</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="forum-topic">
+              <div class="forum-topic-main">
+                <div class="forum-topic-tags">
+                  <span class="forum-tag">VIP</span>
+                  <span class="forum-tag">Эксклюзив</span>
+                </div>
+                <h3>Тайные правила закрытого VIP-раздела: что стоит знать</h3>
+                <p>Внутренние рекомендации по статусам, приоритетам и доступу к эксклюзивным сделкам.</p>
+                <div class="forum-topic-meta">
+                  <span>Автор: Raven</span>
+                  <span>1 час назад</span>
+                  <span>42 ответа</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="forum-expand-wrap">
+            <button class="btn btn-ghost" id="forumExpandBtn">Показать ещё</button>
+          </div>
         </div>
 
-        <div class="ft-post-body">
-          ${topicBanner}
-          ${postBody}
-        </div>
+        <div class="forum-section">
+          <div class="forum-section-title">
+            <div>
+              <div class="eyebrow">Create</div>
+              <h2>Создать тему</h2>
+            </div>
+            <span>Формат публикации</span>
+          </div>
 
-        <div class="ft-post-footer">
-          <span>AEGIS COMMUNITY</span>
-          <span>КОНЕЦ ПУБЛИКАЦИИ</span>
+          <div class="forum-editor">
+            <form id="forumCreateForm">
+              <label for="topicTitle">Заголовок темы</label>
+              <input id="topicTitle" type="text" placeholder="Например: Новые правила AEGIS marketplace" />
+
+              <label for="topicCategory">Категория</label>
+              <select id="topicCategory">
+                <option>Документы</option>
+                <option>Обменные сервисы</option>
+                <option>Сервисы и услуги</option>
+                <option>Продавцы и сервисы</option>
+                <option>VIP</option>
+              </select>
+
+              <label for="topicText">Описание</label>
+              <textarea id="topicText" rows="6" placeholder="Напишите контент, который хотите опубликовать..."></textarea>
+
+              <div class="forum-form-actions">
+                <button type="button" class="btn btn-primary">Опубликовать</button>
+                <button type="button" class="btn btn-ghost">Предпросмотр</button>
+              </div>
+
+              <div class="forum-hint">Формат поддерживает краткие тексты, разделы и цитаты.</div>
+            </form>
+          </div>
         </div>
-      </article>
+      </section>
     </div>
+  </main>
 
-    <div class="forum-section-title" style="margin-top:24px">
-      <h2>Ответы (${comments.length})</h2>
-    </div>
+  <footer class="shell">
+    <div>© 2025 AEGIS Underground Community</div>
+    <nav>
+      <a href="#">Главная</a>
+      <a href="#">Форум</a>
+      <a href="#">Правила</a>
+      <a href="#">Поддержка</a>
+    </nav>
+  </footer>
 
-    <div class="forum-comments">
-      ${comments.length ? comments.map(comment => `
-        <article class="forum-comment-preview">
-          <div class="forum-avatar" aria-hidden="true">
-            ${forumSafe((comment.author || 'Г').slice(0, 1).toUpperCase())}
-          </div>
-          <div>
-            <b>${forumSafe(comment.author || 'Гость')}</b>
-            <span class="forum-comment-date"> · ${forumSafe(comment.date || '')}</span>
-            <p>${forumSafe(comment.text || '')}</p>
-          </div>
-        </article>
-      `).join('') : '<p class="forum-hint">Ответов пока нет.</p>'}
-    </div>
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
 
-    <form id="forumCommentForm">
-      <label for="forumCommentText">Твой ответ</label>
-      <textarea id="forumCommentText" rows="4" maxlength="5000" required
-        placeholder="Напиши ответ по теме..."></textarea>
-      <div class="forum-form-actions">
-        <button class="btn btn-primary" type="submit">Отправить ответ</button>
-      </div>
-      <p class="forum-hint">
-        Ответ сохраняется в этом браузере и не отправляется на сервер.
-      </p>
-    </form>
-  `;
-
-  if ($('#forumEditor')) {
-    $('#forumEditor').hidden = true;
-  }
-
-  discussion.hidden = false;
-
-  if (updateUrl) {
-    history.pushState({ page: 'forum', topicId: topic.id }, '', '#forum');
-  }
-
-  forumUpdateStats();
-  renderForumCategories();
-  renderForumTopics();
-
-  discussion.scrollIntoView({
-    behavior: reduce ? 'auto' : 'smooth',
-    block: 'start'
-  });
-}
-function forumCloseDiscussion() {
-  activeTopicId = null;
-
-  if ($('#forumDiscussion')) {
-    $('#forumDiscussion').hidden = true;
-  }
-
-  history.pushState({ page: 'forum' }, '', '#forum');
-
-  $('#forumTopics')?.scrollIntoView({
-    behavior: reduce ? 'auto' : 'smooth',
-    block: 'start'
-  });
-}
-
-function initForum() {
-  const categorySelect = $('#forumNewCategory');
-
-  if (categorySelect) {
-    categorySelect.innerHTML = FORUM_CATEGORIES.map(category => `
-      <option value="${forumSafe(category.name)}">
-        ${forumSafe(category.name)}
-      </option>
-    `).join('');
-  }
-
-  renderForumCategories();
-  renderForumTopics();
-  forumUpdateStats();
-
-  $('#forumExpandBtn')?.addEventListener('click', () => {
-    forumExpanded = !forumExpanded;
-    renderForumTopics();
-  });
-
-  $('#forumAllTopics')?.addEventListener('click', () => {
-    activeForumCategory = 'Все темы';
-    forumExpanded = false;
-    renderForumCategories();
-    renderForumTopics();
-  });
-
-  $('#forumCategories')?.addEventListener('click', event => {
-    const button = event.target.closest('[data-forum-category]');
-    if (!button) return;
-
-    activeForumCategory = button.dataset.forumCategory;
-    forumExpanded = false;
-
-    renderForumCategories();
-    renderForumTopics();
-
-    $('#forumTopics')?.scrollIntoView({
-      behavior: reduce ? 'auto' : 'smooth',
-      block: 'start'
-    });
-  });
-
-  $('#forumSearch')?.addEventListener('input', () => {
-    forumExpanded = false;
-    renderForumTopics();
-  });
-
-  $('#forumSort')?.addEventListener('change', () => {
-    forumExpanded = false;
-    renderForumTopics();
-  });
-
-  $('#forumTopics')?.addEventListener('click', event => {
-    const card = event.target.closest('[data-topic-id]');
-    if (card) {
-      forumOpenDiscussion(card.dataset.topicId);
-    }
-  });
-
-  $('#forumTopics')?.addEventListener('keydown', event => {
-    if (
-      (event.key === 'Enter' || event.key === ' ') &&
-      event.target.matches('[data-topic-id]')
-    ) {
-      event.preventDefault();
-      forumOpenDiscussion(event.target.dataset.topicId);
-    }
-  });
-
-  $('#forumCreateBtn')?.addEventListener('click', () => {
-    if ($('#forumDiscussion')) {
-      $('#forumDiscussion').hidden = true;
+    if (menuBtn && navLinks) {
+      menuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+      });
     }
 
-    $('#forumEditor').hidden = false;
+    const tabs = document.querySelectorAll('.tabs button');
+    const pages = document.querySelectorAll('.page');
 
-    $('#forumEditor').scrollIntoView({
-      behavior: reduce ? 'auto' : 'smooth',
-      block: 'start'
+    tabs.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        tabs.forEach((b) => b.classList.remove('active'));
+        pages.forEach((p) => p.classList.remove('active'));
+        btn.classList.add('active');
+        const target = btn.dataset.target;
+        const page = document.getElementById(target);
+        if (page) page.classList.add('active');
+      });
     });
-
-    $('#forumNewTitle')?.focus();
-  });
-
-  $('#forumCancelCreate')?.addEventListener('click', () => {
-    $('#forumEditor').hidden = true;
-    $('#forumCreateForm')?.reset();
-  });
-
-  $('#forumBack')?.addEventListener('click', forumCloseDiscussion);
-
-  $('#forumCreateForm')?.addEventListener('submit', event => {
-    event.preventDefault();
-
-    const title = $('#forumNewTitle').value.trim();
-    const category = $('#forumNewCategory').value;
-    const author = $('#forumNewAuthor').value.trim() || 'Гость';
-    const content = $('#forumNewText').value.trim();
-
-    if (!title || !category || !content) return;
-
-    const topic = {
-      id: `local-${Date.now()}`,
-      title,
-      category,
-      type: 'ОБСУЖДЕНИЕ',
-      description: content.length > 180
-        ? content.slice(0, 177) + '…'
-        : content,
-      content,
-      author,
-      date: new Date().toLocaleDateString('ru-RU'),
-      createdAt: new Date().toISOString(),
-      replies: 0,
-      views: 0,
-      pinned: false,
-      comments: []
-    };
-
-    forumTopics.unshift(topic);
-    forumSaveData();
-
-    $('#forumCreateForm').reset();
-    $('#forumEditor').hidden = true;
-
-    activeForumCategory = 'Все темы';
-    forumExpanded = false;
-
-    renderForumCategories();
-    renderForumTopics();
-    forumUpdateStats();
-    forumOpenDiscussion(topic.id);
-  });
-
-  $('#forumDiscussionContent')?.addEventListener('submit', event => {
-    if (event.target.id !== 'forumCommentForm') return;
-
-    event.preventDefault();
-
-    const topic = forumTopics.find(
-      item => String(item.id) === String(activeTopicId)
-    );
-
-    const text = $('#forumCommentText')?.value.trim();
-
-    if (!topic || !text) return;
-
-    topic.comments = Array.isArray(topic.comments) ? topic.comments : [];
-
-    topic.comments.push({
-      author: 'Гость',
-      text,
-      date: new Date().toLocaleString('ru-RU')
-    });
-
-    topic.replies = (Number(topic.replies) || 0) + 1;
-
-    forumSaveData();
-    forumOpenDiscussion(topic.id, false);
-    forumUpdateStats();
-  });
-}
-
-document.addEventListener('DOMContentLoaded', initForum);
-/* НЕПРЕРЫВНАЯ БЕГУЩАЯ КАРУСЕЛЬ */
-const adTrack=$('#adTrack');
-
-function createBanner(item,duplicate=false){
-const a=document.createElement('a');
-a.className='ad-slide';
-a.href=item.url;
-a.setAttribute('aria-label',item.title);
-
-if(item.url.startsWith('#'))a.dataset.page=item.url.slice(1);
-else if(/^https?:\/\//i.test(item.url)){a.target='_blank';a.rel='noopener noreferrer'}
-
-if(duplicate){a.setAttribute('aria-hidden','true');a.tabIndex=-1}
-
-const img=document.createElement('img');
-img.src=item.image;img.alt=item.title;img.loading='eager';
-img.onerror=()=>{img.style.display='none'};
-
-const copy=document.createElement('span');
-copy.className='ad-copy';
-const title=document.createElement('b');title.textContent=item.title;
-const label=document.createElement('small');label.textContent=item.label;
-a.append(img);
-return a;
-}
-
-function renderAds(){
-adTrack.innerHTML='';
-adBanners.forEach(item=>adTrack.appendChild(createBanner(item)));
-adBanners.forEach(item=>adTrack.appendChild(createBanner(item,true)));
-}
-renderAds();
-
-/* Навигация */
-const pageIds=['home','forum','market','reviews','users','rules','support','register','login'];
-function showPage(id,push=true){
-if(!pageIds.includes(id))id='home';
-$$('.page').forEach(p=>p.classList.toggle('active',p.id===id));
-$$('.navlinks a').forEach(a=>a.classList.toggle('active',a.dataset.page===id));
-$('#navlinks').classList.remove('open');
-if(push&&location.hash!=='#'+id)history.pushState({page:id},'','#'+id);
-window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});
-}
-document.addEventListener('click',e=>{
-const link=e.target.closest('[data-page]');
-if(link){e.preventDefault();showPage(link.dataset.page)}
-});
-window.addEventListener('popstate',()=>showPage(location.hash.slice(1)||'home',false));
-
-$('#menuBtn').addEventListener('click',()=>$('#navlinks').classList.toggle('open'));
-
-const topbar=$('#topbar');
-window.addEventListener('scroll',()=>topbar.classList.toggle('scrolled',window.scrollY>8),{passive:true});
-
-$('#search').addEventListener('input',()=>{
-const q=$('#search').value.trim().toLocaleLowerCase('ru');
-if(q&&!$('#home').classList.contains('active'))showPage('home',false);
-let shown=0;
-$$('#home .forum-row').forEach(row=>{
-const hit=!q||row.innerText.toLocaleLowerCase('ru').includes(q)||(row.dataset.search||'').includes(q);
-row.hidden=!hit;if(hit)shown++;
-});
-$('#searchEmpty').hidden=shown>0;
-});
-
-const numbers={week:['322','281','245','198'],month:['942','801','675','521'],all:['2.4K','1.9K','1.5K','1.1K']};
-$$('[data-rank]').forEach(button=>button.addEventListener('click',()=>{
-$$('[data-rank]').forEach(b=>b.classList.toggle('active',b===button));
-$$('.rank em').forEach((el,i)=>el.textContent=numbers[button.dataset.rank][i]);
-}));
-
-$('#registerForm').addEventListener('submit',e=>{
-e.preventDefault();const r=$('#regResult');r.hidden=false;
-r.textContent=$('#regPass').value!==$('#regPass2').value?'Пароли не совпадают.':'Это демонстрационная форма. Для регистрации потребуется сервер.';
-});
-$('#loginForm').addEventListener('submit',e=>{
-e.preventDefault();$('#loginResult').hidden=false;$('#loginResult').textContent='Для входа нужно подключить систему авторизации.';
-});
-$('#supportForm').addEventListener('submit',e=>{
-e.preventDefault();$('#supportResult').hidden=false;$('#supportResult').textContent='Для отправки обращения требуется сервер.';
-});
-showPage(location.hash.slice(1)||'home',false);
-</script>
+  </script>
 </body>
 </html>
