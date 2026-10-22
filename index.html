@@ -817,7 +817,69 @@ footer nav{display:flex;gap:24px}
     flex-wrap: wrap;
   }
 }
+profile: {
+  nickname: 'ShadowFox',
+  role: 'Участник',
+  reputation: 248,
+  deposit: '$1,500',
+  messages: 126,
+  registered: '2025',
+  avatar: ''
+},
 
+banner: 'https://example.com/banner.jpg',
+
+blocks: [
+  {
+    type: 'heading',
+    text: '01 / ВВЕДЕНИЕ'
+  },
+  {
+    type: 'text',
+    text: 'Первый абзац публикации.\nВторой абзац публикации.'
+  },
+  {
+    type: 'banner',
+    url: 'https://example.com/another-banner.jpg',
+    alt: 'Баннер публикации'
+  },
+  {
+    type: 'heading',
+    text: '02 / ОСНОВНЫЕ РАЗДЕЛЫ'
+  },
+  {
+    type: 'cards',
+    items: [
+      {
+        number: '01',
+        icon: '↗',
+        title: 'Первый раздел',
+        text: 'Описание первого раздела.'
+      },
+      {
+        number: '02',
+        icon: '◇',
+        title: 'Второй раздел',
+        text: 'Описание второго раздела.'
+      }
+    ]
+  },
+  {
+    type: 'notice',
+    title: 'ВАЖНО',
+    text: 'Текст предупреждения.'
+  },
+  {
+    type: 'quote',
+    text: 'Текст цитаты.',
+    author: 'Автор цитаты'
+  },
+  {
+    type: 'image',
+    url: 'https://example.com/photo.jpg',
+    alt: 'Иллюстрация'
+  }
+],
 </style>
 </head>
 <body>
@@ -1699,85 +1761,181 @@ function forumOpenDiscussion(id, updateUrl = true) {
 
   const discussion = $('#forumDiscussion');
   const content = $('#forumDiscussionContent');
-
   if (!discussion || !content) return;
 
   const comments = topic.comments || [];
 
+  // Данные профиля автора. Настраиваются отдельно для каждой темы.
+  const profile = topic.profile || {};
+  const author = profile.nickname || topic.author || 'Гость';
+  const role = profile.role || 'Участник';
+  const reputation = profile.reputation ?? 0;
+  const deposit = profile.deposit || 'Не указан';
+  const messages = profile.messages ?? 0;
+  const registered = profile.registered || 'Не указана';
+  const avatar = profile.avatar || '';
+  const initial = forumSafe(String(author).slice(0, 1).toUpperCase());
+
+  // Разрешаем изображения и ссылки только с http/https.
+  const safeUrl = value => {
+    const url = String(value || '').trim();
+    return /^https?:\/\/[^\s"'<>]+$/i.test(url) ? forumSafe(url) : '';
+  };
+
+  const renderImage = (url, alt = '') => {
+    const src = safeUrl(url);
+    if (!src) return '';
+    return `
+      <figure class="ft-image-wrap">
+        <img class="ft-image" src="${src}" alt="${forumSafe(alt)}" loading="lazy">
+        ${alt ? `<figcaption>${forumSafe(alt)}</figcaption>` : ''}
+      </figure>
+    `;
+  };
+
+  // Универсальные блоки публикации.
+  const renderBlock = block => {
+    if (!block || !block.type) return '';
+
+    switch (block.type) {
+      case 'heading':
+        return `<h4 class="ft-heading">${forumSafe(block.text || '')}</h4>`;
+
+      case 'text':
+        return `<div class="ft-text">${forumSafe(block.text || '').replace(/\n/g, '<br>')}</div>`;
+
+      case 'banner': {
+        const image = renderImage(block.url, block.alt || '');
+        if (!image) return '';
+        const link = safeUrl(block.link);
+        return link
+          ? `<a class="ft-banner-link" href="${link}" target="_blank" rel="noopener noreferrer">${image}</a>`
+          : `<div class="ft-banner">${image}</div>`;
+      }
+
+      case 'image':
+        return renderImage(block.url, block.alt || '');
+
+      case 'notice':
+        return `
+          <aside class="ft-notice">
+            ${block.title ? `<strong>${forumSafe(block.title)}</strong>` : ''}
+            <div>${forumSafe(block.text || '').replace(/\n/g, '<br>')}</div>
+          </aside>
+        `;
+
+      case 'quote':
+        return `
+          <blockquote class="ft-quote">
+            <div>${forumSafe(block.text || '').replace(/\n/g, '<br>')}</div>
+            ${block.author ? `<cite>— ${forumSafe(block.author)}</cite>` : ''}
+          </blockquote>
+        `;
+
+      case 'cards':
+        if (!Array.isArray(block.items)) return '';
+        return `
+          <div class="ft-cards">
+            ${block.items.map(item => `
+              <article class="ft-card">
+                ${item.number ? `<span class="ft-card-number">${forumSafe(item.number)}</span>` : ''}
+                ${item.icon ? `<span class="ft-card-icon">${forumSafe(item.icon)}</span>` : ''}
+                ${item.title ? `<h4>${forumSafe(item.title)}</h4>` : ''}
+                ${item.text ? `<p>${forumSafe(item.text).replace(/\n/g, '<br>')}</p>` : ''}
+                ${safeUrl(item.url) ? `<a href="${safeUrl(item.url)}" target="_blank" rel="noopener noreferrer">Подробнее ↗</a>` : ''}
+              </article>
+            `).join('')}
+          </div>
+        `;
+
+      default:
+        return '';
+    }
+  };
+
+  let postBody = '';
+
+  if (Array.isArray(topic.blocks) && topic.blocks.length) {
+    postBody = topic.blocks.map(renderBlock).join('');
+  } else {
+    postBody = `
+      <div class="ft-text">
+        ${forumSafe(topic.content || topic.description || '').replace(/\n/g, '<br>')}
+      </div>
+    `;
+  }
+
+  const topicBanner = safeUrl(topic.banner)
+    ? `<div class="ft-banner">${renderImage(topic.banner, topic.bannerAlt || topic.title || '')}</div>`
+    : '';
+
   content.innerHTML = `
-    <article class="forum-preview-topic">
-      <div class="forum-topic-tags">
-        ${topic.pinned ? '<span class="forum-tag">ЗАКРЕПЛЕНО</span>' : ''}
-        <span class="forum-tag">${forumSafe(topic.type || 'ОБСУЖДЕНИЕ')}</span>
-        <span class="forum-tag">${forumSafe(forumCategoryName(topic.category))}</span>
-      </div>
+    <div class="ft-topic-layout">
 
-      <h3>${forumSafe(topic.title)}</h3>
+      <aside class="ft-author">
+        <div class="ft-author-label">АВТОР ПУБЛИКАЦИИ</div>
 
-      <div class="forum-preview-meta">
-        Автор: <b>${forumSafe(topic.author || 'Гость')}</b>
-        · ${forumSafe(topic.date || '')}
-        · ${Number(topic.views)} просмотров
-      </div>
-
-   
-      ${String(topic.id) === '2' ? `
-        <div class="aml-hero">
-          <div class="aml-hero-label">AEGIS / PRIVATE SERVICES</div>
-          <div class="aml-hero-title">AML <span>GROUP</span></div>
-          <p class="aml-hero-subtitle">ОБЗОР СЕРВИСА · УСЛОВИЯ · ИНФОРМАЦИЯ</p>
+        <div class="ft-avatar">
+          ${safeUrl(avatar)
+            ? `<img src="${safeUrl(avatar)}" alt="${forumSafe(author)}" loading="lazy">`
+            : initial}
         </div>
 
-        <div class="aml-intro">
-          <div class="aml-section-kicker">01 / ВВЕДЕНИЕ</div>
-          <h4>Добро пожаловать в AML Group</h4>
-          <p>${forumSafe(topic.content || topic.description || '')}</p>
-        </div>
+        <h3 class="ft-author-name">${forumSafe(author)}</h3>
+        <div class="ft-author-role">${forumSafe(role)}</div>
 
-        <div class="aml-service-grid">
-          <div class="aml-service-card">
-            <span class="aml-card-number">01</span>
-            <div class="aml-card-icon">↗</div>
-            <h4>Обменные операции</h4>
-            <p>Информация о доступных направлениях обмена и порядке проведения операций.</p>
-          </div>
-          <div class="aml-service-card">
-            <span class="aml-card-number">02</span>
-            <div class="aml-card-icon">◇</div>
-            <h4>Курсы и комиссии</h4>
-            <p>Курс может меняться в зависимости от рыночных котировок и выбранного направления.</p>
-          </div>
-          <div class="aml-service-card">
-            <span class="aml-card-number">03</span>
-            <div class="aml-card-icon">⌘</div>
-            <h4>Порядок работы</h4>
-            <p>Перед операцией уточняйте актуальные условия, лимиты и доступность услуги.</p>
-          </div>
-          <div class="aml-service-card">
-            <span class="aml-card-number">04</span>
-            <div class="aml-card-icon">◎</div>
-            <h4>Поддержка</h4>
-            <p>Используйте официальные контакты сервиса и проверяйте реквизиты перед отправкой средств.</p>
-          </div>
-        </div>
-
-        <div class="aml-notice">
-          <span class="aml-notice-mark">!</span>
+        <div class="ft-author-stats">
           <div>
-            <strong>ВАЖНО ПЕРЕД ОПЕРАЦИЕЙ</strong>
-            <p>Уточняйте итоговый курс, размер всех комиссий и условия сделки заранее. Не отправляйте средства, пока не проверили реквизиты и условия.</p>
+            <span>Репутация</span>
+            <strong>${forumSafe(String(reputation))}</strong>
+          </div>
+          <div>
+            <span>Депозит</span>
+            <strong>${forumSafe(String(deposit))}</strong>
+          </div>
+          <div>
+            <span>Сообщения</span>
+            <strong>${forumSafe(String(messages))}</strong>
+          </div>
+          <div>
+            <span>Регистрация</span>
+            <strong>${forumSafe(String(registered))}</strong>
           </div>
         </div>
 
-        <div class="aml-footer-line">
-          <span>AEGIS COMMUNITY</span>
-          <span>ТЕМА № ${forumSafe(String(topic.id))}</span>
+        <div class="ft-author-status">
+          <span class="ft-status-dot"></span> ПРОФИЛЬ УЧАСТНИКА
         </div>
-      ` : `
-        <p>${forumSafe(topic.content || topic.description || '')}</p>
-      `}
-    </article>
+      </aside>
 
+      <article class="ft-post">
+        <div class="ft-post-topline">
+          <div class="forum-topic-tags">
+            ${topic.pinned ? '<span class="forum-tag">ЗАКРЕПЛЕНО</span>' : ''}
+            <span class="forum-tag">${forumSafe(topic.type || 'ОБСУЖДЕНИЕ')}</span>
+            <span class="forum-tag">${forumSafe(forumCategoryName(topic.category))}</span>
+          </div>
+          <span class="ft-topic-number">ТЕМА № ${forumSafe(String(topic.id))}</span>
+        </div>
+
+        <h2 class="ft-post-title">${forumSafe(topic.title || 'Без названия')}</h2>
+
+        <div class="ft-post-meta">
+          <span>${forumSafe(topic.date || '')}</span>
+          <span>${Number(topic.views) || 0} просмотров</span>
+        </div>
+
+        <div class="ft-post-body">
+          ${topicBanner}
+          ${postBody}
+        </div>
+
+        <div class="ft-post-footer">
+          <span>AEGIS COMMUNITY</span>
+          <span>КОНЕЦ ПУБЛИКАЦИИ</span>
+        </div>
+      </article>
+    </div>
 
     <div class="forum-section-title" style="margin-top:24px">
       <h2>Ответы (${comments.length})</h2>
@@ -1792,7 +1950,7 @@ function forumOpenDiscussion(id, updateUrl = true) {
           <div>
             <b>${forumSafe(comment.author || 'Гость')}</b>
             <span class="forum-comment-date"> · ${forumSafe(comment.date || '')}</span>
-            <p>${forumSafe(comment.text)}</p>
+            <p>${forumSafe(comment.text || '')}</p>
           </div>
         </article>
       `).join('') : '<p class="forum-hint">Ответов пока нет.</p>'}
@@ -1800,18 +1958,11 @@ function forumOpenDiscussion(id, updateUrl = true) {
 
     <form id="forumCommentForm">
       <label for="forumCommentText">Твой ответ</label>
-      <textarea
-        id="forumCommentText"
-        rows="4"
-        maxlength="5000"
-        required
-        placeholder="Напиши ответ по теме..."
-      ></textarea>
-
+      <textarea id="forumCommentText" rows="4" maxlength="5000" required
+        placeholder="Напиши ответ по теме..."></textarea>
       <div class="forum-form-actions">
         <button class="btn btn-primary" type="submit">Отправить ответ</button>
       </div>
-
       <p class="forum-hint">
         Ответ сохраняется в этом браузере и не отправляется на сервер.
       </p>
@@ -1837,7 +1988,6 @@ function forumOpenDiscussion(id, updateUrl = true) {
     block: 'start'
   });
 }
-
 function forumCloseDiscussion() {
   activeTopicId = null;
 
