@@ -2205,11 +2205,11 @@ const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* ===== ЛОГИКА ФОРУМА — ОСТАЛЬНЫЕ РАЗДЕЛЫ НЕ МЕНЯЕМ ===== */
 const FORUM_CATEGORIES = [
-  { name: 'Документы', icon: '01', description: 'Справочные материалы и общие вопросы.' },
-  { name: 'Обменные сервисы', icon: '02', description: 'Обсуждения обменных сервисов.' },
-  { name: 'Сервисы и услуги', icon: '03', description: 'Полезные сервисы и услуги.' },
-  { name: 'Продавцы и сервисы', icon: '04', description: 'Публикации и отзывы участников.' },
-  { name: 'Торговая площадка — VIP', icon: '05', description: 'Объявления и публикации площадки.' }
+  { name: 'Документы', label: 'Документы', icon: '01', description: 'Справочные материалы и общие вопросы.' },
+  { name: 'Обменные сервисы', label: 'Обменники', icon: '02', description: 'Обсуждения обменных сервисов.' },
+  { name: 'Сервисы и услуги', label: 'Услуги спортиков', icon: '03', description: 'Полезные сервисы и услуги.' },
+  { name: 'Продавцы и сервисы', label: 'Продавцы', icon: '04', description: 'Публикации и отзывы участников.' },
+  { name: 'Торговая площадка — VIP', label: 'Торговая площадка', icon: '05', description: 'Объявления и публикации площадки.' }
 ];
 
 const FORUM_STORAGE_KEY = 'aegisForumDataV2';
