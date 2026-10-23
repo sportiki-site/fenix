@@ -1388,6 +1388,21 @@ blocks: [
 #forumTopics .forum-topic-finance .forum-topic-meta {
   color: #8f777a;
 }
+  .telegram-button {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 12px 20px;
+  background: #b51224;
+  color: #fff !important;
+  text-decoration: none !important;
+  border: 1px solid #e3263b;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.telegram-button:hover {
+  background: #171717;
+}
 </style>
 </head>
 <body>
@@ -2865,9 +2880,21 @@ if (hasBlocks) {
 
 // Сохраняем основной текст даже при наличии баннеров.
 if (hasContent) {
+  const postText = forumSafe(
+    topic.content || topic.description || ''
+  ).replace(/\n/g, '<br>');
+
+  const telegramButton = Number(topic.id) === 9
+    ? `<a href="https://t.me/zakazat_sportikov6"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="telegram-button">Перейти в Telegram</a>`
+    : '';
+
   postBody += `
     <div class="ft-text">
-      ${forumSafe(topic.content || topic.description || '').replace(/\n/g, '<br>')}
+      ${postText}
+      ${telegramButton}
     </div>
   `;
 }
