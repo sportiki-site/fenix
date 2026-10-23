@@ -568,42 +568,69 @@ footer nav{display:flex;gap:24px}
   background: rgba(229, 50, 74, .12);
   border-color: #e5324a;
 }
-/* ===== ФОНЫ КАТЕГОРИЙ ФОРУМА AEGIS ===== */
+
+/* ===== AEGIS — ФОНЫ ВСЕХ КАТЕГОРИЙ ===== */
 
 #forumCategories .forum-category {
   position: relative;
   overflow: hidden;
-  background-color: #111;
+  background-color: #100c0d;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  border: 1px solid rgba(190, 35, 50, 0.28);
+  transition: border-color 0.25s ease, background-position 0.3s ease;
 }
 
-/* Документы */
+/* Все темы */
+#forumCategories .forum-category[data-forum-category="Все темы"] {
+  background-image:
+    linear-gradient(90deg, rgba(12, 7, 9, 0.80), rgba(12, 7, 9, 0.38)),
+    url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=85");
+}
+
+/* 01 — Документы */
 #forumCategories .forum-category[data-forum-category="Документы"] {
-  background-image: url("./forum-documents.png");
+  background-image:
+    linear-gradient(90deg, rgba(12, 7, 9, 0.78), rgba(12, 7, 9, 0.35)),
+    url("https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1400&q=85");
 }
 
-/* Обменные сервисы */
-#forumCategories .forum-category[data-forum-category="Обменные сервисы"] {
-  background-image: url("./forum-exchange.png");
+/* 02 — Обменники */
+#forumCategories .forum-category[data-forum-category="Обменники"] {
+  background-image:
+    linear-gradient(90deg, rgba(12, 7, 9, 0.78), rgba(12, 7, 9, 0.35)),
+    url("https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=1400&q=85");
 }
 
-/* Сервисы и услуги */
-#forumCategories .forum-category[data-forum-category="Правила форума"] {
-  background-image: url("./forum-services.png");
-}
-
-/* Продавцы и сервисы */
+/* 03 — Услуги спортиков */
 #forumCategories .forum-category[data-forum-category="Услуги спортиков"] {
-  background-image: url("./forum-sellers.png");
+  background-image:
+    linear-gradient(90deg, rgba(12, 7, 9, 0.78), rgba(12, 7, 9, 0.35)),
+    url("https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85");
 }
 
-/* VIP */
-#forumCategories .forum-category[data-forum-category="Торговая площадка — VIP"] {
-  background-image: url("./forum-vip.png");
+/* 04 — Продавцы */
+#forumCategories .forum-category[data-forum-category="Продавцы"] {
+  background-image:
+    linear-gradient(90deg, rgba(12, 7, 9, 0.78), rgba(12, 7, 9, 0.35)),
+    url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1400&q=85");
 }
-  
+
+/* 05 — Торговая площадка VIP */
+#forumCategories .forum-category[data-forum-category="Торговая площадка — VIP"] {
+  background-image:
+    linear-gradient(90deg, rgba(12, 7, 9, 0.72), rgba(12, 7, 9, 0.30)),
+    url("https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=1400&q=85");
+}
+
+/* Красная рамка при наведении */
+#forumCategories .forum-category:hover {
+  border-color: rgba(230, 40, 58, 0.75);
+  background-position: center 46%;
+}
+
+
 /* Кнопка возврата к темам обсуждения */
 #forumDiscussion #forumBack {
   display: inline-flex;
