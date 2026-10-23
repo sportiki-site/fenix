@@ -2331,7 +2331,15 @@ function forumSaveData() {
 }
 
 function forumCategoryName(name) {
-  return name === 'Сервисы' ? 'Сервисы и услуги' : name;
+  const aliases = {
+    'Сервисы': 'Услуги спортиков',
+    'Сервисы и услуги': 'Услуги спортиков',
+    'Обменные сервисы': 'Обменники',
+    'Продавцы и сервисы': 'Продавцы',
+    'Торговая площадка': 'Торговая площадка — VIP'
+  };
+
+  return aliases[name] || name;
 }
 
 function forumGetCounts() {
