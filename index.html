@@ -6,119 +6,6 @@
 <meta name="theme-color" content="#0b0a0a">
 <title>AEGIS — Underground Community</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-/* AEGIS GUARANTOR PAGE */
-.aegis-guarantor-page {
-  width: 100%;
-}
-
-.aegis-guarantor-page > h1 {
-  margin: 12px 0;
-}
-
-.ag-profile {
-  display: grid;
-  grid-template-columns: 180px minmax(0, 1fr);
-  gap: 26px;
-  margin-top: 28px;
-  padding: 26px;
-  background: linear-gradient(145deg, #171114, #0c0c0e);
-  border: 1px solid rgba(237, 48, 75, .4);
-  border-radius: 12px;
-}
-
-.ag-avatar {
-  width: 100%;
-  aspect-ratio: 1;
-  overflow: hidden;
-  background: #111;
-  border: 2px solid #ed304b;
-  border-radius: 12px;
-}
-
-.ag-avatar img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.ag-status {
-  color: #ed304b;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-.ag-info h2 {
-  margin: 12px 0 4px;
-  font-size: 28px;
-}
-
-.ag-check {
-  display: inline-grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  color: white;
-  background: #ed304b;
-  border-radius: 50%;
-  font-size: 14px;
-  vertical-align: middle;
-}
-
-.ag-username {
-  color: #ed304b !important;
-  margin: 4px 0 18px !important;
-}
-
-.ag-info > p {
-  color: #bdb4b8;
-  font-size: 14px;
-  line-height: 1.8;
-}
-
-.ag-telegram-button {
-  display: inline-flex;
-  margin-top: 14px;
-  text-decoration: none;
-}
-
-.ag-warning {
-  margin-top: 18px;
-  padding: 20px;
-  background: rgba(150, 24, 43, .09);
-  border: 1px solid rgba(237, 48, 75, .35);
-  border-radius: 10px;
-}
-
-.ag-warning strong {
-  color: #ff405b;
-  font-size: 13px;
-}
-
-.ag-warning p {
-  margin-bottom: 0;
-  color: #c1b7bb;
-  font-size: 13px;
-  line-height: 1.8;
-}
-
-@media (max-width: 600px) {
-  .ag-profile {
-    grid-template-columns: 1fr;
-    padding: 18px;
-  }
-
-  .ag-avatar {
-    width: 150px;
-  }
-
-  .ag-info h2 {
-    font-size: 24px;
-  }
-}
-
   <style>
 :root{--bg:#0b0a0a;--surface:#121010;--surface-2:#191615;--line:rgba(255,255,255,.08);--line-strong:rgba(255,255,255,.16);--text:#efebe9;--text-2:#aaa2a0;--muted:#8a8381;--accent:#e5324a;--accent-hover:#f0465c;--accent-soft:rgba(229,50,74,.12);--green:#3fd29a;--s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--r:6px;--display:'Barlow Condensed','Arial Narrow',Impact,sans-serif;--body:'Inter',system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
 *{box-sizing:border-box}
@@ -1706,7 +1593,60 @@ blocks: [
 <section id="market" class="page"><div class="subpage"><div class="eyebrow">02 · Marketplace</div><h1>The <span>market</span></h1><p>Каталог цифровых товаров, сервисов и профессиональных услуг.</p><div class="subrow">Digital — Цифровые сервисы и подписки</div><div class="subrow">Gaming — Игровые товары и инструменты</div><div class="subrow">Creative — Дизайн и разработка</div><div class="subrow">Tools — Рабочие инструменты</div></div></section>
 
 <section id="reviews" class="page">
-  <div class="subpage aegis-guarantor-page">
+  <style>
+.ag-profile {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 24px;
+  align-items: center;
+  margin: 30px 0;
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 14px;
+  background: rgba(255,255,255,.03);
+}
+.ag-avatar {
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.ag-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ag-status {
+  color: #b7a0ff;
+  font-size: 11px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+.ag-info h2 {
+  margin: 0 0 8px;
+}
+.ag-check {
+  color: #a78bfa;
+}
+.ag-username {
+  opacity: .65;
+}
+.ag-warning {
+  padding: 20px;
+  border: 1px solid rgba(255,180,80,.35);
+  border-radius: 12px;
+  background: rgba(255,180,80,.05);
+}
+.ag-warning strong {
+  color: #ffbf70;
+}
+@media (max-width: 600px) {
+  .ag-profile {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+    <div class="subpage aegis-guarantor-page">
 
     <div class="eyebrow">03 · AEGIS GUARANTOR</div>
 
