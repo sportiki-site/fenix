@@ -1442,6 +1442,280 @@ blocks: [
   color: #b8b8b8;
   font-size: 13px;
 }
+  
+/* =========================
+   AEGIS — GARANT SERVICE
+========================= */
+
+.guarantor-section {
+  margin: 28px 0;
+  padding: 30px;
+  background: #0b0b0b;
+  border: 1px solid #252525;
+  border-radius: 14px;
+  color: #ededed;
+  overflow: hidden;
+}
+
+.guarantor-header {
+  max-width: 800px;
+}
+
+.guarantor-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 16px;
+  color: #a5a5a5;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.guarantor-status-dot {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #ff3030;
+  box-shadow: 0 0 10px rgba(255, 48, 48, 0.45);
+}
+
+.guarantor-header h2 {
+  margin: 0 0 16px;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.guarantor-header h2 span {
+  color: #ff3030;
+}
+
+.guarantor-intro {
+  margin: 0;
+  color: #b5b5b5;
+  font-size: 14px;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+
+.guarantor-divider {
+  height: 1px;
+  margin: 28px 0;
+  background: linear-gradient(
+    90deg,
+    #ff3030 0,
+    #353535 35%,
+    transparent 100%
+  );
+}
+
+.guarantor-process-heading {
+  margin-bottom: 20px;
+}
+
+.guarantor-label {
+  color: #ff3030;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.guarantor-process-heading h3 {
+  margin: 9px 0 7px;
+  color: #f3f3f3;
+  font-size: 23px;
+  font-weight: 750;
+}
+
+.guarantor-process-heading p {
+  margin: 0;
+  color: #858585;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guarantor-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.guarantor-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 0;
+  padding: 22px 18px;
+  background: #101010;
+  border: 1px solid #272727;
+  border-radius: 10px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.guarantor-step:hover {
+  border-color: #713030;
+  transform: translateY(-2px);
+}
+
+.guarantor-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  background: rgba(255, 48, 48, 0.09);
+  border: 1px solid rgba(255, 48, 48, 0.28);
+  border-radius: 8px;
+  color: #ff4545;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.guarantor-step-content {
+  min-width: 0;
+}
+
+.guarantor-step-content h4 {
+  margin: 2px 0 9px;
+  color: #f1f1f1;
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.guarantor-step-content p {
+  margin: 0;
+  color: #a1a1a1;
+  font-size: 12px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.guarantor-hold {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-top: 18px;
+  padding: 20px;
+  background: rgba(255, 48, 48, 0.055);
+  border: 1px solid rgba(255, 48, 48, 0.24);
+  border-radius: 10px;
+}
+
+.guarantor-hold-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  background: #ff3030;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.guarantor-hold-label {
+  color: #ff5555;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+}
+
+.guarantor-hold h4 {
+  margin: 6px 0;
+  color: #f0f0f0;
+  font-size: 15px;
+}
+
+.guarantor-hold p {
+  margin: 0;
+  color: #aaa;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.guarantor-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #242424;
+  color: #666;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+/* АДАПТАЦИЯ ДЛЯ ТЕЛЕФОНОВ */
+
+@media (max-width: 600px) {
+  .guarantor-section {
+    margin: 18px 0;
+    padding: 20px 15px;
+    border-radius: 11px;
+  }
+
+  .guarantor-header h2 {
+    font-size: 29px;
+  }
+
+  .guarantor-intro {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .guarantor-divider {
+    margin: 22px 0;
+  }
+
+  .guarantor-process-heading h3 {
+    font-size: 21px;
+  }
+
+  .guarantor-steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .guarantor-step {
+    gap: 12px;
+    padding: 17px 13px;
+  }
+
+  .guarantor-step-number {
+    width: 37px;
+    height: 37px;
+    flex-basis: 37px;
+    font-size: 12px;
+  }
+
+  .guarantor-step-content h4 {
+    font-size: 14px;
+  }
+
+  .guarantor-step-content p {
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  .guarantor-hold {
+    gap: 11px;
+    padding: 15px 12px;
+  }
+
+  .guarantor-footer {
+    flex-wrap: wrap;
+    font-size: 8px;
+    letter-spacing: 0.8px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1522,6 +1796,100 @@ blocks: [
       </div>
       <button class="btn btn-primary" id="forumCreateBtn">+ Создать тему</button>
     </div>
+    
+<!-- GARANT SERVICE -->
+<section class="guarantor-section">
+  <div class="guarantor-header">
+    <div class="guarantor-eyebrow">
+      <span class="guarantor-status-dot"></span>
+      DEAL PROTECTION
+    </div>
+
+    <h2>Гарант<span>-сервис</span></h2>
+
+    <p class="guarantor-intro">
+      Гарант — это лицо, принимающее на себя ответственность
+      за выполнение обязательств в сделке между двумя или более
+      сторонами, а также контролирующее соблюдение достигнутых
+      договорённостей.
+    </p>
+  </div>
+
+  <div class="guarantor-divider"></div>
+
+  <div class="guarantor-process-heading">
+    <span class="guarantor-label">ПОРЯДОК РАБОТЫ</span>
+    <h3>Как работает гарант</h3>
+    <p>Последовательность действий при проведении сделки с участием гаранта.</p>
+  </div>
+
+  <div class="guarantor-steps">
+    <article class="guarantor-step">
+      <div class="guarantor-step-number">01</div>
+      <div class="guarantor-step-content">
+        <h4>Создание беседы</h4>
+        <p>
+          Гарант создаёт конференцию в Telegram или на форуме
+          для обсуждения товара или услуги и согласования условий сделки.
+        </p>
+      </div>
+    </article>
+
+    <article class="guarantor-step">
+      <div class="guarantor-step-number">02</div>
+      <div class="guarantor-step-content">
+        <h4>Перевод средств</h4>
+        <p>
+          Покупатель переводит гаранту деньги за товар или услугу,
+          включая согласованную оплату услуг гаранта.
+        </p>
+      </div>
+    </article>
+
+    <article class="guarantor-step">
+      <div class="guarantor-step-number">03</div>
+      <div class="guarantor-step-content">
+        <h4>Передача товара</h4>
+        <p>
+          Продавец передаёт товар на проверку покупателю или гаранту.
+          Участники сверяют полученную информацию с условиями сделки.
+        </p>
+      </div>
+    </article>
+
+    <article class="guarantor-step">
+      <div class="guarantor-step-number">04</div>
+      <div class="guarantor-step-content">
+        <h4>Подтверждение сделки</h4>
+        <p>
+          После подтверждения соответствия условиям сделки
+          гарант завершает расчёт: средства передаются продавцу,
+          а товар — покупателю.
+        </p>
+      </div>
+    </article>
+  </div>
+
+  <div class="guarantor-hold">
+    <div class="guarantor-hold-icon">!</div>
+    <div>
+      <span class="guarantor-hold-label">ВАЖНЫЙ ТЕРМИН</span>
+      <h4>Что такое холд?</h4>
+      <p>
+        Холд — временное удержание денежных средств у гаранта
+        на период проведения сделки.
+      </p>
+    </div>
+  </div>
+
+  <div class="guarantor-footer">
+    <span>AEGIS · GARANT SERVICE</span>
+    <span>SECURE DEALS · 01—04</span>
+  </div>
+</section>
+<!-- /GARANT SERVICE -->
+
+    
 
 
     <!-- ПОИСК И СОРТИРОВКА -->
