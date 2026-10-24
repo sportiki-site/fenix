@@ -1927,7 +1927,7 @@ a.guarantor-telegram span {
     </section>
   </div>
 </section>
-<section id="market" class="page"><div class="subpage"><div class="eyebrow">02 · Marketplace</div><h1>The <span>market</span></h1><p>Каталог цифровых товаров, сервисов и профессиональных услуг.</p><div class="subrow">Digital — Цифровые сервисы и подписки</div><div class="subrow">Gaming — Игровые товары и инструменты</div><div class="subrow">Creative — Дизайн и разработка</div><div class="subrow">Tools — Рабочие инструменты</div></div></section>
+<section id="market" class="page"><div class="subpage"><div class="eyebrow">02 · Marketplace</div><h1>The <span>market</span></h1><p>Доступ к торговой площадке открывается после регистрации на форуме. </p><div class="subrow">Digital — Цифровые сервисы и подписки</div><div class="subrow">Gaming — Игровые товары и инструменты</div><div class="subrow">Creative — Дизайн и разработка</div><div class="subrow">Tools — Рабочие инструменты</div></div></section>
 
 <section id="reviews" class="page">
   <div class="guarantor-section">
@@ -2054,8 +2054,8 @@ a.guarantor-telegram span {
 
 <section id="users" class="page"><div class="subpage"><div class="eyebrow">04 · Members</div><h1>The <span>people.</span></h1><p>Знакомься с сообществом.</p><div class="subrow">DarkSeller — Community member</div><div class="subrow">coderhub — Development</div><div class="subrow">realuser — Community member</div><div class="subrow">tradeuser — Exchange</div></div></section>
 <section id="rules" class="page"><div class="subpage"><div class="eyebrow">05 · Community standards</div><h1>Know the <span>rules.</span></h1><div class="subrow">Уважайте других участников.</div><div class="subrow">Запрещены мошенничество, угрозы и спам.</div><div class="subrow">Не публикуйте вредоносные файлы и незаконные предложения.</div><div class="subrow">Сообщайте модераторам о нарушениях.</div></div></section>
-<section id="support" class="page"><form class="form" id="supportForm"><div class="eyebrow">06 · Help desk</div><h2>Need <span>backup?</span></h2><p>Демонстрационная форма поддержки.</p><label for="supportEmail">Email</label><input id="supportEmail" type="email" required><label for="supportMessage">Сообщение</label><textarea id="supportMessage" rows="4" required></textarea><button class="btn btn-primary" type="submit">Подготовить обращение →</button><div class="notice" id="supportResult" hidden></div></form></section>
-<section id="register" class="page"><form class="form" id="registerForm"><div class="eyebrow">Join the community</div><h2>Create your <span>identity.</span></h2><p>Демонстрационная форма регистрации.</p><label for="regName">Никнейм</label><input id="regName" minlength="3" required><label for="regEmail">Email</label><input id="regEmail" type="email" required><label for="regPass">Пароль</label><input id="regPass" type="password" minlength="8" required><label for="regPass2">Повторите пароль</label><input id="regPass2" type="password" minlength="8" required><button class="btn btn-primary" type="submit">Создать аккаунт →</button><div class="notice" id="regResult" hidden></div></form></section>
+<section id="support" class="page"><form class="form" id="supportForm"><div class="eyebrow">06 · Help desk</div><h2>Need <span>backup?</span></h2><p>Не отправляйте обращения повторно</p><label for="supportEmail">Email</label><input id="supportEmail" type="email" required><label for="supportMessage">Сообщение</label><textarea id="supportMessage" rows="4" required></textarea><button class="btn btn-primary" type="submit">Подготовить обращение →</button><div class="notice" id="supportResult" hidden></div></form></section>
+<section id="register" class="page"><form class="form" id="registerForm"><div class="eyebrow">Join the community</div><h2>Create your <span>identity.</span></h2><p>Уведомление об успешной регистрации поступит на почту</p><label for="regName">Никнейм</label><input id="regName" minlength="3" required><label for="regEmail">Email</label><input id="regEmail" type="email" required><label for="regPass">Пароль</label><input id="regPass" type="password" minlength="8" required><label for="regPass2">Повторите пароль</label><input id="regPass2" type="password" minlength="8" required><button class="btn btn-primary" type="submit">Создать аккаунт →</button><div class="notice" id="regResult" hidden></div></form></section>
 <section id="login" class="page"><form class="form" id="loginForm"><div class="eyebrow">Member access</div><h2>Welcome <span>back.</span></h2><label for="loginName">Email или никнейм</label><input id="loginName" required><label for="loginPass">Пароль</label><input id="loginPass" type="password" required><button class="btn btn-primary" type="submit">Войти в AEGIS →</button><div class="notice" id="loginResult" hidden></div></form></section>
 <footer><span>© 2026 AEGIS Community — independent digital culture</span><nav><a href="#rules" data-page="rules">Правила</a><a href="#support" data-page="support">Поддержка</a><a href="#register" data-page="register">Регистрация</a></nav></footer>
 </main>
@@ -3863,7 +3863,7 @@ $$('.rank em').forEach((el,i)=>el.textContent=numbers[button.dataset.rank][i]);
 
 $('#registerForm').addEventListener('submit',e=>{
 e.preventDefault();const r=$('#regResult');r.hidden=false;
-r.textContent=$('#regPass').value!==$('#regPass2').value?'Пароли не совпадают.':'Это демонстрационная форма. Для регистрации потребуется сервер.';
+r.textContent=$('#regPass').value!==$('#regPass2').value?'Пароли не совпадают.':'Заявка на регистрацию отправлена';
 });
 $('#loginForm').addEventListener('submit',e=>{
 e.preventDefault();$('#loginResult').hidden=false;$('#loginResult').textContent='Для входа нужно подключить систему авторизации.';
