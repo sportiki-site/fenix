@@ -1431,7 +1431,38 @@ blocks: [
   border-color: #ff3030;
   box-shadow: 0 0 18px rgba(255, 0, 0, 0.12);
 }
-С
+
+.forum-stats > div strong {
+  color: #ff3030;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.forum-stats > div span {
+  color: #b8b8b8;
+  font-size: 13px;
+}
+</style>
+</head>
+<body>
+<header class="topbar" id="topbar">
+<div class="shell nav">
+<a class="brand" href="#home" data-page="home">AEGIS</a>
+<nav class="navlinks" id="navlinks">
+<a class="active" href="#home" data-page="home">Главная</a>
+<a href="#forum" data-page="forum">Форум</a>
+<a href="#market" data-page="market">Маркет</a>
+<a href="#reviews" data-page="reviews">Гарант</a>
+<a href="#rules" data-page="rules">Правила</a>
+<a href="#support" data-page="support">Поддержка</a>
+</nav>
+<div class="navtools">
+<input class="search" id="search" type="search" placeholder="Поиск по форуму" aria-label="Поиск по форуму">
+<a class="btn btn-ghost btn-sm" href="#login" data-page="login">Войти</a>
+</div>
+<button class="menu-btn" id="menuBtn" aria-label="Открыть меню">☰</button>
+</div>
+</header>
 
 <section class="ad-carousel" aria-label="Рекламные баннеры">
 <div class="ad-heading shell"><strong>AEGIS / Media</strong><span>FEATURED CONTENT</span></div>
@@ -1444,22 +1475,8 @@ blocks: [
 <div class="hero-grid">
 <article class="hero-card featured"><span class="badge">Выбор сообщества</span><div class="hero-content"><div class="eyebrow">Цифровая культура</div><h2>Торговая площадка №1.</h2><p>Аккаунты, подписки и цифровые сервисы в одном месте.</p><div class="hero-bottom"><a class="btn btn-primary" href="#market" data-page="market">Открыть маркет →</a></div></div></article>
 <article class="hero-card"><div class="hero-content"><h2>Центр дискуссий</h2><p>Обмен опытом и цифровыми товарами.</p><div class="hero-bottom"><a class="btn btn-ghost btn-sm" href="#forum" data-page="forum">В форум →</a></div></div></article>
-
-<article class="hero-card">
-  <div class="hero-content">
-    <h2>Официальный гарант</h2>
-    <p>AEGIS SAFE — официальный гарант сервиса. Информация о гаранте, описание и связь через Telegram.</p>
-    <div class="hero-bottom">
-      <a class="btn btn-ghost btn-sm"
-         href="https://t.me/Aegis_safe"
-         target="_blank"
-         rel="noopener noreferrer">
-        Telegram @Aegis_safe →
-      </a>
-    </div>
-</article>
+<article class="hero-card"><div class="hero-content"><h2>Гарант</h2><p>Надёжное сопровождение сделок от начала до завершения.</p><div class="hero-bottom"><a class="btn btn-ghost btn-sm" href="#reviews" data-page="reviews">Отзывы →</a></div></div></article>
 </div>
-
 <div class="stats">
 <div class="stat"><strong>12 487</strong><small>участников</small></div><div class="stat"><strong>3 421</strong><small>тем на форуме</small></div><div class="stat"><strong>28 913</strong><small>сообщений</small></div><div class="stat online"><strong>1 203</strong><small>сейчас онлайн</small></div>
 </div>
@@ -1505,6 +1522,26 @@ blocks: [
       </div>
       <button class="btn btn-primary" id="forumCreateBtn">+ Создать тему</button>
     </div>
+
+/* На телефонах карточки остаются аккуратными */
+@media (max-width: 600px) {
+  .forum-stats {
+    gap: 8px;
+  }
+
+  .forum-stats > div {
+    padding: 16px 6px;
+  }
+
+  .forum-stats > div strong {
+    font-size: 22px;
+  }
+
+  .forum-stats > div span {
+    font-size: 11px;
+  }
+}
+
 
     <!-- ПОИСК И СОРТИРОВКА -->
     <div class="forum-toolbar">
@@ -1591,60 +1628,7 @@ blocks: [
   </div>
 </section>
 <section id="market" class="page"><div class="subpage"><div class="eyebrow">02 · Marketplace</div><h1>The <span>market</span></h1><p>Каталог цифровых товаров, сервисов и профессиональных услуг.</p><div class="subrow">Digital — Цифровые сервисы и подписки</div><div class="subrow">Gaming — Игровые товары и инструменты</div><div class="subrow">Creative — Дизайн и разработка</div><div class="subrow">Tools — Рабочие инструменты</div></div></section>
-
-<section id="reviews" class="page">
-  <div class="subpage aegis-guarantor-page">
-
-    <div class="eyebrow">03 · AEGIS GUARANTOR</div>
-
-    <h1>Official <span>guarantor.</span></h1>
-
-    <p>
-      Официальный гарант сервиса AEGIS.
-      Информация о представителе площадки и связь через Telegram.
-    </p>
-
-    <div class="ag-profile">
-      <div class="ag-avatar">
-        <img src="aegis-safe.png" alt="Аватар AEGIS SAFE">
-      </div>
-
-      <div class="ag-info">
-        <div class="ag-status">● OFFICIAL REPRESENTATIVE</div>
-        <h2>AEGIS SAFE <span class="ag-check">✓</span></h2>
-        <p class="ag-username">@Aegis_safe</p>
-
-        <p>
-          Aegis_safe — контакт, указанный на этой странице
-          для обращений по вопросам работы сервиса.
-          Перед взаимодействием уточняйте условия и проверяйте
-          правильность аккаунта.
-        </p>
-
-        <a
-          class="btn btn-primary ag-telegram-button"
-          href="https://t.me/Aegis_safe"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Связаться в Telegram ↗
-        </a>
-      </div>
-    </div>
-
-    <div class="ag-warning">
-      <strong>ВАЖНО: ПРОВЕРЯЙТЕ АККАУНТ</strong>
-      <p>
-        Официальный контакт, указанный здесь: @Aegis_safe.
-        Остерегайтесь аккаунтов с похожими именами и не передавайте
-        деньги или конфиденциальные данные до проверки собеседника
-        и согласования условий.
-      </p>
-    </div>
-
-  </div>
-</section>
-
+<section id="reviews" class="page"><div class="subpage"><div class="eyebrow">03 · Reputation</div><h1>Trust is <span>earned.</span></h1><p>Отзывы, опыт участников и репутация сервисов.</p><div class="subrow">Обзоры цифровых сервисов</div><div class="subrow">Истории сотрудничества</div><div class="subrow">Профили и репутация участников</div></div></section>
 <section id="users" class="page"><div class="subpage"><div class="eyebrow">04 · Members</div><h1>The <span>people.</span></h1><p>Знакомься с сообществом.</p><div class="subrow">DarkSeller — Community member</div><div class="subrow">coderhub — Development</div><div class="subrow">realuser — Community member</div><div class="subrow">tradeuser — Exchange</div></div></section>
 <section id="rules" class="page"><div class="subpage"><div class="eyebrow">05 · Community standards</div><h1>Know the <span>rules.</span></h1><div class="subrow">Уважайте других участников.</div><div class="subrow">Запрещены мошенничество, угрозы и спам.</div><div class="subrow">Не публикуйте вредоносные файлы и незаконные предложения.</div><div class="subrow">Сообщайте модераторам о нарушениях.</div></div></section>
 <section id="support" class="page"><form class="form" id="supportForm"><div class="eyebrow">06 · Help desk</div><h2>Need <span>backup?</span></h2><p>Демонстрационная форма поддержки.</p><label for="supportEmail">Email</label><input id="supportEmail" type="email" required><label for="supportMessage">Сообщение</label><textarea id="supportMessage" rows="4" required></textarea><button class="btn btn-primary" type="submit">Подготовить обращение →</button><div class="notice" id="supportResult" hidden></div></form></section>
