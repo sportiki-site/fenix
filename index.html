@@ -1715,7 +1715,35 @@ blocks: [
     letter-spacing: 0.8px;
   }
 }
+a.guarantor-telegram {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8px;
+  padding: 12px 18px;
+  background: #e92740;
+  border: 1px solid #ff4055;
+  border-radius: 8px;
+  color: #ffffff !important;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none !important;
+  line-height: 1.4;
+  box-shadow: 0 4px 14px rgba(233, 39, 64, 0.18);
+  transition: background 0.2s, transform 0.2s;
+}
 
+a.guarantor-telegram:hover {
+  background: #c91f35;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(233, 39, 64, 0.3);
+}
+
+a.guarantor-telegram span {
+  color: #ffffff;
+  font-size: 16px;
+}
 </style>
 </head>
 <body>
@@ -1890,7 +1918,7 @@ blocks: [
     <div class="guarantor-profile">
       <img
         class="guarantor-avatar"
-        src="images/guarantor-avatar.jpg"
+        src="guarantor-avatar.jpg"
         alt="Аватар AEGIS SAFE"
       >
 
@@ -1903,14 +1931,16 @@ blocks: [
         <h2>AEGIS <span>SAFE</span></h2>
         <p class="guarantor-profile-role">Гарант сервиса</p>
 
-        <a
-          class="guarantor-telegram"
-          href="https://t.me/Aegis_safe"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Написать в Telegram ↗
-        </a>
+       <a
+  class="guarantor-telegram"
+  href="https://t.me/Aegis_safe"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <span>✈</span>
+  Написать в Telegram
+  <span>↗</span>
+</a>
       </div>
     </div>
 
