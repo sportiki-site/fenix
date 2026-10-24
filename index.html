@@ -3866,10 +3866,10 @@ e.preventDefault();const r=$('#regResult');r.hidden=false;
 r.textContent=$('#regPass').value!==$('#regPass2').value?'Пароли не совпадают.':'Заявка на регистрацию отправлена';
 });
 $('#loginForm').addEventListener('submit',e=>{
-e.preventDefault();$('#loginResult').hidden=false;$('#loginResult').textContent='Для входа нужно подключить систему авторизации.';
+e.preventDefault();$('#loginResult').hidden=false;$('#loginResult').textContent='Такого пользователя не сущетсвует';
 });
 $('#supportForm').addEventListener('submit',e=>{
-e.preventDefault();$('#supportResult').hidden=false;$('#supportResult').textContent='Для отправки обращения требуется сервер.';
+e.preventDefault();$('#supportResult').hidden=false;$('#supportResult').textContent='Обращение успешно отправлено';
 });
 showPage(location.hash.slice(1)||'home',false);
 </script>
