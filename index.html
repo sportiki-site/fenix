@@ -3572,20 +3572,25 @@ if (!hasBlocks && !hasContent) {
     </div>
 
     <div class="forum-comments">
-      ${comments.length ? comments.map(comment => `
-        <article class="forum-comment-preview">
-          <div class="forum-avatar" aria-hidden="true">
-            ${forumSafe((comment.author || 'Г').slice(0, 1).toUpperCase())}
-          </div>
-          <div>
-            <b>${forumSafe(comment.author || 'Гость')}</b>
-            <span class="forum-comment-date"> · ${forumSafe(comment.date || '')}</span>
-            <p>${forumSafe(comment.text || '')}</p>
-          </div>
-        </article>
-      `).join('') : '<p class="forum-hint">Ответов пока нет.</p>'}
-    </div>
-
+      
+<div class="forum-comments">
+  ${comments.length ? comments.map(comment => `
+    <article class="forum-comment-preview">
+      <div class="forum-avatar" aria-hidden="true">
+        ${forumSafe(comment.avatar || (comment.author || 'Г').slice(0, 1).toUpperCase())}
+      </div>
+      <div>
+        <b>${forumSafe(comment.author || 'Гость')}</b>
+        <span class="forum-comment-date">
+          ${'★'.repeat(Math.max(0, Math.min(5, Number(comment.rating) || 0)))}${'☆'.repeat(5 - Math.max(0, Math.min(5, Number(comment.rating) || 0)))}
+          · ${forumSafe(comment.date || '')}
+        </span>
+        <p>${forumSafe(comment.text || '')}</p>
+      </div>
+    </article>
+  `).join('') : '<p class="forum-hint">Ответов пока нет.</p>'}
+</div>
+    
     <form id="forumCommentForm">
       <label for="forumCommentText">Твой ответ</label>
       <textarea id="forumCommentText" rows="4" maxlength="5000" required
