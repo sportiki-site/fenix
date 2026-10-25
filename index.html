@@ -3329,8 +3329,8 @@ function getForumFilteredTopics() {
     }
 
     if (sort === 'replies') {
-      const repliesA = (Number(a.replies) || 0) + (a.comments || []).length;
-      const repliesB = (Number(b.replies) || 0) + (b.comments || []).length;
+      const repliesA = (a.comments || []).length;
+const repliesB = (b.comments || []).length;
       return repliesB - repliesA;
     }
 
@@ -3378,7 +3378,7 @@ function renderForumTopics() {
         <div class="forum-topic-meta">
           <span>${forumSafe(topic.author || 'Гость')}</span>
           <span>${forumSafe(topic.date || '')}</span>
-          <span>Ответов: ${(Number(topic.replies) || 0) + topic.comments.length}</span>
+       <span>Ответов: ${topic.comments.length}</span>
           <span>Просмотров: ${Number(topic.views) || 0}</span>
         </div>
       </div>
