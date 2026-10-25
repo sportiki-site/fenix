@@ -3044,10 +3044,9 @@ function forumReadData() {
         if (!savedTopic) {
           return { ...baseTopic };
         }
-
-      return {
-  ...savedTopic,
+return {
   ...baseTopic,
+  ...savedTopic,
           profile: baseTopic.profile
             ? {
                 ...(savedTopic.profile || {}),
@@ -3171,10 +3170,7 @@ topic.comments = [
 
 forumSaveData();
 
-  topic.comments.push(...demoComments);
-  topic.replies = (Number(topic.replies) || 0) + demoComments.length;
 
-  forumSaveData();
 }
 
 addDemoCommentsToTopic3();
