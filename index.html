@@ -3108,9 +3108,13 @@ function addDemoCommentsToTopic3() {
 
   const marker = '[DEMO-REVIEW]';
 
-  // Не добавляем отзывы повторно.
-  if (topic.comments.some(comment => comment.demoId)) return;
-
+// Обновляем существующие демонстрационные отзывы,
+// не затрагивая обычные комментарии пользователей.
+const existingDemoIds = new Set(
+  topic.comments
+    .filter(comment => comment.demoId)
+    .map(comment => comment.demoId)
+);
   const demoComments = [
     {
       demoId: 'colgate-review-1',
@@ -3152,7 +3156,27 @@ function addDemoCommentsToTopic3() {
       date: '11.10.2026',
       text: 'Постоянный клиент данного сервиса. Всегда хороший процент, резервы позволяют лить объемы. Главное — полное отсутствие логов и требований KYC.'
     }
-  ];
+  ];const updatedComments = demoComments.map(comment => {
+  const existing = topic.comments.find(
+    item => item.demoId === comment.demoId
+  );
+
+  return existing ? { ...existing, ...comment } : comment;
+});
+
+const demoIds = new Set(demoComments.map(comment => comment.demoId));
+
+topic.comments = [
+  ...topic.comments.filter(comment => !demoIds.has(comment.demoId)),
+  ...updatedComments
+];
+
+topic.replies = Math.max(
+  0,
+  (Number(topic.replies) || 0)
+);
+
+forumSaveData();
 
   topic.comments.push(...demoComments);
   topic.replies = (Number(topic.replies) || 0) + demoComments.length;
