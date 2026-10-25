@@ -3100,6 +3100,68 @@ function forumSaveData() {
   }
 }
 
+function addDemoCommentsToTopic3() {
+  const topic = forumTopics.find(item => String(item.id) === '3');
+  if (!topic) return;
+
+  topic.comments = Array.isArray(topic.comments) ? topic.comments : [];
+
+  const marker = '[DEMO-REVIEW]';
+
+  // Не добавляем отзывы повторно.
+  if (topic.comments.some(comment => comment.demoId)) return;
+
+  const demoComments = [
+    {
+      demoId: 'colgate-review-1',
+      author: 'Морок',
+      avatar: 'М',
+      rating: 5,
+      date: '25.10.2026',
+      text: 'Интерфейс понятный, всё выглядит аккуратно.'
+    },
+    {
+      demoId: 'colgate-review-2',
+      author: 'Vandal',
+      avatar: 'V',
+      rating: 5,
+      date: '24.10.2026',
+      text: 'Быстро разобрался с функционалом. Навигация удобная.'
+    },
+    {
+      demoId: 'colgate-review-3',
+      author: 'Карат',
+      avatar: 'К',
+      rating: 4,
+      date: '23.10.2026',
+      text: 'Хорошая подача, информация представлена понятно.'
+    },
+    {
+      demoId: 'colgate-review-4',
+      author: 'Raven',
+      avatar: 'R',
+      rating: 5,
+      date: '22.10.2026',
+      text: 'Строгий дизайн и ничего лишнего.'
+    },
+    {
+      demoId: 'colgate-review-5',
+      author: 'Шрам',
+      avatar: 'Ш',
+      rating: 4,
+      date: '21.10.2026',
+      text: 'Выглядит достойно, пользоваться удобно.'
+    }
+  ];
+
+  topic.comments.push(...demoComments);
+  topic.replies = (Number(topic.replies) || 0) + demoComments.length;
+
+  forumSaveData();
+}
+
+addDemoCommentsToTopic3();
+
 function forumCategoryName(name) {
   const aliases = {
     'Сервисы': 'Услуги спортиков',
