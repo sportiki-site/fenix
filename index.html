@@ -3870,6 +3870,17 @@ if (!hasBlocks && !hasContent) {
           loading="lazy"
           onerror="this.style.display='none'; this.parentElement.textContent='${forumSafe((comment.author || 'Г').slice(0, 1).toUpperCase())}'"
         >
+              </div>
+      ${(() => {
+        const stats = getCommenterStats(comment.author);
+        return `
+          <div class="commenter-stats">
+            <span>Регистрация: ${stats.registrationDate}</span>
+            <span>Сообщений: ${stats.messages}</span>
+          </div>
+        `;
+      })()}
+      <div class="forum-comment-content">
       </div>
       <div>
         <b>${forumSafe(comment.author || 'Гость')}</b>
