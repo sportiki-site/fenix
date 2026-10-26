@@ -2980,7 +2980,7 @@ const manualCommentsByTopic = {
     { author: "teddy1302", text: "видос прислал .учёл все пожелания что были прописаны перед началом заказа.реп +", date: "12.05.2026", },
     { author: "Musorcik", text: "качество работы вышак.плюс в отзыв", date: "19.03.2026", },  
     { author: "RavenNoir", text: "Воспользовался услугой. Цена отличная,по карману не бьет. Результат-выше ожидаемого . Сервису спасибо", date: "03.10.2025", },
-    { author: "VexMorgan", text: "сделали выезд,всё по списку.ребята достойные", ,
+    { author: "VexMorgan", text: "сделали выезд,всё по списку.ребята достойные",
       date: "22.09.2024", },
     { author: "DanteFlux", text: "ТС адекватный в общении и знает свое дело.сделали качественно.", date: "07.06.2024", },
     { author: "IvyRaine", text: "Выполнили заказ за которые другие не брались в силу определённых точечных задач . Рекомендую сервис на все 100", date: "18.03.2024",},
@@ -3001,9 +3001,12 @@ const manualCommentsByTopic = {
   // ID 12 — Полезные инструкции
   12: [ ],
 
-  // ID 13 — Регистрация, ликвидация, адреса, эцп, печати, открытие без дира - ЮР и ИП
+ 
+  // ID 13 — Регистрация, ликвидация...
   13: [
-    { author: "LedgerMist", text:"Работать можно, рекомендую"],
+    { author: "LedgerMist", text: "Работать можно, рекомендую" }
+  ],
+
 
   // ID 14 — УСТРАНЯЕМ ВАШИ ПРОБЛЕМЫ
   14: [ ],
@@ -3202,6 +3205,46 @@ let forumTopics = forumReadData().map(topic => ({
   comments: Array.isArray(topic.comments) ? topic.comments : [],
   createdAt: topic.createdAt || topic.date || new Date().toISOString()
 }));
+
+function applyManualCommentsToTopics() {
+  forumTopics.forEach(topic => {
+    const manualComments =
+      manualCommentsByTopic[String(topic.id)] || [];
+
+    if (!manualComments.length) return;
+
+    if (!Array.isArray(topic.comments)) {
+      topic.comments = [];
+    }
+
+    // Запоминаем уже имеющиеся комментарии,
+    // чтобы не добавлять их повторно.
+    const existingKeys = new Set(
+      topic.comments.map(comment =>
+        JSON.stringify([
+          comment.author || '',
+          comment.date || '',
+          comment.text || ''
+        ])
+      )
+    );
+
+    manualComments.forEach(comment => {
+      const key = JSON.stringify([
+        comment.author || '',
+        comment.date || '',
+        comment.text || ''
+      ]);
+
+      if (existingKeys.has(key)) return;
+
+      topic.comments.push({ ...comment });
+      existingKeys.add(key);
+    });
+  });
+}
+
+applyManualCommentsToTopics();
 
 function forumSaveData() {
   try {
@@ -3762,8 +3805,6 @@ if (!hasBlocks && !hasContent) {
     <div class="forum-section-title" style="margin-top:24px">
       <h2>Ответы (${comments.length})</h2>
     </div>
-
-    <div class="forum-comments">
       
 <div class="forum-comments">
   ${comments.length ? comments.map(comment => `
