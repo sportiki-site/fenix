@@ -3182,7 +3182,26 @@ function getCommentAvatar(author) {
 
   return `https://api.dicebear.com/9.x/${style}/svg?seed=${seed}`;
 }
+function getCommenterStats(author) {
+  const name = (author || 'Anonymous').trim() || 'Anonymous';
 
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
+  }
+
+  const now = new Date();
+  const daysAgo = 30 + (hash % 1500);
+  const registrationDate = new Date(now);
+  registrationDate.setDate(now.getDate() - daysAgo);
+
+  const messages = 3 + ((hash * 13) % 997);
+
+  return {
+    registrationDate: registrationDate.toLocaleDateString('ru-RU'),
+    messages
+  };
+}
 function forumReadData() {
   try {
     const stored = JSON.parse(
