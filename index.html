@@ -3212,37 +3212,29 @@ function forumReadData() {
       const storedById = new Map(
         stored.topics.map(topic => [String(topic.id), topic])
       );
+
       return forumTopicData.map(baseTopic => {
         const savedTopic = storedById.get(String(baseTopic.id));
 
-    if (!savedTopic) {
-  return { ...baseTopic };
-}
+        if (!savedTopic) {
+          return { ...baseTopic };
+        }
 
-return {
-  ...savedTopic,
-  ...baseTopic,
+        return {
+          ...savedTopic,
+          ...baseTopic,
 
-  profile: baseTopic.profile
-    ? {
-        ...(savedTopic.profile || {}),
-        ...baseTopic.profile
-      }
-    : savedTopic.profile,
-
-  comments: Array.isArray(savedTopic.comments)
-    ? savedTopic.comments
-    : (baseTopic.comments || []),
-
-  views: Math.max(
-    Number(baseTopic.views) || 0,
-    Number(savedTopic.views) || 0
-  )
-};
+          profile: baseTopic.profile
+            ? {
+                ...(savedTopic.profile || {}),
+                ...baseTopic.profile
+              }
             : savedTopic.profile,
+
           comments: Array.isArray(savedTopic.comments)
             ? savedTopic.comments
             : (baseTopic.comments || []),
+
           views: Math.max(
             Number(baseTopic.views) || 0,
             Number(savedTopic.views) || 0
