@@ -2190,7 +2190,7 @@ BTC/LTC/XMR/ETH - 0.5%
     id: 4,
     title: "VOL.STORE - ОПТ&РОЗНИЦА A-PVP (НАБОР В КОМАНДУ)",
     category: "Продавцы",
-    type: "ОТЗЫВЫ",
+    type: "Товары",
     description: "Обмен мнениями о качестве обслуживания.",
     content: `Заявки на предзаказ принимаются
 Ежедневно с 10:00 до 22:00, в субботу до 17:00
@@ -3215,17 +3215,30 @@ function forumReadData() {
       return forumTopicData.map(baseTopic => {
         const savedTopic = storedById.get(String(baseTopic.id));
 
-        if (!savedTopic) {
-          return { ...baseTopic };
-        }
+    if (!savedTopic) {
+  return { ...baseTopic };
+}
+
 return {
-  ...baseTopic,
   ...savedTopic,
-          profile: baseTopic.profile
-            ? {
-                ...(savedTopic.profile || {}),
-                ...baseTopic.profile
-              }
+  ...baseTopic,
+
+  profile: baseTopic.profile
+    ? {
+        ...(savedTopic.profile || {}),
+        ...baseTopic.profile
+      }
+    : savedTopic.profile,
+
+  comments: Array.isArray(savedTopic.comments)
+    ? savedTopic.comments
+    : (baseTopic.comments || []),
+
+  views: Math.max(
+    Number(baseTopic.views) || 0,
+    Number(savedTopic.views) || 0
+  )
+};
             : savedTopic.profile,
           comments: Array.isArray(savedTopic.comments)
             ? savedTopic.comments
